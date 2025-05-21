@@ -14,7 +14,7 @@
         .form-container{
             background-color: #f4f4f4;
             border-radius: 10px;
-            padding: 40px;
+            padding: 10px 40px 40px 40px;
             max-width: 400px;
             margin: auto;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -41,14 +41,15 @@
     </style>
 </head>
 <body>
-<h1 class="w3-xxxlarge">Preguntástico</h1>
-<h2 class="w3-xlarge">Ingresar</h2>
+<h1 class="w3-xxxlarge w3-center">Preguntástico</h1>
+
 <form method="POST" action="" class="form-container">
+    <h2 class="w3-xlarge w3-center">Ingresar</h2>
     <label class="w3-left w3-margin-bottom">Usuario</label>
     <input class="w3-input w3-margin-bottom" type="text" name="usuario" placeholder="Nombre de usuario" required>
     <label class="w3-left w3-margin-bottom" >Contraseña</label>
     <input class="w3-input w3-margin-bottom" type="password" name="password" placeholder="Contraseña" required>
-    <a href="" class="password-link">Olvidé mi contraseña.</a>
+    <a href="" class="password-link w3-center">Olvidé mi contraseña.</a>
     <button type="submit" class="w3-button w3-block w3-margin-top btn-login">Iniciar sesión</button>
     <a href="" class="w3-button w3-block w3-margin-top btn-register">Registrarse</a>
 </form>
