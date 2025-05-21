@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Login</title>
+    <style>
+        body{
+            background: linear-gradient(to bottom, #a8e6ce,#ffffff);
+        }
+        .form-container{
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ff6f20;
+        }
+
+        a.password-link {
+            color: #0000ee;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .btn-login {
+            background-color: #003b5c;
+            color: white;
+        }
+
+        .btn-register {
+            background-color: #d9d9d9;
+            color: #003b5c;
+        }
+    </style>
+</head>
+<body>
+<h1 class="w3-xxxlarge">Preguntástico</h1>
+<h2 class="w3-xlarge">Ingresar</h2>
+<form method="POST" action="" class="form-container">
+    <label class="w3-left w3-margin-bottom">Usuario</label>
+    <input class="w3-input w3-margin-bottom" type="text" name="usuario" placeholder="Nombre de usuario" required>
+    <label class="w3-left w3-margin-bottom" >Contraseña</label>
+    <input class="w3-input w3-margin-bottom" type="password" name="password" placeholder="Contraseña" required>
+    <a href="" class="password-link">Olvidé mi contraseña.</a>
+    <button type="submit" class="w3-button w3-block w3-margin-top btn-login">Iniciar sesión</button>
+    <a href="" class="w3-button w3-block w3-margin-top btn-register">Registrarse</a>
+</form>
+</body>
+</html>
+
