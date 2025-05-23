@@ -11,6 +11,7 @@
         margin: 0;
         font-family: Arial, sans-serif;
         background: linear-gradient(to bottom, #b4f1dd, #ffffff);
+        min-height: 100vh;
     }
 </style>
 <body class="bg-success bg-opacity-10">

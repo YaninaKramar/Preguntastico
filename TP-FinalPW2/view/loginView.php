@@ -10,6 +10,7 @@
     <style>
         body{
             background: linear-gradient(to bottom, #a8e6ce,#ffffff);
+            min-height: 100vh;
         }
         .form-container{
             background-color: #f4f4f4;
