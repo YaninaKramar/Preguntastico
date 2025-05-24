@@ -52,7 +52,7 @@
     <input class="w3-input w3-margin-bottom" type="password" name="password" placeholder="Contraseña" required>
     <a href="" class="password-link w3-center">Olvidé mi contraseña.</a>
     <button type="submit" class="w3-button w3-block w3-margin-top btn-login">Iniciar sesión</button>
-    <a href="" class="w3-button w3-block w3-margin-top btn-register">Registrarse</a>
+    <a href="registro.php" class="w3-button w3-block w3-margin-top btn-register">Registrarse</a>
 </form>
 </body>
 </html>
