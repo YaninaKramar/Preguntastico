@@ -63,7 +63,7 @@ class Configuration
 
     public function getRouter()
     {
-        return new Router("getHomeController", "show", $this);
+        return new Router("getLoginController", "show", $this);
     }
 
     public function getViewer()

@@ -6,40 +6,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Login</title>
-    <style>
-        body{
-            background: linear-gradient(to bottom, #a8e6ce,#ffffff);
-            min-height: 100vh;
-        }
-        .form-container{
-            background-color: #f4f4f4;
-            border-radius: 10px;
-            padding: 10px 40px 40px 40px;
-            max-width: 400px;
-            margin: auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #ff6f20;
-        }
-
-        a.password-link {
-            color: #0000ee;
-            display: block;
-            margin: 10px 0;
-        }
-
-        .btn-login {
-            background-color: #003b5c;
-            color: white;
-        }
-
-        .btn-register {
-            background-color: #d9d9d9;
-            color: #003b5c;
-        }
-    </style>
+    <link rel="stylesheet" href="../core/style.css"
 </head>
 <body>
 <h1 class="w3-xxxlarge w3-center">Preguntástico</h1>

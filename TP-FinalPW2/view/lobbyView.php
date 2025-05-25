@@ -5,40 +5,8 @@
     <title>Panel de Usuario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        button:hover {
-            background-color: #005b8e;
-            color: white;
-        }
-        body {
-            background: linear-gradient(to bottom, #b4f1dd, #ffffff);
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-        .btn-rounded {
-            border-radius: 20px;
-            padding: 8px 20px;
-        }
-        .btn-darkblue {
-            background-color: #00334e;
-            color: white;
-        }
-        .highlight-box {
-            border: 1px solid black;
-            border-radius: 20px;
-            padding: 15px;
-            background-color: white;
-        }
-        .highlight-title {
-            color: #ff6600;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        h1 {
-            color: #ff6f20;
-        }
-
-    </style>
+    <link rel="stylesheet" href="../core/style.css">
+  
 </head>
 <body class="p-4">
 

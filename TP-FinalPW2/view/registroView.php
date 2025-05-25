@@ -5,19 +5,9 @@
     <title>Registro</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../core/style.css"
 </head>
-<style>
-    body{
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(to bottom, #b4f1dd, #ffffff);
-        min-height: 100vh;
-    }
-    h1 {
-        color: #ff6f20;
-    }
 
-</style>
 <body class="bg-success bg-opacity-10">
 <div class="container py-5">
     <div class="card border border-dark border-3 rounded-4">
