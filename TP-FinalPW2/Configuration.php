@@ -8,6 +8,9 @@ require_once("controller/HomeController.php");
 require_once("controller/GroupController.php");
 require_once("controller/SongController.php");
 require_once("controller/TourController.php");
+require_once("controller/LoginController.php");
+
+
 
 require_once("model/GroupModel.php");
 require_once("model/SongModel.php");
@@ -61,9 +64,12 @@ class Configuration
         return new GroupController(new GroupModel($this->getDatabase()), $this->getViewer());
     }
 
+    public function getLoginController(){
+        return new LoginController(new LoginModel (this->getDataBase()), $this->getViewer());
+    }
     public function getRouter()
     {
-        return new Router("getLoginController", "show", $this);
+        return new Router("getHomeController", "show", $this);
     }
 
     public function getViewer()
