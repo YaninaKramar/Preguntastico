@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class LoginController
 {
@@ -28,22 +29,26 @@ class LoginController
     {
        $usuarioIngresando= $this->validarUsuarioExistente();
        if (isset($usuarioIngresando)){
-
-           if ($_POST["usuario"]==$usuarioIngresando["nombre_usuario"]&&$_POST["password"]==$usuarioIngresando["contrasena"]){
-               $this->redirectTo("/PhpstormProjects/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
+           if($_POST["password"]==$usuarioIngresando["contrasena"]){
+            $_SESSION['usuario']=$usuarioIngresando['nombe_completo'];
+               $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
+               exit();
            }
            else{
-               $this->redirectTo("/PhpstormProjects/Preguntastico/TP-FinalPW2/index.php");
+               $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
            }
        }else{
-           $this->redirectTo("/PhpstormProjects/Preguntastico/TP-FinalPW2/index.php");
+           $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
        }
     }
+
+
 
     public function show()
     {
         $this->view->render("login");
     }
+
     public function success()
     {
         $this->view->render("lobby");

@@ -4,17 +4,10 @@ require_once("core/FilePresenter.php");
 require_once("core/MustachePresenter.php");
 require_once("core/Router.php");
 
-require_once("controller/HomeController.php");
-require_once("controller/GroupController.php");
-require_once("controller/SongController.php");
-require_once("controller/TourController.php");
+
 require_once("controller/LoginController.php");
 
 
-
-require_once("model/GroupModel.php");
-require_once("model/SongModel.php");
-require_once("model/TourModel.php");
 require_once("model/LoginModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
@@ -38,32 +31,12 @@ class Configuration
         return parse_ini_file("configuration/config.ini", true);
     }
 
-    public function getSongController()
-    {
-        return new SongController(
-            new SongModel($this->getDatabase()),
-            $this->getViewer()
-        );
-    }
-
-    public function getTourController()
-    {
-        return new TourController(
-            new TourModel($this->getDatabase()),
-            $this->getViewer()
-        );
-    }
 
     public function getHomeController()
     {
         return new HomeController($this->getViewer());
     }
 
-
-    public function getGroupController()
-    {
-        return new GroupController(new GroupModel($this->getDatabase()), $this->getViewer());
-    }
 
     public function getLoginController(){
         return new LoginController(new LoginModel ($this->getDataBase()), $this->getViewer());
