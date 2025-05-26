@@ -36,32 +36,12 @@ class Configuration
         return parse_ini_file("configuration/config.ini", true);
     }
 
-    public function getSongController()
-    {
-        return new SongController(
-            new SongModel($this->getDatabase()),
-            $this->getViewer()
-        );
-    }
-
-    public function getTourController()
-    {
-        return new TourController(
-            new TourModel($this->getDatabase()),
-            $this->getViewer()
-        );
-    }
 
     public function getHomeController()
     {
         return new HomeController($this->getViewer());
     }
 
-
-    public function getGroupController()
-    {
-        return new GroupController(new GroupModel($this->getDatabase()), $this->getViewer());
-    }
 
     public function getLoginController(){
         return new LoginController(new LoginModel ($this->getDataBase()), $this->getViewer());
