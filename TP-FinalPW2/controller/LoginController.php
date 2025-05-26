@@ -33,10 +33,10 @@ class LoginController
                $this->redirectTo("/PhpstormProjects/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
            }
            else{
-               echo "usuario invalido!!";
+               $this->redirectTo("/PhpstormProjects/Preguntastico/TP-FinalPW2/index.php");
            }
        }else{
-           echo "usuario invalido!!";
+           $this->redirectTo("/PhpstormProjects/Preguntastico/TP-FinalPW2/index.php");
        }
     }
 
