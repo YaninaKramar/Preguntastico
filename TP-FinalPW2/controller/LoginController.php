@@ -30,13 +30,13 @@ class LoginController
        if (isset($usuarioIngresando)){
 
            if ($_POST["usuario"]==$usuarioIngresando["nombre_usuario"]&&$_POST["password"]==$usuarioIngresando["contrasena"]){
-               $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
+               $this->redirectTo("/Github/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
            }
            else{
-               $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
+               $this->redirectTo("/Github/Preguntastico/TP-FinalPW2/index.php");
            }
        }else{
-           $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
+           $this->redirectTo("/Github/Preguntastico/TP-FinalPW2/index.php");
        }
     }
 
