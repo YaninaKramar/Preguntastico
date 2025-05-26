@@ -275,6 +275,32 @@ ALTER TABLE `usuario`
     ADD CONSTRAINT `fk_id_rol` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`);
 COMMIT;
 
+INSERT INTO rol (id, nombre) VALUES (1, 'Administrador');
+
+INSERT INTO usuario (
+    nombre_completo,
+    fecha_nac,
+    sexo,
+    pais,
+    ciudad,
+    email,
+    contrasena,
+    nombre_usuario,
+    foto_perfil,
+    id_rol
+) VALUES (
+             'Admin Principal',
+             '1990-01-01',
+             'Otro',
+             'Argentina',
+             'Buenos Aires',
+             'admin@preguntastico.com',
+             'admin123',
+             'admin',
+             'a',
+             1
+         );
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

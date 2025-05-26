@@ -1,1 +1,1 @@
-<?php require_once ("registroView.php");
+<?php require_once("registroView.mustache");
