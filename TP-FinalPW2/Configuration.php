@@ -15,6 +15,7 @@ require_once("controller/LoginController.php");
 require_once("model/GroupModel.php");
 require_once("model/SongModel.php");
 require_once("model/TourModel.php");
+require_once("model/LoginModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -65,7 +66,7 @@ class Configuration
     }
 
     public function getLoginController(){
-        return new LoginController(new LoginModel (this->getDataBase()), $this->getViewer());
+        return new LoginController(new LoginModel ($this->getDataBase()), $this->getViewer());
     }
     public function getRouter()
     {

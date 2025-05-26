@@ -24,13 +24,13 @@ class LoginController
         }
         return null;
     }
-    private function validarDatos()
+    public function validarDatos()
     {
-       $usuarioIngresando= this->validarUsuarioExistente();
+       $usuarioIngresando= $this->validarUsuarioExistente();
        if (isset($usuarioIngresando)){
 
-           if ($_POST["usuario"]==$usuarioIngresando["nombre_usuario"]&&$_POST["password"]==$usuarioIngresando["contrasenia"]){
-               $this->redirectTo("/login/success");
+           if ($_POST["usuario"]==$usuarioIngresando["nombre_usuario"]&&$_POST["password"]==$usuarioIngresando["contrasena"]){
+               $this->redirectTo("/PhpstormProjects/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
            }
            else{
                echo "usuario invalido!!";

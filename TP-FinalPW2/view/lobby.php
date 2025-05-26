@@ -1,1 +1,1 @@
-<?php require_once("lobbyView.php");?>
+<?php require_once("lobbyView.mustache");?>

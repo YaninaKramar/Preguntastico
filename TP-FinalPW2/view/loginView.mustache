@@ -6,12 +6,70 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../core/style.css"
 </head>
+<style>
+    body{
+        background: linear-gradient(to bottom, #a8e6ce,#ffffff);
+        min-height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .form-container{
+        background-color: #f4f4f4;
+        border-radius: 10px;
+        padding: 10px 40px 40px 40px;
+        max-width: 400px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+        color: #ff6f20;
+    }
+
+    a.password-link {
+        color: #0000ee;
+        display: block;
+        margin: 10px 0;
+    }
+
+    .btn-login {
+        background-color: #003b5c;
+        color: white;
+    }
+
+    .btn-register {
+        background-color: #d9d9d9;
+        color: #003b5c;
+    }
+    button:hover {
+        background-color: #005b8e;
+        color: white;
+    }
+
+    .btn-rounded {
+        border-radius: 20px;
+        padding: 8px 20px;
+    }
+    .btn-darkblue {
+        background-color: #00334e;
+        color: white;
+    }
+    .highlight-box {
+        border: 1px solid black;
+        border-radius: 20px;
+        padding: 15px;
+        background-color: white;
+    }
+    .highlight-title {
+        color: #ff6600;
+        font-weight: bold;
+        font-size: 20px;
+    }
+</style>
 <body>
 <h1 class="w3-xxxlarge w3-center">Preguntástico</h1>
 
-<form method="POST" action=" " class="form-container">
+<form method="POST" action="/PhpstormProjects/preguntastico/TP-FinalPW2/index.php?controller=login&method=validarDatos" class="form-container">
     <h2 class="w3-xlarge w3-center">Ingresar</h2>
     <label class="w3-left w3-margin-bottom">Usuario</label>
     <input class="w3-input w3-margin-bottom" type="text" name="usuario" placeholder="Nombre de usuario" required>
