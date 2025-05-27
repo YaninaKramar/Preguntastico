@@ -32,17 +32,17 @@ class LoginController
 
            if($_POST["password"]==$usuarioIngresando["contrasena"]){
             $_SESSION['usuario']=$usuarioIngresando['nombe_completo'];
-               $this->redirectTo("/Github/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
+               $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
                exit();
            }
            else{
                $_SESSION['error_contrasena']="La contraseña es incorrecta.";
-               $this->redirectTo("/Github/Preguntastico/TP-FinalPW2/index.php");
+               $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
                exit();
            }
        }else{
            $_SESSION['error_usuario']="El usuario no existe.";
-           $this->redirectTo("/Github/Preguntastico/TP-FinalPW2/index.php");
+           $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
 
        }
     }

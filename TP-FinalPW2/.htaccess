@@ -1,4 +1,3 @@
-
 Options -Indexes
 
 <FilesMatch ".*\.(log|ini|htaccess)$">
@@ -7,7 +6,7 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /Github/Preguntastico/TP-FinalPW2/
+    RewriteBase /Preguntastico/TP-FinalPW2/
     RewriteRule ^(public)($|/) - [L,NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
