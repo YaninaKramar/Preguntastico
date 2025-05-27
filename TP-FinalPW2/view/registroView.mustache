@@ -73,10 +73,10 @@
     <div class="card border border-dark border-3 rounded-4">
         <div class="card-body p-4">
             <h1 class="text-center fw-bold mb-4">REGISTRO</h1>
-            <form action="validarRegistro.php" method="POST" enctype="multipart/form-data">
+            <form action="/preguntastico/TP-FinalPW2/index.php?controller=registro&method=validarRegistro" method="POST" enctype="multipart/form-data">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="nombre" class="form-label">Nombre</label>
+                        <label name="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="nombre" name="nombre">
                         {{#error_nombre}}
                             <div class="w3-container w3-round w3-red">
@@ -85,7 +85,7 @@
                         {{/error_nombre}}
                     </div>
                     <div class="col-md-6">
-                        <label for="email" class="form-label">Email</label>
+                        <label name="email" class="form-label">Email</label>
                         <input type="email" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="email" name="email">
                         {{#error_email}}
                             <div class="w3-container w3-round w3-red">
@@ -97,7 +97,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="apellido" class="form-label">Apellido</label>
+                        <label name="apellido" class="form-label">Apellido</label>
                         <input type="text" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="apellido" name="apellido">
                         {{#error_apellido}}
                             <div class="w3-container w3-round w3-red">
@@ -106,7 +106,18 @@
                         {{/error_apellido}}
                     </div>
                     <div class="col-md-6">
-                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <label name="usuario" class="form-label">Usuario</label>
+                        <input type="text" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="usuario" name="usuario">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label name="pais" class="form-label">Pais</label>
+                        <input type="text" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="pais" name="pais">
+                    </div>
+                    <div class="col-md-6">
+                        <label name="contrasena" class="form-label">Contraseña</label>
                         <input type="password" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="contrasena" name="contrasena">
                         {{#error_contrasena}}
                             <div class="w3-container w3-round w3-red">
@@ -118,7 +129,17 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="fecha" class="form-label">Fecha de nacimiento</label>
+                        <label name="provincia" class="form-label">Provincia</label>
+                        <input type="text" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="provincia" name="provincia">
+                    </div>
+                    <div class="col-md-6">
+                        <label name="repContrasena" class="form-label">Repetir contraseña</label>
+                        <input type="password" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="repContrasena" name="repContrasena">
+                    </div>
+                </div>
+                    <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label name="fecha" class="form-label">Fecha de nacimiento</label>
                         <input type="date" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="fecha" name="fecha">
                         {{#error_fecha}}
                             <div class="w3-container w3-round w3-red">
@@ -127,6 +148,7 @@
                         {{/error_fecha}}
                     </div>
                     <div class="col-md-6">
+
                         <label for="repContrasena" class="form-label">Repetir contraseña</label>
                         <input type="password" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="repContrasena" name="repContraseña">
                         {{#error_repContrasena}}
@@ -134,38 +156,37 @@
                                 <div class="error w3-text-white">{{error_repContrasena}}</div>
                             </div>
                         {{/error_repContrasena}}
+
+                        <label name="foto" class="form-label">Foto de perfil</label>
+                        <input class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" type="file" id="foto" name="foto">
+
                     </div>
                 </div>
 
                 <div class="row mb-3 align-items-center">
                     <div class="col-md-6">
                         <label class="form-label d-block">Sexo</label>
-                        <div class="d-flex gap-3">
+                        <div class="d-flex gap-3 " name="sexo">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sexo" id="sexoHombre" value="hombre">
-                                <label class="form-check-label" for="sexoHombre">Hombre</label>
-
+                                <label class="form-check-label" name="sexoHombre">Hombre</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sexo" id="sexoMujer" value="mujer">
-                                <label class="form-check-label" for="sexoMujer">Mujer</label>
-
+                                <label class="form-check-label" name="sexoMujer">Mujer</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sexo" id="sexoNo" value="no">
-                                <label class="form-check-label" for="sexoNo">Prefiero no decirlo</label>
+                                <label class="form-check-label" name="sexoNo">Prefiero no decirlo</label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="foto" class="form-label">Foto de perfil</label>
-                        <input class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" type="file" id="foto" name="foto">
-                    </div>
+
                 </div>
 
                 <div class="form-check mb-4">
                     <input class="form-check-input" type="checkbox" id="terminos" name="terminos" required>
-                    <label class="form-check-label" for="terminos">Acepto los terminos y condiciones</label>
+                    <label class="form-check-label" name="terminos">Acepto los terminos y condiciones</label>
                 </div>
 
                 <div class="d-flex justify-content-end gap-2">

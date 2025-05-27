@@ -1,0 +1,121 @@
+<?php
+class RegistroController
+{
+    private $model;
+    private $view;
+
+    public function __construct($model, $view)
+    {
+        $this->model = $model;
+        $this->view = $view;
+    }
+
+    public function validarRegistro()
+    {
+        $nombre= $_POST["nombre"];
+        $apellido= $_POST["apellido"];
+        $pais=$_POST["pais"];
+        $provincia=$_POST["provincia"];
+        $nacimiento= $_POST["fecha"];
+        $sexo= $_POST["sexo"];
+        $usuarioIngresado= $this->validarUsuario();
+        $emailIngresado= $this->validarEmail();
+        $contrasenaIngresada= $this->validarContrasena();
+        $idRol= 2;
+
+        // Procesar imagen
+        if ($_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
+            $fotoPerfil= basename($_FILES["foto"]["name"]);
+            $fotoDestino = "uploads/" . $fotoPerfil;
+
+            // Verifica que el directorio exista
+            if (!is_dir("uploads")) {
+                mkdir("uploads", 0777, true);
+            }
+
+            move_uploaded_file($_FILES["foto"]["tmp_name"], $fotoDestino);
+        } else {
+            $fotoDestino = "uploads/default.jpg"; // En caso de error o imagen opcional
+        }
+
+
+
+        if (isset($usuarioIngresado)&&isset($emailIngresado)&&isset($contrasenaIngresada)){
+           $this->model->agregarUsuarioNuevo($nombre,$apellido,$pais,$provincia,$nacimiento,$sexo,$fotoDestino,$usuarioIngresado,$emailIngresado,$contrasenaIngresada, $idRol);
+           $this->redirectTo("/Preguntastico/TP-FinalPW2/view/loginView.mustache");
+           exit();
+         }else{
+            $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+        }
+
+
+    }
+
+    public function validarEmail()
+    {
+        $emailIngresado= $_POST["email"];
+        $usuariosExistentes= $this->model->getUsuarios();
+
+        foreach ($usuariosExistentes as $usuario){
+            if($emailIngresado==$usuario["email"]){
+               $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+                return null;
+            }
+        }
+        return $emailIngresado;
+
+    }
+
+
+    public function validarUsuario()
+    {
+        $usarioIngresado= $_POST["usuario"];
+        $usuariosExistentes= $this->model->getUsuarios();
+
+        foreach ($usuariosExistentes as $usuario){
+            if($usarioIngresado==$usuario["nombre_usuario"]){
+               $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+                return null;
+            }
+        }
+        return $usarioIngresado;
+
+    }
+
+
+    public function validarContrasena()
+    {
+        $contrasenaIngresada= $_POST["contrasena"];
+        $repContrasenaIngresada= $_POST["repContrasena"];
+
+        if ($contrasenaIngresada==$repContrasenaIngresada){
+            return $contrasenaIngresada;
+        }else{
+            echo "error contraseña";
+            #$this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+            #exit();
+        }
+    }
+
+
+
+    public function show()
+    {
+        $this->view->render("registro");
+    }
+
+    public function success()
+    {
+        $this->view->render("login");
+    }
+
+    private function redirectTo($str)
+    {
+        header("location:" . $str);
+        exit();
+    }
+
+
+
+
+}
