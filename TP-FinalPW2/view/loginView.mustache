@@ -75,8 +75,18 @@
     <h2 class="w3-xlarge w3-center">Ingresar</h2>
     <label class="w3-left w3-margin-bottom">Usuario</label>
     <input class="w3-input w3-margin-bottom" type="text" name="usuario" placeholder="Nombre de usuario" required>
+    {{#error_usuario}}
+        <div class="w3-container w3-round w3-red">
+        <div class="error w3-text-white">{{error_usuario}}</div>
+        </div>
+    {{/error_usuario}}
     <label class="w3-left w3-margin-bottom" >Contraseña</label>
     <input class="w3-input w3-margin-bottom" type="password" name="password" placeholder="Contraseña" required>
+    {{#error_contrasena}}
+        <div class="w3-container w3-round w3-red">
+            <div class="error w3-text-white">{{error_contrasena}}</div>
+        </div>
+    {{/error_contrasena}}
     <a href="" class="password-link w3-center">Olvidé mi contraseña.</a>
     <button type="submit" class="w3-button w3-block w3-margin-top btn-login">Iniciar sesión</button>
 
