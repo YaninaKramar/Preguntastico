@@ -276,6 +276,7 @@ ALTER TABLE `usuario`
 COMMIT;
 
 INSERT INTO rol (id, nombre) VALUES (1, 'Administrador');
+INSERT INTO rol (id, nombre) VALUES (2, 'Usuario');
 
 INSERT INTO usuario (
     nombre_completo,

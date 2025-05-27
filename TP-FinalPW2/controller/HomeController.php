@@ -11,6 +11,6 @@ class HomeController
 
     public function show()
     {
-        $this->view->render("band");
+        $this->view->render("login");
     }
 }
