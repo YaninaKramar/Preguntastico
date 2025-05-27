@@ -38,8 +38,6 @@ class RegistroController
             $fotoDestino = "uploads/default.jpg"; // En caso de error o imagen opcional
         }
 
-
-
         if (isset($usuarioIngresado)&&isset($emailIngresado)&&isset($contrasenaIngresada)){
            $this->model->agregarUsuarioNuevo($nombre,$apellido,$pais,$provincia,$nacimiento,$sexo,$fotoDestino,$usuarioIngresado,$emailIngresado,$contrasenaIngresada, $idRol);
            $this->redirectTo("/Preguntastico/TP-FinalPW2/view/loginView.mustache");
@@ -85,16 +83,22 @@ class RegistroController
 
     public function validarContrasena()
     {
-        $contrasenaIngresada= $_POST["contrasena"];
-        $repContrasenaIngresada= $_POST["repContrasena"];
+        $contrasenaIngresada = $_POST["contrasena"];
+        $repContrasenaIngresada = $_POST["repContrasena"];
 
-        if ($contrasenaIngresada==$repContrasenaIngresada){
-            return $contrasenaIngresada;
-        }else{
-            echo "error contraseña";
-            #$this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
-            #exit();
+        if ($contrasenaIngresada !== $repContrasenaIngresada) {
+            $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+            exit();
         }
+
+        if (!preg_match('/[A-Z]/', $contrasenaIngresada) ||
+            !preg_match('/[a-z]/', $contrasenaIngresada) ||
+            !preg_match('/[0-9]/', $contrasenaIngresada) ||
+            strlen($contrasenaIngresada) < 5) {
+            $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+            exit();
+        }
+        return $contrasenaIngresada;
     }
 
 
@@ -114,8 +118,4 @@ class RegistroController
         header("location:" . $str);
         exit();
     }
-
-
-
-
 }

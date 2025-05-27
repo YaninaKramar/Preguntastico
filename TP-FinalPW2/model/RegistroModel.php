@@ -47,7 +47,4 @@ class RegistroModel
         $stmt->close();
         echo "usuario agregado";
     }
-
-
-
 }
