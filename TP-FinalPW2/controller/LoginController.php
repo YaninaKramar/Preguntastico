@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class LoginController
 {
@@ -29,20 +30,32 @@ class LoginController
        $usuarioIngresando= $this->validarUsuarioExistente();
        if (isset($usuarioIngresando)){
 
-           if ($_POST["usuario"]==$usuarioIngresando["nombre_usuario"]&&$_POST["password"]==$usuarioIngresando["contrasena"]){
+           if($_POST["password"]==$usuarioIngresando["contrasena"]){
+            $_SESSION['usuario']=$usuarioIngresando['nombe_completo'];
                $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
+               exit();
            }
            else{
+               $_SESSION['error_contrasena']="La contraseña es incorrecta.";
                $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
+               exit();
            }
        }else{
+           $_SESSION['error_usuario']="El usuario no existe.";
            $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
+
        }
     }
 
+
+
     public function show()
     {
-        $this->view->render("login");
+        $error_usuario=isset($_SESSION['error_usuario'])?$_SESSION['error_usuario']:null;
+        $error_contrasena=isset($_SESSION['error_contrasena'])?$_SESSION['error_contrasena']:null;
+        unset($_SESSION['error_usuario']);
+        unset($_SESSION['error_contrasena']);
+        $this->view->render("login",['error_usuario'=>$error_usuario,'error_contrasena'=>$error_contrasena]);
     }
 
     public function success()
@@ -55,8 +68,5 @@ class LoginController
         header("location:" . $str);
         exit();
     }
-
-
-
 
 }

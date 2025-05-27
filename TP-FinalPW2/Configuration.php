@@ -4,15 +4,10 @@ require_once("core/FilePresenter.php");
 require_once("core/MustachePresenter.php");
 require_once("core/Router.php");
 
+
 require_once("controller/HomeController.php");
-require_once("controller/GroupController.php");
-require_once("controller/SongController.php");
-require_once("controller/TourController.php");
 require_once("controller/LoginController.php");
 
-require_once("model/GroupModel.php");
-require_once("model/SongModel.php");
-require_once("model/TourModel.php");
 require_once("model/LoginModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
