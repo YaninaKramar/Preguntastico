@@ -7,9 +7,12 @@ require_once("core/Router.php");
 require_once("controller/HomeController.php");
 require_once("controller/LoginController.php");
 require_once("controller/RegistroController.php");
+require_once("controller/PartidaController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegistroModel.php");
+require_once("model/PartidaModel.php");
+require_once("model/PreguntaModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
@@ -36,6 +39,11 @@ class Configuration
     public function getHomeController()
     {
         return new HomeController($this->getViewer());
+    }
+
+    public function getPartidaController()
+    {
+        return new PartidaController(new PartidaModel ($this->getDataBase()), $this->getViewer());
     }
 
 

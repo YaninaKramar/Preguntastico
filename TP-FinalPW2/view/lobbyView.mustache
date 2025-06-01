@@ -85,8 +85,15 @@
     </div>
 
     <div class="col-md-6 text-center">
-        <button class="btn-darkblue btn-rounded px-5 py-3 fs-5">Iniciar nueva partida</button>
+        <form action="" method="get">
+            <input type="hidden" name="controller" value="partida">
+            <input type="hidden" name="method" value="iniciarPartida">
+            <button type="submit" class="btn btn-darkblue btn-rounded px-5 py-3 fs-5">
+                Iniciar Partida
+            </button>
+        </form>
     </div>
+
 
     <div class="col-md-3">
         <div class="highlight-box">

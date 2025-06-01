@@ -31,6 +31,7 @@ class LoginController
        if (isset($usuarioIngresando)){
 
            if($_POST["password"]==$usuarioIngresando["contrasena"]){
+               $_SESSION['usuario_id'] = $usuarioIngresando['id'];
             $_SESSION['usuario']=$usuarioIngresando['nombe_completo'];
                $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
                exit();
