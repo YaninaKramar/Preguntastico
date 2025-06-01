@@ -39,7 +39,6 @@ class PartidaController
         $partida_id = $_POST['partida_id'] ?? null;
         $pregunta_id = $_POST['pregunta_id'] ?? null;
         $respuesta_usuario = $_POST['respuesta'] ?? null;
-
         if (!$partida_id || !$pregunta_id || !$respuesta_usuario) {
             // Datos faltantes → error o redirigir
             header("Location: index.php?controller=login&method=show");

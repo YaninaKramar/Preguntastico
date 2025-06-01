@@ -12,7 +12,6 @@ require_once("controller/PartidaController.php");
 require_once("model/LoginModel.php");
 require_once("model/RegistroModel.php");
 require_once("model/PartidaModel.php");
-require_once("model/PreguntaModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 

@@ -91,13 +91,23 @@
             margin-right: 10px;
         }
 
+        .opcion-correcta {
+            background-color: #28a745 !important;
+            color: white;
+        }
+
+        .opcion-incorrecta {
+            background-color: red !important;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
 
 <a href="lobbyView.mustache" class="boton-volver">Volver al lobby</a>
 
-<div class="tiempo">Tiempo restante: {{tiempo}}</div>
+<div class="tiempo">Tiempo restante: 10s</div>
 
 <div class="pregunta-container">
     <div class="categoria" style="color: {{categoria_color}};">{{categoria_nombre}}</div>
@@ -106,20 +116,78 @@
 
     <div class="pregunta">{{pregunta}}</div>
 
-    <form method="post" action="index.php?controller=partida&method=responderPregunta">
+    <form method="post" action="index.php?controller=partida&method=responderPregunta" id="formularioPregunta">
 
     <input type="hidden" name="partida_id" value="{{partida_id}}">
         <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+        <input type="hidden" name="respuesta" id="respuestaInput" value="">
 
     <div class="d-flex flex-wrap justify-content-center">
         {{#opciones}}
-            <button class="opcion" type="submit" name="respuesta" value="{{numero}}">
+            <button class="opcion" type="button" value="{{numero}}" data-es_correcta="{{es_correcta}}">
                 {{texto}}
             </button>
         {{/opciones}}
     </div>
     </form>
 </div>
+
+<script>
+
+    let tiempoRestante = 10;
+    const tiempoElemento = document.querySelector('.tiempo');
+
+    const intervalo = setInterval(() => {
+        tiempoRestante--;
+        tiempoElemento.textContent = 'Tiempo restante: ' + tiempoRestante + 's';
+
+        if (tiempoRestante <= 0) {
+            clearInterval(intervalo);
+
+            // Si el contador llega a 0, agarro una opcion incorrecta y submiteo el form con esa opcion, para que el jugador pierda
+            const incorrecta = document.querySelector('.opcion[data-es_correcta="0"]');
+
+            if (incorrecta) {
+                document.getElementById('respuestaInput').value = incorrecta.value;
+                document.getElementById('formularioPregunta').submit();
+            } else {
+                console.error('No se encontró opción incorrecta');
+            }
+        }
+    }, 1000);
+
+    const botones = document.querySelectorAll('.opcion');
+    const inputRespuesta = document.getElementById('respuestaInput');
+    const formulario = document.getElementById('formularioPregunta');
+
+    botones.forEach(boton => {
+        boton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Evitar múltiples respuestas
+            if (document.querySelector('.opcion[data-seleccionada]')) return;
+
+            boton.setAttribute('data-seleccionada', 'true');
+
+            const esCorrecta = Number(boton.getAttribute('data-es_correcta')) === 1;
+            const numeroRespuesta = boton.getAttribute('value');
+
+            // Cambiar color segun si es correcta o no
+            if (esCorrecta) {
+                boton.classList.add('opcion-correcta');
+            } else {
+                boton.classList.add('opcion-incorrecta');
+            }
+
+            inputRespuesta.value = numeroRespuesta;
+
+            // Espera de 1 segundo y envío de form
+            setTimeout(() => {
+                formulario.submit();
+            }, 1000);
+        });
+    });
+</script>
 
 </body>
 </html>
