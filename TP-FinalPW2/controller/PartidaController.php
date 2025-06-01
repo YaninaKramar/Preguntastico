@@ -31,7 +31,41 @@ class PartidaController
         // Redirigir a mostrar la primera pregunta
         header("Location: index.php?controller=partida&method=mostrarPregunta&partida_id=$partida_id");
         exit;
+
     }
+
+    public function responderPregunta()
+    {
+        $partida_id = $_POST['partida_id'] ?? null;
+        $pregunta_id = $_POST['pregunta_id'] ?? null;
+        $respuesta_usuario = $_POST['respuesta'] ?? null;
+
+        if (!$partida_id || !$pregunta_id || !$respuesta_usuario) {
+            // Datos faltantes → error o redirigir
+            header("Location: index.php?controller=login&method=show");
+            exit;
+        }
+
+        $esCorrecta = $this->model->guardarRespuesta($partida_id, $pregunta_id, $respuesta_usuario);
+
+        if ($esCorrecta) {
+            // Redirigir a la siguiente pregunta
+            header("Location: /Preguntastico/TP-FinalPW2/index.php?controller=partida&method=mostrarPregunta&partida_id=$partida_id");
+            exit;
+        } else {
+            // Finalizar partida y mostrar resumen
+            $puntaje = $this->model->calcularPuntajeFinal($partida_id);
+            $respuestaCorrecta = $this->model->obtenerRespuestaCorrecta($pregunta_id);
+
+            $data = [
+                'puntaje' => $puntaje,
+                'respuesta_correcta' => $respuestaCorrecta['texto'],
+            ];
+
+            $this->view->render("finPartida", $data);
+        }
+    }
+
 
 
     public function mostrarPregunta() {
@@ -49,6 +83,7 @@ class PartidaController
         // Preparar datos para la vista
         $data = [
             'partida_id' => $partida_id,
+            'pregunta_id' => $pregunta['id'],
             'categoria_color' => $pregunta['color'],
             'categoria_nombre' => $pregunta['nombre'],
             'pregunta' => $pregunta['texto'],

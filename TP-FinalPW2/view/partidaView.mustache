@@ -106,13 +106,19 @@
 
     <div class="pregunta">{{pregunta}}</div>
 
+    <form method="post" action="index.php?controller=partida&method=responderPregunta">
+
+    <input type="hidden" name="partida_id" value="{{partida_id}}">
+        <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+
     <div class="d-flex flex-wrap justify-content-center">
         {{#opciones}}
-            <button class="opcion" type="submit" name="respuesta_usuario" value="{{numero}}">
+            <button class="opcion" type="submit" name="respuesta" value="{{numero}}">
                 {{texto}}
             </button>
         {{/opciones}}
     </div>
+    </form>
 </div>
 
 </body>

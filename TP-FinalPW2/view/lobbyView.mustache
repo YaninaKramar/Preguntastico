@@ -41,10 +41,6 @@
         background-color: #d9d9d9;
         color: #003b5c;
     }
-    button:hover {
-        background-color: #005b8e;
-        color: white;
-    }
 
     .btn-rounded {
         border-radius: 20px;
@@ -64,6 +60,11 @@
         color: #ff6600;
         font-weight: bold;
         font-size: 20px;
+    }
+
+    .btn-darkblue:hover {
+        background-color: #005b8e; /* mantiene el mismo color al hacer hover */
+        color: white;
     }
 </style>
 <body class="p-4">
@@ -85,9 +86,7 @@
     </div>
 
     <div class="col-md-6 text-center">
-        <form action="" method="get">
-            <input type="hidden" name="controller" value="partida">
-            <input type="hidden" name="method" value="iniciarPartida">
+        <form action="/Preguntastico/TP-FinalPW2/partida/iniciarPartida" method="get">
             <button type="submit" class="btn btn-darkblue btn-rounded px-5 py-3 fs-5">
                 Iniciar Partida
             </button>

@@ -74,4 +74,37 @@ class PartidaModel
 
         return $correcta;
     }
+
+    public function calcularPuntajeFinal($partida_id)
+    {
+        $query = "
+        SELECT COUNT(*) as puntaje
+        FROM partida_pregunta
+        WHERE partida_id = ? AND respondida_bien = 1
+    ";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("i", $partida_id);
+        $stmt->execute();
+
+        $resultado = $stmt->get_result()->fetch_assoc();
+        return $resultado['puntaje'];
+    }
+
+
+    public function obtenerRespuestaCorrecta($pregunta_id)
+    {
+        $stmt = $this->database->prepare("
+        SELECT r.texto, r.numero
+        FROM respuesta r
+        WHERE r.pregunta_id = ? AND r.es_correcta = 1
+        LIMIT 1
+    ");
+        $stmt->bind_param("i", $pregunta_id);
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();
+        return $resultado->fetch_assoc();
+    }
+
 }
