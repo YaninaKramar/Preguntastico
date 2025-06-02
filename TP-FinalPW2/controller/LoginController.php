@@ -31,7 +31,7 @@ class LoginController
        if (isset($usuarioIngresando)){
 
            if($_POST["password"]==$usuarioIngresando["contrasena"]){
-            $_SESSION['usuario']=$usuarioIngresando['nombe_completo'];
+            $_SESSION['usuario']=$usuarioIngresando['nombre_completo'];
                $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
                exit();
            }
@@ -60,7 +60,8 @@ class LoginController
 
     public function success()
     {
-        $this->view->render("lobby");
+        $usuario = $_SESSION['usuario'] ?? 'Invitado';
+        $this->view->render("lobby", ['usuario' => $usuario]);
     }
 
     private function redirectTo($str)
