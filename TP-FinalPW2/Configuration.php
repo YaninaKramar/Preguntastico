@@ -41,6 +41,13 @@ class Configuration
         return new HomeController($this->getViewer());
     }
 
+    public function getLobbyController() {
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: /Preguntastico/TP-FinalPW2/login/show');
+            exit;
+        }
+        return new LobbyController($this->getViewer());
+    }
     public function getPartidaController()
     {
         return new PartidaController(new PartidaModel ($this->getDataBase()), $this->getViewer());

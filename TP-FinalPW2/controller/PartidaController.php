@@ -16,20 +16,24 @@ class PartidaController
         $this->view->render("partida");
     }
 
+    public function finDePartida()
+    {
+        $this->view->render("finPartida");
+    }
+
     public function iniciarPartida()
     {
         session_start();
         $usuario_id = $_SESSION['usuario_id'] ?? null;
 
         if (!$usuario_id) {
-            header("Location: index.php?controller=login&method=show");
-            exit;
+            $this->redirectTo("login/show");
         }
 
         $partida_id = $this->model->crearPartida($usuario_id);
 
         // Redirigir a mostrar la primera pregunta
-        header("Location: index.php?controller=partida&method=mostrarPregunta&partida_id=$partida_id");
+        $this->redirectTo("partida/mostrarPregunta?partida_id=$partida_id");
         exit;
 
     }
@@ -40,16 +44,15 @@ class PartidaController
         $pregunta_id = $_POST['pregunta_id'] ?? null;
         $respuesta_usuario = $_POST['respuesta'] ?? null;
         if (!$partida_id || !$pregunta_id || !$respuesta_usuario) {
-            // Datos faltantes → error o redirigir
-            header("Location: index.php?controller=login&method=show");
-            exit;
+            // Datos faltantes: ir a login
+            $this->redirectTo("login/show");
         }
 
         $esCorrecta = $this->model->guardarRespuesta($partida_id, $pregunta_id, $respuesta_usuario);
 
         if ($esCorrecta) {
             // Redirigir a la siguiente pregunta
-            header("Location: /Preguntastico/TP-FinalPW2/index.php?controller=partida&method=mostrarPregunta&partida_id=$partida_id");
+            $this->redirectTo("partida/mostrarPregunta?partida_id=$partida_id");
             exit;
         } else {
             // Finalizar partida y mostrar resumen
@@ -59,6 +62,7 @@ class PartidaController
             $data = [
                 'puntaje' => $puntaje,
                 'respuesta_correcta' => $respuestaCorrecta['texto'],
+                'gano' => false
             ];
 
             $this->view->render("finPartida", $data);
@@ -68,13 +72,19 @@ class PartidaController
     public function mostrarPregunta() {
 
         $partida_id = $_GET['partida_id'] ?? null;
-
         $pregunta = $this->model->obtenerPreguntaAleatoriaNoRespondida($partida_id);
 
         if (!$pregunta) {
-            // No hay más preguntas → fin de la partida
-            header("Location: index.php?action=finPartida&partida_id=$partida_id");
-            exit;
+            // No hay más preguntas: fin de la partida
+            $puntaje = $this->model->calcularPuntajeFinal($partida_id);
+
+            $data = [
+                'puntaje' => $puntaje,
+                'gano' => true
+            ];
+
+            $this->view->render("finPartida", $data);
+            exit();
         }
 
         // Preparar datos para la vista
@@ -88,6 +98,12 @@ class PartidaController
         ];
 
         $this->view->render("partida", $data);
+    }
+
+    private function redirectTo($path)
+    {
+        header("Location: " . BASE_URL . ltrim($path, '/'));
+        exit();
     }
 
 }

@@ -11,14 +11,22 @@
     <h2>Fin de la partida</h2>
     <p class="fs-4">Tu puntaje final: {{puntaje}}</p>
 
-    <div class="mt-4">
-        <strong>La respuesta correcta era:</strong>
-        <p class="fs-5 text-success">{{respuesta_correcta}}</p>
-    </div>
+    {{#gano}}
+        <div class="mt-4">
+            <strong>¡Felicitaciones! Completaste todas las preguntas del juego</strong>
+        </div>
+    {{/gano}}
+
+    {{^gano}}
+        <div class="mt-4">
+            <strong>La respuesta correcta era:</strong>
+            <p class="fs-5 text-success">{{respuesta_correcta}}</p>
+        </div>
+    {{/gano}}
 
     <div class="mt-5">
         <a href="/Preguntastico/TP-FinalPW2/partida/iniciarPartida" class="btn btn-primary">Jugar de nuevo</a>
-        <a href="/Preguntastico/TP-FinalPW2/login/success" class="btn btn-secondary">Volver al lobby</a>
+        <a href="/Preguntastico/TP-FinalPW2/lobby/show" class="btn btn-secondary">Volver al lobby</a>
     </div>
 </div>
 </body>

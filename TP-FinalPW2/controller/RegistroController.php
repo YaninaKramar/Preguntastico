@@ -40,10 +40,9 @@ class RegistroController
 
         if (isset($usuarioIngresado)&&isset($emailIngresado)&&isset($contrasenaIngresada)){
            $this->model->agregarUsuarioNuevo($nombre,$apellido,$pais,$provincia,$nacimiento,$sexo,$fotoDestino,$usuarioIngresado,$emailIngresado,$contrasenaIngresada, $idRol);
-           $this->redirectTo("/Preguntastico/TP-FinalPW2/view/loginView.mustache");
-           exit();
+            $this->redirectTo("login/show");
          }else{
-            $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+            $this->redirectTo("registro/show");
         }
 
 
@@ -56,7 +55,7 @@ class RegistroController
 
         foreach ($usuariosExistentes as $usuario){
             if($emailIngresado==$usuario["email"]){
-               $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+                $this->redirectTo("registro/show");
                 return null;
             }
         }
@@ -72,7 +71,7 @@ class RegistroController
 
         foreach ($usuariosExistentes as $usuario){
             if($usarioIngresado==$usuario["nombre_usuario"]){
-               $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+                $this->redirectTo("registro/show");
                 return null;
             }
         }
@@ -87,7 +86,7 @@ class RegistroController
         $repContrasenaIngresada = $_POST["repContrasena"];
 
         if ($contrasenaIngresada !== $repContrasenaIngresada) {
-            $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+            $this->redirectTo("registro/show");
             exit();
         }
 
@@ -95,7 +94,7 @@ class RegistroController
             !preg_match('/[a-z]/', $contrasenaIngresada) ||
             !preg_match('/[0-9]/', $contrasenaIngresada) ||
             strlen($contrasenaIngresada) < 5) {
-            $this->redirectTo("/Preguntastico/TP-FinalPW2/view/registroView.mustache");
+            $this->redirectTo("registro/show");
             exit();
         }
         return $contrasenaIngresada;
@@ -115,7 +114,7 @@ class RegistroController
 
     private function redirectTo($str)
     {
-        header("location:" . $str);
+        header("Location: " . BASE_URL . ltrim($str, '/'));
         exit();
     }
 }

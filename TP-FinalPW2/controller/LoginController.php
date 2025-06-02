@@ -31,20 +31,18 @@ class LoginController
        if (isset($usuarioIngresando)){
 
            if($_POST["password"]==$usuarioIngresando["contrasena"]){
+
                $_SESSION['usuario_id'] = $usuarioIngresando['id'];
-            $_SESSION['usuario']=$usuarioIngresando['nombre_completo'];
-               $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php?controller=Login&method=success");
-               exit();
+               $_SESSION['usuario']=$usuarioIngresando['nombre_completo'];
+               $this->redirectTo("login/success");
            }
            else{
                $_SESSION['error_contrasena']="La contraseña es incorrecta.";
-               $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
-               exit();
+               $this->redirectTo("login/show");
            }
        }else{
            $_SESSION['error_usuario']="El usuario no existe.";
-           $this->redirectTo("/Preguntastico/TP-FinalPW2/index.php");
-
+           $this->redirectTo("login/show");
        }
     }
 
@@ -67,7 +65,7 @@ class LoginController
 
     private function redirectTo($str)
     {
-        header("location:" . $str);
+        header("Location: " . BASE_URL . ltrim($str, '/'));
         exit();
     }
 
