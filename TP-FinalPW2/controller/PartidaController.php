@@ -84,7 +84,7 @@ class PartidaController
             'categoria_color' => $pregunta['color'],
             'categoria_nombre' => $pregunta['nombre'],
             'pregunta' => $pregunta['texto'],
-            'opciones' => $pregunta['respuestas']  // aquí va el array con las 4 opciones
+            'opciones' => $pregunta['respuestas'],  // Aca va el array con las 4 opciones
         ];
 
         $this->view->render("partida", $data);
