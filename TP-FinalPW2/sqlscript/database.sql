@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-06-2025 a las 20:21:08
+-- Tiempo de generación: 02-06-2025 a las 05:11:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -83,6 +83,9 @@ CREATE TABLE `pregunta` (
   `id` int(11) NOT NULL,
   `texto` text NOT NULL,
   `estado` varchar(30) NOT NULL,
+  `correctas` int(11) NOT NULL DEFAULT 0,
+  `intentos` int(11) NOT NULL DEFAULT 0,
+  `dificultad` enum('facil','media','dificil') NOT NULL DEFAULT 'media',
   `categoria_id` int(11) NOT NULL,
   `creador_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -91,27 +94,27 @@ CREATE TABLE `pregunta` (
 -- Volcado de datos para la tabla `pregunta`
 --
 
-INSERT INTO `pregunta` (`id`, `texto`, `estado`, `categoria_id`, `creador_id`) VALUES
-(1, '¿Cuál es el río más largo del mundo?', 'activa', 1, 1),
-(2, '¿En qué continente se encuentra el desierto del Sahara?', 'activa', 1, 1),
-(3, '¿Cuál es la capital de Australia?', 'activa', 1, 1),
-(4, '¿Qué país tiene más islas en el mundo?', 'activa', 1, 1),
-(5, '¿Quién fue el primer presidente de Estados Unidos?', 'activa', 2, 1),
-(6, '¿En qué año terminó la Segunda Guerra Mundial?', 'activa', 2, 1),
-(7, '¿Qué imperio construyó el Coliseo?', 'activa', 2, 1),
-(8, '¿Quién fue Napoleón Bonaparte?', 'activa', 2, 1),
-(9, '¿Cuál es el elemento químico con símbolo O?', 'activa', 3, 1),
-(10, '¿Qué planeta del sistema solar es el más grande?', 'activa', 3, 1),
-(11, '¿Cómo se llama el proceso por el cual las plantas convierten luz en energía?', 'activa', 3, 1),
-(12, '¿Cuántos huesos tiene el cuerpo humano adulto?', 'activa', 3, 1),
-(13, '¿Cuántos jugadores tiene un equipo de fútbol?', 'activa', 4, 1),
-(14, '¿En qué deporte se utiliza un puck?', 'activa', 4, 1),
-(15, '¿Qué país ha ganado más Copas Mundiales de fútbol?', 'activa', 4, 1),
-(16, '¿Cómo se llama el deporte que combina natación, ciclismo y carrera?', 'activa', 4, 1),
-(17, '¿Cuál es el nombre del mago protagonista de la saga de J.K. Rowling?', 'activa', 5, 1),
-(18, '¿Qué serie presenta a un grupo de científicos liderado por Sheldon Cooper?', 'activa', 5, 1),
-(19, '¿Quién pintó La noche estrellada?', 'activa', 6, 1),
-(20, '¿A qué movimiento artístico pertenecía Salvador Dalí?', 'activa', 6, 1);
+INSERT INTO `pregunta` (`id`, `texto`, `estado`, `correctas`, `intentos`, `dificultad`, `categoria_id`, `creador_id`) VALUES
+(1, '¿Cuál es el río más largo del mundo?', 'activa', 5, 7, 'media', 1, 1),
+(2, '¿En qué continente se encuentra el desierto del Sahara?', 'activa', 5, 8, 'media', 1, 1),
+(3, '¿Cuál es la capital de Australia?', 'activa', 7, 8, 'media', 1, 1),
+(4, '¿Qué país tiene más islas en el mundo?', 'activa', 4, 5, 'media', 1, 1),
+(5, '¿Quién fue el primer presidente de Estados Unidos?', 'activa', 3, 4, 'media', 2, 1),
+(6, '¿En qué año terminó la Segunda Guerra Mundial?', 'activa', 3, 4, 'media', 2, 1),
+(7, '¿Qué imperio construyó el Coliseo?', 'activa', 3, 3, 'media', 2, 1),
+(8, '¿Quién fue Napoleón Bonaparte?', 'activa', 4, 8, 'media', 2, 1),
+(9, '¿Cuál es el elemento químico con símbolo O?', 'activa', 7, 9, 'media', 3, 1),
+(10, '¿Qué planeta del sistema solar es el más grande?', 'activa', 3, 4, 'media', 3, 1),
+(11, '¿Cómo se llama el proceso por el cual las plantas convierten luz en energía?', 'activa', 4, 6, 'media', 3, 1),
+(12, '¿Cuántos huesos tiene el cuerpo humano adulto?', 'activa', 3, 3, 'media', 3, 1),
+(13, '¿Cuántos jugadores tiene un equipo de fútbol?', 'activa', 6, 10, 'media', 4, 1),
+(14, '¿En qué deporte se utiliza un puck?', 'activa', 6, 8, 'media', 4, 1),
+(15, '¿Qué país ha ganado más Copas Mundiales de fútbol?', 'activa', 5, 11, 'media', 4, 1),
+(16, '¿Cómo se llama el deporte que combina natación, ciclismo y carrera?', 'activa', 4, 5, 'media', 4, 1),
+(17, '¿Cuál es el nombre del mago protagonista de la saga de J.K. Rowling?', 'activa', 5, 8, 'media', 5, 1),
+(18, '¿Qué serie presenta a un grupo de científicos liderado por Sheldon Cooper?', 'activa', 2, 2, 'media', 5, 1),
+(19, '¿Quién pintó La noche estrellada?', 'activa', 3, 3, 'media', 6, 1),
+(20, '¿A qué movimiento artístico pertenecía Salvador Dalí?', 'activa', 6, 8, 'media', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -261,6 +264,7 @@ CREATE TABLE `usuario` (
   `contrasena` varchar(255) NOT NULL,
   `nombre_usuario` varchar(100) NOT NULL,
   `foto_perfil` text NOT NULL,
+  `nivel` enum('facil','media','dificil') NOT NULL DEFAULT 'media',
   `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -268,8 +272,8 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `pais`, `ciudad`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `id_rol`) VALUES
-(1, 'Admin Principal', '1990-01-01', 'Otro', 'Argentina', 'Buenos Aires', 'admin@preguntastico.com', 'admin123', 'admin', 'a', 1);
+INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `pais`, `ciudad`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `nivel`, `id_rol`) VALUES
+(1, 'Admin Principal', '1990-01-01', 'Otro', 'Argentina', 'Buenos Aires', 'admin@preguntastico.com', 'admin123', 'admin', 'a', '', 1);
 
 --
 -- Índices para tablas volcadas

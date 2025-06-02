@@ -65,8 +65,6 @@ class PartidaController
         }
     }
 
-
-
     public function mostrarPregunta() {
 
         $partida_id = $_GET['partida_id'] ?? null;
