@@ -8,6 +8,7 @@ require_once("controller/HomeController.php");
 require_once("controller/LoginController.php");
 require_once("controller/RegistroController.php");
 require_once("controller/PartidaController.php");
+require_once("controller/LobbyController.php");
 
 require_once("model/LoginModel.php");
 require_once("model/RegistroModel.php");
