@@ -59,6 +59,7 @@ class PartidaController
             $puntaje = $this->model->calcularPuntajeFinal($partida_id);
             $respuestaCorrecta = $this->model->obtenerRespuestaCorrecta($pregunta_id);
 
+            $_SESSION['ultimo_puntaje']= $puntaje;
             $data = [
                 'puntaje' => $puntaje,
                 'respuesta_correcta' => $respuestaCorrecta['texto'],

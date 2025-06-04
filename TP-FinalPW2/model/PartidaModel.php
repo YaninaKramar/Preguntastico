@@ -75,7 +75,8 @@ class PartidaModel
 
 
         // Traer respuestas de esa pregunta
-        $queryRespuestas = "SELECT numero, texto, es_correcta FROM respuesta WHERE pregunta_id = ?";
+        $queryRespuestas = "SELECT numero, texto, es_correcta FROM respuesta WHERE pregunta_id = ? ORDER BY RAND()";
+
         $stmt2 = $this->database->prepare($queryRespuestas);
         $stmt2->bind_param("i", $pregunta['id']);
         $stmt2->execute();
