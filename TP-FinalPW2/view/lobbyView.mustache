@@ -50,6 +50,8 @@
     .btn-darkblue {
         background-color: #00334e;
         color: white;
+        text-align: center;
+        text-decoration: none;
     }
     .highlight-box {
         border: 1px solid black;
@@ -73,16 +75,16 @@
 <div class="d-flex justify-content-between align-items-start mb-3">
     <button class="btn-darkblue btn-rounded">Mi Perfil</button>
     <h1 class="text-center flex-grow-1 fw-bold">Bienvenido {{usuario}} </h1>
-    <button class="btn-darkblue btn-rounded" > <a href="/Preguntastico/TP-FinalPW2/view/cerrarSesion.php">Cerrar Sesión</a> </button>
+    <a class="btn-darkblue btn-rounded" href="/Preguntastico/TP-FinalPW2/view/cerrarSesion.php" style="text-decoration: none">Cerrar Sesión</a>
 </div>
 
 <div class="text-center mb-4">
-    <p class="fs-5">Tu puntaje actual<br><strong class="fs-4">es: PUNTAJE</strong></p>
+    <p class="fs-5">Tu puntaje actual<br><strong class="fs-4">es: {{puntos}}</strong></p>
 </div>
 
 <div class="row">
     <div class="col-md-3 d-flex flex-column gap-3">
-        <button class="btn-darkblue btn-rounded">Ir al ranking mundial</button>
+        <a href="rankingView.mustache" class="btn-darkblue btn-rounded">Ir al ranking mundial</a>
         <button class="btn-darkblue btn-rounded">Crear Nueva Pregunta</button>
     </div>
 
