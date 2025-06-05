@@ -123,18 +123,17 @@
     <div class="pregunta">{{pregunta}}</div>
 
     <form method="post" action="/Preguntastico/TP-FinalPW2/partida/responderPregunta" id="formularioPregunta">
+     <input type="hidden" name="partida_id" value="{{partida_id}}">
+            <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+            <input type="hidden" name="respuesta" id="respuestaInput" value="">
 
-    <input type="hidden" name="partida_id" value="{{partida_id}}">
-        <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
-        <input type="hidden" name="respuesta" id="respuestaInput" value="">
-
-    <div class="d-flex flex-wrap justify-content-center">
-        {{#opciones}}
-            <button class="opcion" type="button" value="{{numero}}" data-es_correcta="{{es_correcta}}">
-                {{texto}}
-            </button>
-        {{/opciones}}
-    </div>
+        <div class="d-flex flex-wrap justify-content-center">
+            {{#opciones}}
+                <button class="opcion" type="button" value="{{numero}}" data-es_correcta="{{es_correcta}}">
+                    {{texto}}
+                </button>
+            {{/opciones}}
+        </div>
     </form>
 </div>
 

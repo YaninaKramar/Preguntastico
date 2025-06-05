@@ -1,5 +1,6 @@
 <?php
 
+
 class PartidaController
 {
     private $model;
@@ -9,6 +10,7 @@ class PartidaController
     {
         $this->model = $model;
         $this->view = $view;
+
     }
 
     public function show()
@@ -25,7 +27,6 @@ class PartidaController
     {
         session_start();
         $usuario_id = $_SESSION['usuario_id'] ?? null;
-
         if (!$usuario_id) {
             $this->redirectTo("login/show");
         }
@@ -40,6 +41,7 @@ class PartidaController
 
     public function responderPregunta()
     {
+        $usuario_id = $_SESSION['usuario_id'] ?? null;
         $partida_id = $_POST['partida_id'] ?? null;
         $pregunta_id = $_POST['pregunta_id'] ?? null;
         $respuesta_usuario = $_POST['respuesta'] ?? null;
@@ -48,7 +50,7 @@ class PartidaController
             $this->redirectTo("login/show");
         }
 
-        $esCorrecta = $this->model->guardarRespuesta($partida_id, $pregunta_id, $respuesta_usuario);
+        $esCorrecta = $this->model->guardarRespuesta($partida_id, $pregunta_id, $respuesta_usuario,$usuario_id);
 
         if ($esCorrecta) {
             // Redirigir a la siguiente pregunta

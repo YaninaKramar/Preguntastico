@@ -418,6 +418,17 @@ ALTER TABLE `usuario`
   ADD CONSTRAINT `fk_id_rol` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`);
 COMMIT;
 
+--
+-- Tabla usuario_pregunta
+--
+
+CREATE TABLE usuario_pregunta (
+                                  usuario_id INT NOT NULL,
+                                  pregunta_id INT NOT NULL,
+                                  PRIMARY KEY (usuario_id, pregunta_id),
+                                  FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+                                  FOREIGN KEY (pregunta_id) REFERENCES pregunta(id)
+);
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
