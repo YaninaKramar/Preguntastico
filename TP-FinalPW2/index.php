@@ -1,10 +1,30 @@
 <?php
+session_start();
 require_once("Configuration.php");
 $configuration = new Configuration();
 $router = $configuration->getRouter();
 define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
 
-$router->go(
-    $_GET["controller"] ?? "login",
-    $_GET["method"] ?? "show"
-);
+$controllerName = $_GET["controller"] ?? "login";
+$methodName = $_GET["method"] ?? "show";
+
+$logueado = isset($_SESSION['usuario_id']);
+
+// Permisos por controlador
+// LoginController, RegistroController = publico
+// PartidaController, PerfilController, LobbyController = logueado y para cualquier rol
+
+// Controladores que requieren estar logueado
+$controladoresLogueado = ['partida', 'perfil', 'lobby'];
+
+if (in_array($controllerName, $controladoresLogueado) && !$logueado) {
+    redirigirNoAutorizado("login/show");
+}
+
+$router->go($controllerName, $methodName);
+
+function redirigirNoAutorizado($str) {
+    header("Location: " . BASE_URL . ltrim($str, '/'));
+    exit;
+}
+

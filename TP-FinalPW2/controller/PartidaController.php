@@ -25,9 +25,6 @@ class PartidaController
 
     public function iniciarPartida()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
         $usuario_id = $_SESSION['usuario_id'] ?? null;
         if (!$usuario_id) {
             $this->redirectTo("login/show");

@@ -22,9 +22,13 @@ class PerfilModel {
     }
 
     public function obtenerPuntajeTotal($id) {
-        $id=intval($id);
-        $query = "SELECT SUM(puntaje_final) AS total FROM partida WHERE usuario_id = $id";
-        $result = $this->db->query($query);
-        return $result["total"] ?? 0;
+        $query = "SELECT SUM(puntaje_final) AS total FROM partida WHERE usuario_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $puntaje = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        return $puntaje['total'] ?? 0;
     }
 }

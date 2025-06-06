@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 class LoginController
 {
@@ -30,10 +29,12 @@ class LoginController
        $usuarioIngresando= $this->validarUsuarioExistente();
        if (isset($usuarioIngresando)){
 
-           if($_POST["password"]==$usuarioIngresando["contrasena"]){
+           if (password_verify($_POST["password"], $usuarioIngresando["contrasena"])) {
 
                $_SESSION['usuario_id'] = $usuarioIngresando['id'];
                $_SESSION['usuario']=$usuarioIngresando['nombre_completo'];
+               $_SESSION['usuario_rol']=$usuarioIngresando['id_rol'];
+
                $this->redirectTo("login/success");
            }
            else{
@@ -46,7 +47,11 @@ class LoginController
        }
     }
 
-
+    public function logout(){
+        session_unset();
+        session_destroy();
+        $this->redirectTo("login/show");
+    }
 
     public function show()
     {

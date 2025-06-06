@@ -89,9 +89,9 @@
         <h1>{{usuario.nombre_completo}}</h1>
         <h3>Puntaje total: {{puntaje_total}}</h3>
     </div>
-    <div class="perfil-foto">
-    <img class="foto-perfil" src="{{usuario.foto_perfil}}" alt="Foto de perfil" />
-    <p>{{usuario.fecha_nac}}</p>
+    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+        <img class="foto-perfil mb-3" src="../{{usuario.foto_perfil}}" alt="Foto de perfil" />
+        <p>{{usuario.fecha_nac}}</p>
     </div>
 </div>
 
