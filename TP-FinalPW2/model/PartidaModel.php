@@ -21,7 +21,9 @@ class PartidaModel
         return $stmt->insert_id;
     }
 
-    public function obtenerPreguntaDelNivelDelUsuario($partida_id, $nivelUsuario){
+    public function obtenerPreguntaDelNivelDelUsuario($partida_id, $nivelUsuario, $usuario_id){
+
+        $quedanPreguntasNuevas= $this->quedanPreguntasNuevas($nivelUsuario,$usuario_id);
 
         if($nivelUsuario){
             $query = "SELECT p.id, p.texto, c.nombre, c.color
@@ -29,22 +31,40 @@ class PartidaModel
               JOIN categoria c ON p.categoria_id = c.id
               WHERE p.id NOT IN (
                   SELECT pregunta_id FROM partida_pregunta WHERE partida_id = ?
-              ) AND p.dificultad = ?
+              )". ($quedanPreguntasNuevas ? " AND p.id NOT IN (
+                      SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
+                  )" : "") . "
+                AND p.dificultad = ?
               ORDER BY RAND() LIMIT 1";
-            $stmt = $this->database->prepare($query);
-            $stmt->bind_param("is", $partida_id, $nivelUsuario);
-        } else{
+
+            if ($quedanPreguntasNuevas) {
+                $stmt = $this->database->prepare($query);
+                $stmt->bind_param("iis", $partida_id, $usuario_id, $nivelUsuario);
+            } else {
+                $stmt = $this->database->prepare($query);
+                $stmt->bind_param("is", $partida_id, $nivelUsuario);
+            }
+
+        } else {
             $query = "SELECT p.id, p.texto, c.nombre, c.color
                   FROM pregunta p
                   JOIN categoria c ON p.categoria_id = c.id
                   WHERE p.id NOT IN (
                       SELECT pregunta_id FROM partida_pregunta WHERE partida_id = ?
-                  )
+                  )" . ($quedanPreguntasNuevas ? " AND p.id NOT IN (
+                SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
+                  )" : "") . "
                   ORDER BY RAND() LIMIT 1";
-            $stmt = $this->database->prepare($query);
-            $stmt->bind_param("i", $partida_id);
-        }
 
+            if ($quedanPreguntasNuevas) {
+                $stmt = $this->database->prepare($query);
+                $stmt->bind_param("ii", $partida_id, $usuario_id);
+            } else {
+                $stmt = $this->database->prepare($query);
+                $stmt->bind_param("i", $partida_id);
+            }
+
+        }
         $stmt->execute();
         $pregunta = $stmt->get_result()->fetch_assoc();
         $stmt->close();
@@ -52,22 +72,55 @@ class PartidaModel
         return $pregunta;
     }
 
+
+    private function quedanPreguntasNuevas($nivelUsuario, $usuario_id) {
+
+        if ($nivelUsuario) {//que la pregunta no haya sido respondida por el usuario
+            $query = "SELECT COUNT(*) as total
+                  FROM pregunta
+                  WHERE dificultad = ?
+                  AND id NOT IN (
+                      SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ? 
+                  )";
+            $stmt = $this->database->prepare($query);
+            $stmt->bind_param("si", $nivelUsuario, $usuario_id);
+        } else {
+            $query = "SELECT COUNT(*) as total
+                  FROM pregunta
+                  WHERE id NOT IN (
+                      SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
+                  )";
+            $stmt = $this->database->prepare($query);
+            $stmt->bind_param("i", $usuario_id);
+        }
+
+        $stmt->execute();
+        $resultado = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        return $resultado['total'] > 0;
+    }
+
+
     public function obtenerPreguntaAleatoriaNoRespondida($partida_id) {
 
-        $usuario = $this->obtenerUsuarioDePartida($partida_id);
+        $usuario_id = $this->obtenerUsuarioDePartida($partida_id);
 
-        if (!$usuario) {
+        if (!$usuario_id) {
             return null; // No se encontro el usuario
         }
 
-        $nivelUsuario = $this->obtenerNivelDelUsuario($usuario);
+        $nivelUsuario = $this->obtenerNivelDelUsuario($usuario_id);
 
-        $pregunta = $this->obtenerPreguntaDelNivelDelUsuario($partida_id, $nivelUsuario);
+        $pregunta = $this->obtenerPreguntaDelNivelDelUsuario($partida_id, $nivelUsuario, $usuario_id);
 
         // Si no hay preguntas del nivel del usuario:
         if (!$pregunta) {
-            $pregunta = $this->obtenerPreguntaDelNivelDelUsuario($partida_id, null);
+            $pregunta = $this->obtenerPreguntaDelNivelDelUsuario($partida_id, null,$usuario_id);
         }
+
+        // Si esa pregunta ya se estuvo en una partida anterior no repetir:
+
 
         if (!$pregunta) {
             return null; // No hay más preguntas disponibles
@@ -75,7 +128,8 @@ class PartidaModel
 
 
         // Traer respuestas de esa pregunta
-        $queryRespuestas = "SELECT numero, texto, es_correcta FROM respuesta WHERE pregunta_id = ?";
+        $queryRespuestas = "SELECT numero, texto, es_correcta FROM respuesta WHERE pregunta_id = ? ORDER BY RAND()";
+
         $stmt2 = $this->database->prepare($queryRespuestas);
         $stmt2->bind_param("i", $pregunta['id']);
         $stmt2->execute();
@@ -86,7 +140,7 @@ class PartidaModel
         return $pregunta;
     }
 
-    public function guardarRespuesta($partida_id, $pregunta_id, $respuesta_usuario_id) {
+    public function guardarRespuesta($partida_id, $pregunta_id, $respuesta_usuario_id, $usuario_id) {
         // Obtener la respuesta seleccionada para verificar si es correcta
         $query = "SELECT es_correcta FROM respuesta WHERE numero = ? AND pregunta_id = ?";
         $stmt = $this->database->prepare($query);
@@ -97,12 +151,19 @@ class PartidaModel
 
         $correcta = $fila['es_correcta'] ? 1 : 0;
 
-        // Guardar la respuesta
+        // Guardar la respuesta en partida_pregunta
         $query2 = "INSERT INTO partida_pregunta (partida_id, pregunta_id, respondida_bien) VALUES (?, ?, ?)";
         $stmt2 = $this->database->prepare($query2);
         $stmt2->bind_param("iii", $partida_id, $pregunta_id, $correcta);
         $stmt2->execute();
         $stmt2->close();
+
+        // Guardar la pregunta en usuario_pregunta
+        $query5 = "INSERT INTO usuario_pregunta (usuario_id, pregunta_id) VALUES (?, ?)";
+        $stmt5 = $this->database->prepare($query5);
+        $stmt5->bind_param("ii", $usuario_id, $pregunta_id);
+        $stmt5->execute();
+        $stmt5->close();
 
         $query4 = "UPDATE pregunta SET intentos = intentos + 1 WHERE id = ?";
         $stmt4 = $this->database->prepare($query4);
