@@ -17,6 +17,8 @@ class RegistroModel
     public function agregarUsuarioNuevo($nombre, $apellido, $pais, $provincia, $nacimiento, $sexo, $fotoPerfil, $usuarioIngresado, $emailIngresado, $contrasenaIngresada, $idRol) {
         $nombreCompleto = $nombre . ' ' . $apellido;
 
+        // Hashear password
+        $passWordHasheada = password_hash($contrasenaIngresada, PASSWORD_DEFAULT);
 
         $query = "INSERT INTO usuario (nombre_completo, fecha_nac, sexo, pais, ciudad, email, contrasena, nombre_usuario, foto_perfil, id_rol)
               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -34,7 +36,7 @@ class RegistroModel
             $pais,
             $provincia,
             $emailIngresado,
-            $contrasenaIngresada,
+            $passWordHasheada,
             $usuarioIngresado,
             $fotoPerfil,
             $idRol
