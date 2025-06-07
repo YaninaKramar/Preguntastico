@@ -320,4 +320,65 @@ class PartidaModel
         return $resultNivel['nivel'];
     }
 
+    public function obtenerPreguntaPorId($id){
+        // Obtener la pregunta y su categoría
+        $query = "SELECT p.id, p.texto, c.nombre AS nombre, c.color AS color
+              FROM pregunta p
+              JOIN categoria c ON p.categoria_id = c.id
+              WHERE p.id = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        if (!$result) return null;
+
+        // Obtener respuestas asociadas
+        $queryRespuestas = "SELECT texto, numero, es_correcta FROM respuesta WHERE pregunta_id = ?";
+        $stmtRespuestas = $this->database->prepare($queryRespuestas);
+        $stmtRespuestas->bind_param("i", $id);
+        $stmtRespuestas->execute();
+        $respuestas = $stmtRespuestas->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmtRespuestas->close();
+
+        // Añadir respuestas al resultado
+        $result['respuestas'] = $respuestas;
+
+        return $result;
+    }
+
+    public function borrarPreguntasRespondidasSiCompletoLaTabla($usuario_id) {
+        // Total de preguntas
+        $queryTotal = "SELECT COUNT(*) as total FROM pregunta";
+        $stmt = $this->database->prepare($queryTotal);
+        $stmt->execute();
+        $total = $stmt->get_result()->fetch_assoc()['total'];
+        $stmt->close();
+
+
+        // Preguntas respondidas por el usuario
+        $queryUser = "SELECT COUNT(*) as respondidas FROM usuario_pregunta WHERE usuario_id = ?";
+        $stmt = $this->database->prepare($queryUser);
+        $stmt->bind_param("i", $usuario_id);
+        $stmt->execute();
+        $respondidas = $stmt->get_result()->fetch_assoc()['respondidas'];
+        $stmt->close();
+
+        // Si respondió todas, las borramos de la tabla
+        if ($total == $respondidas) {
+            $queryDelete = "DELETE FROM usuario_pregunta WHERE usuario_id = ?";
+            $stmt = $this->database->prepare($queryDelete);
+            $stmt->bind_param("i", $usuario_id);
+            $stmt->execute();
+            $stmt->close();
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+
 }

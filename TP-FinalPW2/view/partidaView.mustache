@@ -124,8 +124,10 @@
 
     <form method="post" action="/Preguntastico/TP-FinalPW2/partida/responderPregunta" id="formularioPregunta">
      <input type="hidden" name="partida_id" value="{{partida_id}}">
-            <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
-            <input type="hidden" name="respuesta" id="respuestaInput" value="">
+        <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+        <input type="hidden" name="respuesta" id="respuestaInput" value="">
+
+        <input type="hidden" id="inputTiempoRestante" value="{{tiempo_restante}}">
 
         <div class="d-flex flex-wrap justify-content-center">
             {{#opciones}}
@@ -139,7 +141,10 @@
 
 <script>
 
-        let tiempoRestante = 10;
+        let tiempoRestante = parseInt(document.getElementById('inputTiempoRestante').value);
+        if (isNaN(tiempoRestante) || tiempoRestante <= 0) {
+            tiempoRestante = 10;
+        }
         const barra = document.getElementById('barraTiempo');
 
         const intervalo = setInterval(() => {
