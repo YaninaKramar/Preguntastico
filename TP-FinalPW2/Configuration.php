@@ -17,6 +17,9 @@ require_once("model/PartidaModel.php");
 require_once("controller/PerfilController.php");
 require_once("model/PerfilModel.php");
 
+require_once("model/RankingModel.php");
+require_once("controller/RankingController.php");
+
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -66,6 +69,9 @@ class Configuration
     }
     public function getPerfilController() {
         return new PerfilController(new PerfilModel($this->getDatabase()), $this->getViewer());
+    }
+    public function getRankingController() {
+        return new RankingController(new RankingModel($this->getDatabase()), $this->getViewer());
     }
     public function getRouter()
     {
