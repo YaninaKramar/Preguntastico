@@ -208,7 +208,7 @@ class PartidaModel
         $correctas = $result['correctas'];
         $intentos = $result['intentos'];
 
-        if ($intentos > 0) {
+        if ($intentos >= 10) {
             $ratio = $correctas / $intentos;
             if ($ratio > 0.7) {
                 $dificultad = 'facil';
@@ -271,12 +271,12 @@ class PartidaModel
 
     private function calcularNivelDelUsuario($usuario_id){
         $query = "SELECT 
-                    SUM(pp.respondida_bien) AS correctas,
-                    COUNT(*) AS intentos,
-                    ROUND(SUM(pp.respondida_bien) / COUNT(*), 2) AS ratio
-                  FROM partida_pregunta pp
-                  JOIN partida p ON pp.partida_id = p.id
-                  WHERE p.usuario_id = ?";
+                SUM(pp.respondida_bien) AS correctas,
+                COUNT(*) AS intentos,
+                ROUND(SUM(pp.respondida_bien) / COUNT(*), 2) AS ratio
+              FROM partida_pregunta pp
+              JOIN partida p ON pp.partida_id = p.id
+              WHERE p.usuario_id = ?";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("i", $usuario_id);
@@ -286,7 +286,8 @@ class PartidaModel
 
         $nivel = '';
 
-        if ($result && isset($result['intentos']) && $result['intentos'] > 0){
+        // Corroborar que haya respondido al menos 10 preguntas
+        if ($result && isset($result['intentos']) && $result['intentos'] >= 10){
 
             $ratio = $result['ratio'];
 
@@ -297,16 +298,17 @@ class PartidaModel
             } else {
                 $nivel = 'media';
             }
+
+            // Se acutaliza el nivel porque ya tiene al menos 10 preguntas respondidas
+            $update = "UPDATE usuario SET nivel = ? WHERE id = ?";
+            $stmt = $this->database->prepare($update);
+            $stmt->bind_param("si", $nivel, $usuario_id);
+            $stmt->execute();
+            $stmt->close();
+
         } else {
-            $nivel = 'media';
+            // Si tiene menos de 10 preguntas respondidas, no se actualiza el nivel
         }
-
-
-        $update = "UPDATE usuario SET nivel = ? WHERE id = ?";
-        $stmt = $this->database->prepare($update);
-        $stmt->bind_param("si", $nivel, $usuario_id);
-        $stmt->execute();
-        $stmt->close();
     }
 
     private function obtenerNivelDelUsuario($usuario_id){
