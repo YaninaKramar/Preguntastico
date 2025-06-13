@@ -3,7 +3,6 @@ session_start();
 require_once("Configuration.php");
 $configuration = new Configuration();
 $router = $configuration->getRouter();
-define('BASE_URL', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/');
 
 $controllerName = $_GET["controller"] ?? "login";
 $methodName = $_GET["method"] ?? "show";
@@ -24,7 +23,7 @@ if (in_array($controllerName, $controladoresLogueado) && !$logueado) {
 $router->go($controllerName, $methodName);
 
 function redirigirNoAutorizado($str) {
-    header("Location: " . BASE_URL . ltrim($str, '/'));
-    exit;
+    header("Location: /" . $str);
+    exit();
 }
 

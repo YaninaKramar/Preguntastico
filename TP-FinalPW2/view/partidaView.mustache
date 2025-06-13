@@ -107,7 +107,7 @@
 </head>
 <body>
 
-<a href="/Preguntastico/TP-FinalPW2/lobby/show" class="boton-volver">Volver al lobby</a>
+<a href="/lobby/show" class="boton-volver">Volver al lobby</a>
 
 <div class="pregunta-container mt-5 pt-2">
     <div class="progress my-3" style="height: 30px;">
@@ -122,7 +122,7 @@
 
     <div class="pregunta">{{pregunta}}</div>
 
-    <form method="post" action="/Preguntastico/TP-FinalPW2/partida/responderPregunta" id="formularioPregunta">
+    <form method="post" action="/partida/responderPregunta" id="formularioPregunta">
      <input type="hidden" name="partida_id" value="{{partida_id}}">
         <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
         <input type="hidden" name="respuesta" id="respuestaInput" value="">

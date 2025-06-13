@@ -10,7 +10,7 @@ class PerfilController {
 
     public function miPerfil() {
         if (!isset($_SESSION['usuario'])) {
-            header('Location: /Preguntastico/TP-FinalPW2/login/show');
+            header('Location: /login/show');
             exit;
         }
 
@@ -20,7 +20,7 @@ class PerfilController {
 
     public function show() {
         if (!isset($_SESSION['usuario'])) {
-            header('Location: /Preguntastico/TP-FinalPW2/login/show');
+            header('Location: /login/show');
             exit;
         }
 
@@ -38,7 +38,7 @@ class PerfilController {
         $partidas = $this->model->obtenerPartidasPorUsuario($id);
         $puntajeTotal = $this->model->obtenerPuntajeTotal($id);
 
-        $qrData = urlencode("http://localhost/Preguntastico/TP-FinalPW2/perfil/$urlPath");
+        $qrData = urlencode("http://localhost/perfil/$urlPath");
         $ciudadEncoded = urlencode($usuario["ciudad"]);
         $mapsUrl = "https://www.google.com/maps/search/?api=1&query={$ciudadEncoded}";
 

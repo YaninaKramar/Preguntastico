@@ -49,7 +49,7 @@ class Configuration
 
     public function getLobbyController() {
         if (!isset($_SESSION['usuario'])) {
-            header('Location: /Preguntastico/TP-FinalPW2/login/show');
+            header('Location: /login/show');
             exit;
         }
         return new LobbyController($this->getViewer());

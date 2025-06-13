@@ -70,7 +70,7 @@ class LoginController
 
     private function redirectTo($str)
     {
-        header("Location: " . BASE_URL . ltrim($str, '/'));
+        header("Location: /" . $str);
         exit();
     }
 

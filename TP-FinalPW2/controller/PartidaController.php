@@ -145,7 +145,7 @@ class PartidaController
             if (!$pregunta) {
                 // No se encontró la pregunta
                 unset($_SESSION['juego_estado']);
-                header("Location: /Preguntastico/TP-FinalPW2/lobby/show");
+                header("Location: /lobby/show");
                 exit();
             }
 
@@ -203,9 +203,9 @@ class PartidaController
     }
 
 
-    private function redirectTo($path)
+    private function redirectTo($str)
     {
-        header("Location: " . BASE_URL . ltrim($path, '/'));
+        header("Location: /" . $str);
         exit();
     }
 
