@@ -14,14 +14,14 @@ class RegistroModel
     }
 
 
-    public function agregarUsuarioNuevo($nombre, $apellido, $pais, $provincia, $nacimiento, $sexo, $fotoPerfil, $usuarioIngresado, $emailIngresado, $contrasenaIngresada, $idRol) {
+    public function agregarUsuarioNuevo($nombre, $apellido, $pais, $provincia, $nacimiento, $sexo, $fotoPerfil, $usuarioIngresado, $emailIngresado, $contrasenaIngresada, $token, $idRol) {
         $nombreCompleto = $nombre . ' ' . $apellido;
 
         // Hashear password
         $passWordHasheada = password_hash($contrasenaIngresada, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO usuario (nombre_completo, fecha_nac, sexo, pais, ciudad, email, contrasena, nombre_usuario, foto_perfil, id_rol)
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO usuario (nombre_completo, fecha_nac, sexo, pais, ciudad, email, contrasena, nombre_usuario, foto_perfil, token, id_rol)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->database->prepare($query);
 
@@ -29,7 +29,7 @@ class RegistroModel
             die("Error al preparar la consulta: " . $this->database->error);
         }
 
-        $stmt->bind_param("sssssssssi",
+        $stmt->bind_param("ssssssssssi",
             $nombreCompleto,
             $nacimiento,
             $sexo,
@@ -39,6 +39,7 @@ class RegistroModel
             $passWordHasheada,
             $usuarioIngresado,
             $fotoPerfil,
+            $token,
             $idRol
         );
 
@@ -49,4 +50,63 @@ class RegistroModel
         $stmt->close();
         echo "usuario agregado";
     }
+
+    public function verificarToken($idUsuario, $token) {
+        $query = "SELECT token FROM usuario WHERE id = ?";
+
+        $stmt = $this->database->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->database->error);
+        }
+
+        $stmt->bind_param("i", $idUsuario);
+        $stmt->execute();
+        $tokenGuardado = null;
+        $stmt->bind_result($tokenGuardado);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Comparar tokens de forma segura
+        return hash_equals($tokenGuardado, $token);
+    }
+
+
+    public function activarUsuario($idUsuario) {
+        $query = "UPDATE usuario SET status = 'activo' WHERE id = ?";
+
+        $stmt = $this->database->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->database->error);
+        }
+
+        $stmt->bind_param("i", $idUsuario);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function obtenerIdUsuario($usuario) {
+        $query = "SELECT id FROM usuario WHERE nombre_usuario = ?";
+
+        $stmt = $this->database->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->database->error);
+        }
+
+        $stmt->bind_param("s", $usuario);
+        $stmt->execute();
+
+        $id = null;
+        $stmt->bind_result($id);
+
+        if ($stmt->fetch()) {
+            $stmt->close();
+            return $id;
+        } else {
+            $stmt->close();
+            return null;
+        }
+    }
+
+
+
 }

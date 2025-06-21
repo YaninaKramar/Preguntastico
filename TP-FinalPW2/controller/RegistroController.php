@@ -3,14 +3,16 @@ class RegistroController
 {
     private $model;
     private $view;
+    private $emailSender;
 
-    public function __construct($model, $view)
+    public function __construct($model, $view, $emailSender)
     {
         $this->model = $model;
         $this->view = $view;
+        $this->emailSender = $emailSender;
     }
 
-    public function validarRegistro()
+    public function procesar()
     {
         $nombre= $_POST["nombre"];
         $apellido= $_POST["apellido"];
@@ -39,8 +41,14 @@ class RegistroController
         }
 
         if (isset($usuarioIngresado)&&isset($emailIngresado)&&isset($contrasenaIngresada)){
-           $this->model->agregarUsuarioNuevo($nombre,$apellido,$pais,$provincia,$nacimiento,$sexo,$fotoDestino,$usuarioIngresado,$emailIngresado,$contrasenaIngresada, $idRol);
-            $this->redirectTo("login/show");
+            $token = bin2hex(random_bytes(16));
+           $this->model->agregarUsuarioNuevo($nombre,$apellido,$pais,$provincia,$nacimiento,$sexo,$fotoDestino,$usuarioIngresado,$emailIngresado,$contrasenaIngresada, $token, $idRol);
+
+           $idUsuario = $this->model->obtenerIdUsuario($usuarioIngresado);
+           // Enviar email
+            $body = $this->generateEmailBodyFor($usuarioIngresado, $token, $idUsuario);
+            $this->emailSender->send($emailIngresado, $body);
+           $this->redirectTo("registro/success");
          }else{
             $this->redirectTo("registro/show");
         }
@@ -109,7 +117,26 @@ class RegistroController
 
     public function success()
     {
-        $this->view->render("login");
+        $this->view->render("registroSuccess");
+        // Revisa tu correo www.preguntastico.com/registro/verificar/idVerificador=<random guardado en la base>&idUsuario=123
+    }
+
+    public function verificar(){
+        // Si coincide el random, cambio el status a active/true
+        // redirect al home o mensaje de exito
+
+        $idVerificador = $_GET["idVerificador"];
+        $idUsuario = $_GET["idUsuario"];
+
+        $tokenValido = $this->model->verificarToken($idUsuario, $idVerificador);
+
+        if ($tokenValido) {
+            $this->model->activarUsuario($idUsuario); // actualiza campo 'status' a 'activo'
+            $this->redirectTo("login/show");
+        } else {
+            echo "Token inválido o expirado.";
+        }
+
     }
 
     private function redirectTo($str)
@@ -117,4 +144,10 @@ class RegistroController
         header("Location: /" . $str);
         exit();
     }
+
+    private function generateEmailBodyFor($usuarioIngresado, $token, $idUsuario)
+    {
+        return "<body>Hola $usuarioIngresado, para validar tu cuenta <a href='http://localhost/registro/verificar/idUsuario=$idUsuario&idVerificador=$token'>hace click aca</a></body>";
+    }
+
 }

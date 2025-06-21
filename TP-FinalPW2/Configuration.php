@@ -3,6 +3,7 @@ require_once("core/Database.php");
 require_once("core/FilePresenter.php");
 require_once("core/MustachePresenter.php");
 require_once("core/Router.php");
+require_once("core/EmailSender.php");
 
 require_once("controller/HomeController.php");
 require_once("controller/LoginController.php");
@@ -65,7 +66,7 @@ class Configuration
     }
 
     public function getRegistroController(){
-        return new RegistroController(new RegistroModel ($this->getDataBase()), $this->getViewer());
+        return new RegistroController(new RegistroModel ($this->getDataBase()), $this->getViewer(), new EmailSender());
     }
     public function getPerfilController() {
         return new PerfilController(new PerfilModel($this->getDatabase()), $this->getViewer());
