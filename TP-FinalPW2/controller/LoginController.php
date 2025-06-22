@@ -28,8 +28,11 @@ class LoginController
     {
        $usuarioIngresando= $this->validarUsuarioExistente();
        if (isset($usuarioIngresando)){
-
            if (password_verify($_POST["password"], $usuarioIngresando["contrasena"])) {
+
+               if (strtolower($usuarioIngresando['status']) !== 'activo') {
+                   $this->redirectTo("registro/success");;
+               }
 
                $_SESSION['usuario_id'] = $usuarioIngresando['id'];
                $_SESSION['usuario']=$usuarioIngresando['nombre_completo'];
