@@ -14,13 +14,13 @@ class RegistroModel
     }
 
 
-    public function agregarUsuarioNuevo($nombre, $apellido, $pais, $provincia, $nacimiento, $sexo, $fotoPerfil, $usuarioIngresado, $emailIngresado, $contrasenaIngresada, $token, $idRol) {
+    public function agregarUsuarioNuevo($nombre, $apellido, $nacimiento, $sexo, $fotoPerfil, $usuarioIngresado, $emailIngresado, $contrasenaIngresada, $token, $idRol, $latitud, $longitud) {
         $nombreCompleto = $nombre . ' ' . $apellido;
 
         // Hashear password
         $passWordHasheada = password_hash($contrasenaIngresada, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO usuario (nombre_completo, fecha_nac, sexo, pais, ciudad, email, contrasena, nombre_usuario, foto_perfil, token, id_rol)
+        $query = "INSERT INTO usuario (nombre_completo, fecha_nac, sexo, email, contrasena, nombre_usuario, foto_perfil, token, id_rol, latitud, longitud)
               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->database->prepare($query);
@@ -29,18 +29,18 @@ class RegistroModel
             die("Error al preparar la consulta: " . $this->database->error);
         }
 
-        $stmt->bind_param("ssssssssssi",
+        $stmt->bind_param("ssssssssidd",
             $nombreCompleto,
             $nacimiento,
             $sexo,
-            $pais,
-            $provincia,
             $emailIngresado,
             $passWordHasheada,
             $usuarioIngresado,
             $fotoPerfil,
             $token,
-            $idRol
+            $idRol,
+            $latitud,
+            $longitud
         );
 
         if (!$stmt->execute()) {

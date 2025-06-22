@@ -38,8 +38,6 @@ class PerfilController {
         $partidas = $this->model->obtenerPartidasPorUsuario($id);
         $puntajeTotal = $this->model->obtenerPuntajeTotal($id);
 
-        $ciudadEncoded = urlencode($usuario["ciudad"]);
-        $mapsUrl = "https://www.google.com/maps/search/?api=1&query={$ciudadEncoded}";
 
         $this->view->render("perfil", [
             "id_usuario" => $id,
@@ -47,7 +45,6 @@ class PerfilController {
             "partidas" => $partidas,
             "puntaje_total" => $puntajeTotal,
             "qr_url" => "/perfil/generarQr?id=$id",
-            "maps_url" => $mapsUrl
         ]);
     }
 

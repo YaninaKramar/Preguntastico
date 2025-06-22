@@ -9,7 +9,7 @@ class PerfilModel {
 
     public function obtenerPerfilPorId($id) {
         $id=intval($id);
-        $query = "SELECT nombre_usuario, nombre_completo, fecha_nac, ciudad, pais, foto_perfil 
+        $query = "SELECT nombre_usuario, nombre_completo, fecha_nac, foto_perfil, latitud, longitud 
               FROM usuario WHERE id = $id";
         $resultados = $this->db->query($query);
         return $resultados[0] ?? null;
