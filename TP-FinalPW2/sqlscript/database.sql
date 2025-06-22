@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2025 a las 04:58:40
+-- Tiempo de generación: 22-06-2025 a las 04:32:53
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -258,8 +258,6 @@ CREATE TABLE `usuario` (
   `nombre_completo` varchar(255) NOT NULL,
   `fecha_nac` date NOT NULL,
   `sexo` varchar(100) NOT NULL,
-  `pais` varchar(100) NOT NULL,
-  `ciudad` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
   `nombre_usuario` varchar(100) NOT NULL,
@@ -267,15 +265,17 @@ CREATE TABLE `usuario` (
   `nivel` enum('facil','media','dificil') DEFAULT NULL,
   `status` enum('inactivo','activo') NOT NULL DEFAULT 'inactivo',
   `token` varchar(64) NOT NULL,
-  `id_rol` int(11) NOT NULL
+  `id_rol` int(11) NOT NULL,
+  `latitud` decimal(10,8) NOT NULL,
+  `longitud` decimal(11,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `pais`, `ciudad`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `nivel`, `status`, `token`, `id_rol`) VALUES
-(1, 'Admin Principal', '1990-01-01', 'Otro', 'Argentina', 'Buenos Aires', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'admin', 'a', '', 'inactivo', '', 1);
+INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `nivel`, `status`, `token`, `id_rol`, `latitud`, `longitud`) VALUES
+(1, 'Admin Principal', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'admin', 'a', '', 'inactivo', '', 1, 0.00000000, 0.00000000);
 
 -- --------------------------------------------------------
 
