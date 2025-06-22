@@ -2,10 +2,13 @@
 
 class LobbyController
 {
+    private $model;
     private $view;
 
-    public function __construct($view)
+    public function __construct($lobbyModel, $view)
     {
+        // Utilizo el model del perfil, ya que tiene el metodo que necesito (obtenerPartidasPorUsuario())
+        $this->model = $lobbyModel;
         $this->view = $view;
     }
 
@@ -13,7 +16,14 @@ class LobbyController
     {
         $usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado';
         $ultimo_puntaje= isset($_SESSION['ultimo_puntaje']) ? $_SESSION['ultimo_puntaje'] : '0';
-        echo $this->view->render('lobby', ['usuario' => $usuario, 'ultimo_puntaje' => $ultimo_puntaje]);
+        $id= isset($_SESSION['usuario_id']) ? $_SESSION['usuario_id'] : '0';
+
+        $partidas = $this->model->obtenerPartidasPorUsuario($id);
+
+        echo $this->view->render('lobby',
+            ['usuario' => $usuario,
+            'ultimo_puntaje' => $ultimo_puntaje,
+                "partidas" => $partidas]);
     }
 
 

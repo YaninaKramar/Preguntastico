@@ -10,7 +10,6 @@
 </head>
 <style>
     body{
-        background: linear-gradient(to bottom, #a8e6ce,#ffffff);
         min-height: 100vh;
         margin: 0;
         font-family: Arial, sans-serif;
@@ -66,14 +65,14 @@
     }
 
     .btn-darkblue:hover {
-        background-color: #005b8e; /* mantiene el mismo color al hacer hover */
+        background-color: #005b8e;
         color: white;
     }
 </style>
 <body class="p-4">
 
 <div class="d-flex justify-content-between align-items-start mb-3">
-    <button class="btn-darkblue btn-rounded"><a href="/perfil/miPerfil" style="text-decoration: none">Mi Perfil</a></button>
+    <a href="/perfil/miPerfil" style="text-decoration: none" class="btn-darkblue btn-rounded">Mi Perfil</a>
     <h1 class="text-center flex-grow-1 fw-bold">Bienvenido {{usuario}} </h1>
     <a class="btn-darkblue btn-rounded" href="/login/logout" style="text-decoration: none">Cerrar Sesión</a>
 </div>
@@ -100,9 +99,9 @@
     <div class="col-md-3">
         <div class="highlight-box">
             <div class="highlight-title mb-2 text-center">Partidas jugadas</div>
-            <ul class="list-unstyled mb-0">
-                <li>Fecha: Puntos</li>
-            </ul>
+            {{#partidas}}
+                <p class="mb-1">📅 {{fecha}} - 🏆 {{puntaje_final}} puntos</p>
+            {{/partidas}}
         </div>
     </div>
 </div>

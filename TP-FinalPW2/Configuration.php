@@ -53,7 +53,7 @@ class Configuration
             header('Location: /login/show');
             exit;
         }
-        return new LobbyController($this->getViewer());
+        return new LobbyController(new PerfilModel($this->getDatabase()), $this->getViewer());
     }
     public function getPartidaController()
     {
