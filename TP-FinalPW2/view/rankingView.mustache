@@ -102,30 +102,21 @@
 <h1>RANKING</h1>
 
 <div class="ranking-box">
-    <div class="ranking-item ranking-top">
-        <span class="ranking-position">1</span>
-        <span class="top-name">{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-top">
-        <span class="ranking-position">2</span>
-        <span class="top-name">{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-top">
-        <span class="ranking-position">3</span>
-        <span class="top-name">{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-other">
-        <span class="ranking-position">4</span>
-        <span>{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-other">
-        <span class="ranking-position">5</span>
-        <span>{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-other">
-        <span class="ranking-position">6</span>
-        <span>{{usuario}} - {{puntos}} pts</span>
-    </div>
+
+    {{#topPlayers}}
+        <div class="ranking-item ranking-top">
+            <span class="ranking-position">{{posicion}}</span>
+            <span class="top-name">{{usuario}} - {{puntos}} pts</span>
+        </div>
+    {{/topPlayers}}
+
+    {{#otherPlayers}}
+        <div class="ranking-item ranking-other">
+            <span class="ranking-position">{{posicion}}</span>
+            <span>{{usuario}} - {{puntos}} pts</span>
+        </div>
+    {{/otherPlayers}}
+
 </div>
 
 <div class="text-center mt-4">

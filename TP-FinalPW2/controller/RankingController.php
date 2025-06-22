@@ -13,7 +13,13 @@ class RankingController {
             exit;
         }
 
-        $jugadores = $this->model->obtenerTopJugadores(6);
+        $jugadores = $this->model->obtenerTopJugadores(10);
+
+        $pos = 1;
+        foreach ($jugadores as &$jugador) {
+            $jugador['posicion'] = $pos++;
+        }
+        unset($jugador);
 
         $topPlayers = array_slice($jugadores, 0, 3);
         $otherPlayers = array_slice($jugadores, 3);
