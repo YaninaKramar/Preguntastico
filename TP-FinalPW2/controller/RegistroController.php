@@ -23,7 +23,7 @@ class RegistroController
         $usuarioIngresado= $this->validarUsuario();
         $emailIngresado= $this->validarEmail();
         $contrasenaIngresada= $this->validarContrasena();
-        $idRol= 2;
+        $idRol= 3;
         $latitud = $_POST["latitud"];
         $longitud = $_POST["longitud"];
 

@@ -245,7 +245,8 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`id`, `nombre`) VALUES
 (1, 'Administrador'),
-(2, 'Usuario');
+(2, 'Editor'),
+(3, 'Usuario');
 
 -- --------------------------------------------------------
 
@@ -276,6 +277,9 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `nivel`, `status`, `token`, `id_rol`, `latitud`, `longitud`) VALUES
 (1, 'Admin Principal', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'admin', 'a', '', 'inactivo', '', 1, 0.00000000, 0.00000000);
+
+INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `nivel`, `status`, `token`, `id_rol`, `latitud`, `longitud`) VALUES
+(2, 'Editor', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'admin', 'a', '', 'inactivo', '', 2, 0.00000000, 0.00000000);
 
 -- --------------------------------------------------------
 
