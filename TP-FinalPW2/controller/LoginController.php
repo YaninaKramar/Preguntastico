@@ -68,7 +68,12 @@ class LoginController
     public function success()
     {
         $usuario = $_SESSION['usuario'] ?? 'Invitado';
-        $this->view->render("lobby", ['usuario' => $usuario]);
+        $rol=$_SESSION['usuario_rol'];
+        if($rol==1){
+            $this->view->render("admin", ['usuario' => $usuario]);
+        }else{
+            $this->view->render("lobby", ['usuario' => $usuario]);
+        }
     }
 
     private function redirectTo($str)
