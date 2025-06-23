@@ -11,10 +11,10 @@ $logueado = isset($_SESSION['usuario_id']);
 
 // Permisos por controlador
 // LoginController, RegistroController = publico
-// PartidaController, PerfilController, LobbyController = logueado y para cualquier rol
+// PartidaController, PerfilController, LobbyController, AdminController = logueado y para cualquier rol
 
 // Controladores que requieren estar logueado
-$controladoresLogueado = ['partida', 'perfil', 'lobby'];
+$controladoresLogueado = ['partida', 'perfil', 'lobby', 'admin'];
 
 if (in_array($controllerName, $controladoresLogueado) && !$logueado) {
     redirigirNoAutorizado("login/show");

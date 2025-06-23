@@ -268,7 +268,8 @@ CREATE TABLE `usuario` (
   `token` varchar(64) NOT NULL,
   `id_rol` int(11) NOT NULL,
   `latitud` decimal(10,8) NOT NULL,
-  `longitud` decimal(11,8) NOT NULL
+  `longitud` decimal(11,8) NOT NULL,
+  `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -276,13 +277,13 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `nivel`, `status`, `token`, `id_rol`, `latitud`, `longitud`) VALUES
-(1, 'Admin Principal', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'admin', 'a', '', 'activo', '', 1, 0.00000000, 0.00000000);
+(1, 'Admin Principal', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'admin', 'a', '', 'activo', '', 1, -34.670224, -58.563634);
 
 INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `nivel`, `status`, `token`, `id_rol`, `latitud`, `longitud`) VALUES
-(2, 'Editor', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'editor', 'a', '', 'activo', '', 2, 0.00000000, 0.00000000);
+(2, 'Editor', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'editor', 'a', '', 'activo', '', 2, -34.670224, -58.563634);
 
 INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `email`, `contrasena`, `nombre_usuario`, `foto_perfil`, `nivel`, `status`, `token`, `id_rol`, `latitud`, `longitud`) VALUES
-(3, 'Usuario', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'usuario', 'a', '', 'activo', '', 3, 0.00000000, 0.00000000);
+(3, 'Usuario', '1990-01-01', 'Otro', 'admin@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'usuario', 'a', '', 'activo', '', 3, -34.670224, -58.563634);
 
 -- --------------------------------------------------------
 
