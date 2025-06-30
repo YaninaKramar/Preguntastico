@@ -8,28 +8,13 @@ class PerfilController {
         $this->view = $viewer;
     }
 
-    public function miPerfil() {
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: /login/show');
-            exit;
-        }
-
-        $id = $_SESSION['usuario_id'];
-        $this->mostrarPerfil($id);
-    }
-
     public function show() {
         if (!isset($_SESSION['usuario'])) {
             header('Location: /login/show');
             exit;
         }
 
-        if (!isset($_GET["id"])) {
-            echo "ID de usuario no especificado.";
-            return;
-        }
-
-        $id = $_GET["id"];
+        $id = $_SESSION['usuario_id'];
         $this->mostrarPerfil($id);
     }
 
