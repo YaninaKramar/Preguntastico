@@ -17,6 +17,9 @@ class AdminController {
 
         $filtro = $_POST['filtro']?? 'dia';
 
+
+
+
         $jugadores = $this->model->getCantidadJugadores();
         $partidas = $this->model->getCantidadPartidas($filtro);
         $preguntas_totales = $this->model->getCantidadPreguntas($filtro);
