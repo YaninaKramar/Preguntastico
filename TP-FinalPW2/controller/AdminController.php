@@ -14,7 +14,7 @@ class AdminController {
             exit;
         }
 
-        $filtro = $_POST['filtro'] ;
+        $filtro = $_POST['filtro'] ??'dia';
 
 
 
