@@ -137,20 +137,56 @@ class AdminModel
     }
     public function getPorcentajeCorrectasPorUsuario($filtro) {
         $where = "";
-        $fecha = $this->getFechaFiltro($filtro);
+        $fecha = $this->getFechaFiltro($filtro); // esta función ya la usás en otros métodos
         if ($fecha) {
-            $where = " WHERE r.fecha >= '$fecha'";
+            $where = "WHERE p.fecha >= '$fecha'";
         }
 
-        $query = "
-        SELECT u.nombre AS usuario,
-               ROUND(100.0 * SUM(CASE WHEN r.correcta THEN 1 ELSE 0 END) / COUNT(r.id), 2) AS porcentaje
-        FROM respuestas r
-        JOIN usuario u ON r.usuario_id = u.id
+        $stmt = $this->db->query("
+        SELECT u.nombre_completo AS usuario,
+               pp.respondida_bien
+        FROM partida_pregunta pp
+        JOIN partida p ON pp.partida_id = p.id
+        JOIN usuario u ON p.usuario_id = u.id
         $where
-        GROUP BY u.nombre
-    ";
-        return $this->db->query($query);
+    ");
+
+        $resumen = [];
+
+        foreach ($stmt as $row) {
+            $usuario = $row['usuario'];
+            $esCorrecta = (bool)$row['respondida_bien'];
+
+            if (!isset($resumen[$usuario])) {
+                $resumen[$usuario] = ['correctas' => 0, 'totales' => 0];
+            }
+
+            $resumen[$usuario]['totales']++;
+            if ($esCorrecta) {
+                $resumen[$usuario]['correctas']++;
+            }
+        }
+
+        $resultado = [];
+
+        foreach ($resumen as $usuario => $datos) {
+            $porcentaje = $datos['totales'] > 0
+                ? round(100 * $datos['correctas'] / $datos['totales'], 2)
+                : 0;
+
+            $resultado[] = [
+                'usuario' => $usuario,
+                'porcentaje' => $porcentaje
+            ];
+        }
+
+        return $resultado;
     }
+
+
+
+
+
+
 
 }

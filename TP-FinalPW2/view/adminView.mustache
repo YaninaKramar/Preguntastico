@@ -72,13 +72,12 @@
         </div>
     </div>
 
-    <!-- Gráficos -->
     <div class="row g-4 mt-2">
         <div class="col-md-6">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title text-center">Porcentaje de Respuestas Correctas</h5>
-                    <canvas id="respuestasCorrectas"></canvas>
+                    <canvas id="porcentajeCorrectasPorUsuario"></canvas>
                 </div>
             </div>
         </div>
@@ -112,6 +111,53 @@
     </div>
 </div>
 <script>
+    const ctxPorcentaje = document.getElementById('porcentajeCorrectasPorUsuario').getContext('2d');
+
+    const dataPorcentajeCorrectas = {
+        labels: [{{#porcentaje_correctas}}"{{usuario}}",{{/porcentaje_correctas}}],
+        datasets: [{
+            label: '% Correctas',
+            data: [{{#porcentaje_correctas}}{{porcentaje}},{{/porcentaje_correctas}}],
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    new Chart(ctxPorcentaje, {
+        type: 'bar',
+        data: dataPorcentajeCorrectas,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + "%";
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.raw + "% correctas";
+                        }
+                    }
+                }
+            }
+        }
+    });
+
     const dataUsuariosPorPais = {
         labels: [
             {{#usuarios_por_pais}}

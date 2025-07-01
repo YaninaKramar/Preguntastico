@@ -26,7 +26,7 @@ class AdminController {
         $usuarios_por_pais = $this->model->getUsuariosPorPais($filtro);
         $usuarios_por_sexo= $this->model->getUsuariosPorSexo($filtro);
         $usuarios_por_edad = $this->model->getUsuariosPorEdad($filtro);
-        
+        $porcentaje_correctas = $this->model->getPorcentajeCorrectasPorUsuario($filtro);
 
         echo $this->view->render('admin', [
             'jugadores' => $jugadores,
@@ -37,6 +37,7 @@ class AdminController {
             'usuarios_por_pais' => $usuarios_por_pais,
             'usuarios_por_sexo' => $usuarios_por_sexo,
             'usuarios_por_edad' => $usuarios_por_edad,
+            'porcentaje_correctas' => $porcentaje_correctas,
             'filtro' => $filtro
         ]);
 
