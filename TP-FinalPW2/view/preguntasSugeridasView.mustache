@@ -16,6 +16,14 @@
             border-radius: 20px;
             padding: 8px 20px;
         }
+        .btn-aprobar {
+            background-color: #00c4a7;
+            color: white;
+        }
+        .btn-aprobar:hover {
+            background-color: #28e2b9;
+        }
+
         .btn-darkblue{
             background-color: #00334e;
             color: white;
@@ -109,18 +117,17 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <a href="" class="btn-darkblue btn-rounded">Mi Perfil</a>
-    <h1 class="text-center flex-grow-1 fw-bold">Listado de preguntas</h1>
+    <h1 class="text-center flex-grow-1 fw-bold">Preguntas sugeridas</h1>
     <a class="btn-darkblue btn-rounded" href="">Cerrar Sesión</a>
 </div>
 
 <div class="row">
     <!-- ---------- barra lateral ---------- -->
     <div class="col-md-2 sidebar d-flex flex-column gap-3 mb-4">
-        <a href="" class="btn btn-orange btn-rounded">Ver Preguntas<br>reportadas</a>
+        <a href="" class="btn btn-orange btn-rounded">Ver listado de preguntas</a>
         <a href="" class="btn-darkblue btn-rounded">Volver al lobby</a>
     </div>
 
-    <!-- ---------- listado de preguntas ---------- -->
     <div class="col-md-10 list-container">
         <div class="question-row mb-4">
             <!-- pregunta -->
@@ -135,8 +142,8 @@
             </div>
 
             <div class="actions">
-                <a href="" class="btn btn-edit btn-rounded">Editar</a>
-                <a href="" class="btn btn-delete btn-rounded">Eliminar</a>
+                <a href="" class="btn btn-aprobar btn-rounded">Aprobar</a>
+                <a href="" class="btn btn-delete btn-rounded">Rechazar</a>
             </div>
         </div>
         <div class="question-row mb-4">
@@ -152,8 +159,8 @@
             </div>
 
             <div class="actions">
-                <a href="" class="btn btn-edit btn-rounded">Editar</a>
-                <a href="" class="btn btn-delete btn-rounded">Eliminar</a>
+                <a href="" class="btn btn-aprobar btn-rounded">Aprobar</a>
+                <a href="" class="btn btn-delete btn-rounded">Rechazar</a>
             </div>
         </div>
     </div>

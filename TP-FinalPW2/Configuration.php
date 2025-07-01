@@ -24,6 +24,9 @@ require_once("controller/RankingController.php");
 require_once("controller/AdminController.php");
 require_once("model/AdminModel.php");
 
+require_once ("controller/EditorController.php");
+require_once("model/EditorModel.php");
+
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -62,7 +65,9 @@ class Configuration
     {
         return new PartidaController(new PartidaModel ($this->getDataBase()), $this->getViewer());
     }
-
+    public function getEditorController(){
+        return new EditorController(new EditorModel ($this->getDatabase()), $this->getViewer());
+    }
 
     public function getLoginController(){
         return new LoginController(new LoginModel ($this->getDataBase()), $this->getViewer());
