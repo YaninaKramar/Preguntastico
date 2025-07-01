@@ -137,7 +137,7 @@ class AdminModel
     }
     public function getPorcentajeCorrectasPorUsuario($filtro) {
         $where = "";
-        $fecha = $this->getFechaFiltro($filtro); // esta función ya la usás en otros métodos
+        $fecha = $this->getFechaFiltro($filtro);
         if ($fecha) {
             $where = "WHERE p.fecha >= '$fecha'";
         }
