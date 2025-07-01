@@ -70,7 +70,8 @@ class LoginController
         $usuario = $_SESSION['usuario'] ?? 'Invitado';
         $rol=$_SESSION['usuario_rol'];
         if($rol==1){
-            $this->view->render("admin", ['usuario' => $usuario]);
+            header("Location: /admin");
+            exit();
         }else{
             $this->view->render("lobby", ['usuario' => $usuario]);
         }

@@ -20,6 +20,7 @@
       <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/phpqrcode/bindings" />
       <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/phpqrcode/cache" />
       <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/phpqrcode/tools" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/mustache/vendor" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.0">

@@ -21,6 +21,9 @@ require_once("model/PerfilModel.php");
 require_once("model/RankingModel.php");
 require_once("controller/RankingController.php");
 
+require_once("controller/AdminController.php");
+require_once("model/AdminModel.php");
+
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -64,7 +67,9 @@ class Configuration
     public function getLoginController(){
         return new LoginController(new LoginModel ($this->getDataBase()), $this->getViewer());
     }
-
+    public function getAdminController() {
+        return new AdminController(new AdminModel($this->getDatabase()), $this->getViewer());
+    }
     public function getRegistroController(){
         return new RegistroController(new RegistroModel ($this->getDataBase()), $this->getViewer(), new EmailSender());
     }

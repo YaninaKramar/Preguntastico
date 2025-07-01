@@ -26,6 +26,7 @@ class RegistroController
         $idRol= 3;
         $latitud = $_POST["latitud"];
         $longitud = $_POST["longitud"];
+        $pais = $_POST["pais"];
 
         // Procesar imagen
         if ($_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
