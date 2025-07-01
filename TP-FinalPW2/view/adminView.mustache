@@ -72,13 +72,12 @@
         </div>
     </div>
 
-    <!-- Gráficos -->
     <div class="row g-4 mt-2">
         <div class="col-md-6">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title text-center">Porcentaje de Respuestas Correctas</h5>
-                    <canvas id="respuestasCorrectas"></canvas>
+                    <canvas id="porcentajeCorrectasPorUsuario"></canvas>
                 </div>
             </div>
         </div>
@@ -111,5 +110,150 @@
         </div>
     </div>
 </div>
+<script>
+    const ctxPorcentaje = document.getElementById('porcentajeCorrectasPorUsuario').getContext('2d');
+
+    const dataPorcentajeCorrectas = {
+        labels: [{{#porcentaje_correctas}}"{{usuario}}",{{/porcentaje_correctas}}],
+        datasets: [{
+            label: '% Correctas',
+            data: [{{#porcentaje_correctas}}{{porcentaje}},{{/porcentaje_correctas}}],
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    new Chart(ctxPorcentaje, {
+        type: 'bar',
+        data: dataPorcentajeCorrectas,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + "%";
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.raw + "% correctas";
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const dataUsuariosPorPais = {
+        labels: [
+            {{#usuarios_por_pais}}
+                "{{pais}}",
+            {{/usuarios_por_pais}}
+        ],
+        datasets: [{
+            label: 'Usuarios por País',
+            data: [
+                {{#usuarios_por_pais}}
+                    {{total}},
+                {{/usuarios_por_pais}}
+            ],
+            backgroundColor: [
+                '#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236',
+                '#166a8f', '#00a950', '#58595b', '#8549ba'
+            ],
+        }]
+    };
+
+    const configUsuariosPorPais = {
+        type: 'bar',
+        data: dataUsuariosPorPais,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: {
+                    display: false,
+                    text: 'Usuarios por País'
+                }
+            }
+        }
+    };
+
+    new Chart(
+            document.getElementById('usuariosPorPais'),
+            configUsuariosPorPais
+    );
+    const usuariosPorSexo = document.getElementById('usuariosPorSexo').getContext('2d');
+
+    const dataUsuariosPorSexo = {
+        labels: [
+            {{#usuarios_por_sexo}}"{{sexo}}",{{/usuarios_por_sexo}}
+        ],
+        datasets: [{
+            data: [
+                {{#usuarios_por_sexo}}{{total}},{{/usuarios_por_sexo}}
+            ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    new Chart(usuariosPorSexo, {
+        type: 'pie',
+        data: dataUsuariosPorSexo,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' },
+                title: { display: false }
+            }
+        }
+    });
+    const ctxEdad = document.getElementById('usuariosPorEdad').getContext('2d');
+
+    const dataUsuariosPorEdad = {
+        labels: [{{#usuarios_por_edad}}"{{grupo}}",{{/usuarios_por_edad}}],
+        datasets: [{
+            data: [{{#usuarios_por_edad}}{{total}},{{/usuarios_por_edad}}],
+            backgroundColor: [
+                'rgba(153, 102, 255, 0.7)',  // Morado
+                'rgba(75, 192, 192, 0.7)',   // Verde
+                'rgba(255, 159, 64, 0.7)'    // Naranja
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    new Chart(ctxEdad, {
+        type: 'pie',
+        data: dataUsuariosPorEdad,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' },
+                title: { display: false }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>
