@@ -6,10 +6,10 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /Preguntastico/TP-FinalPW2/
-    RewriteRule ^(public)($|/) - [L,NC]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
     RewriteRule ^(.*)/(.*)/(.*)$ index.php?controller=$1&method=$2&$3 [L,QSA]
     RewriteRule ^(.*)/(.*)$ index.php?controller=$1&method=$2 [L,QSA]
     RewriteRule ^(.*)$ index.php?controller=$1 [L,QSA]

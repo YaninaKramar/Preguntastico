@@ -208,7 +208,7 @@ class PartidaModel
         $correctas = $result['correctas'];
         $intentos = $result['intentos'];
 
-        if ($intentos > 0) {
+        if ($intentos >= 10) {
             $ratio = $correctas / $intentos;
             if ($ratio > 0.7) {
                 $dificultad = 'facil';
@@ -271,12 +271,12 @@ class PartidaModel
 
     private function calcularNivelDelUsuario($usuario_id){
         $query = "SELECT 
-                    SUM(pp.respondida_bien) AS correctas,
-                    COUNT(*) AS intentos,
-                    ROUND(SUM(pp.respondida_bien) / COUNT(*), 2) AS ratio
-                  FROM partida_pregunta pp
-                  JOIN partida p ON pp.partida_id = p.id
-                  WHERE p.usuario_id = ?";
+                SUM(pp.respondida_bien) AS correctas,
+                COUNT(*) AS intentos,
+                ROUND(SUM(pp.respondida_bien) / COUNT(*), 2) AS ratio
+              FROM partida_pregunta pp
+              JOIN partida p ON pp.partida_id = p.id
+              WHERE p.usuario_id = ?";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("i", $usuario_id);
@@ -286,7 +286,8 @@ class PartidaModel
 
         $nivel = '';
 
-        if ($result && isset($result['intentos']) && $result['intentos'] > 0){
+        // Corroborar que haya respondido al menos 10 preguntas
+        if ($result && isset($result['intentos']) && $result['intentos'] >= 10){
 
             $ratio = $result['ratio'];
 
@@ -297,16 +298,17 @@ class PartidaModel
             } else {
                 $nivel = 'media';
             }
+
+            // Se acutaliza el nivel porque ya tiene al menos 10 preguntas respondidas
+            $update = "UPDATE usuario SET nivel = ? WHERE id = ?";
+            $stmt = $this->database->prepare($update);
+            $stmt->bind_param("si", $nivel, $usuario_id);
+            $stmt->execute();
+            $stmt->close();
+
         } else {
-            $nivel = 'media';
+            // Si tiene menos de 10 preguntas respondidas, no se actualiza el nivel
         }
-
-
-        $update = "UPDATE usuario SET nivel = ? WHERE id = ?";
-        $stmt = $this->database->prepare($update);
-        $stmt->bind_param("si", $nivel, $usuario_id);
-        $stmt->execute();
-        $stmt->close();
     }
 
     private function obtenerNivelDelUsuario($usuario_id){
@@ -319,5 +321,66 @@ class PartidaModel
 
         return $resultNivel['nivel'];
     }
+
+    public function obtenerPreguntaPorId($id){
+        // Obtener la pregunta y su categoría
+        $query = "SELECT p.id, p.texto, c.nombre AS nombre, c.color AS color
+              FROM pregunta p
+              JOIN categoria c ON p.categoria_id = c.id
+              WHERE p.id = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        if (!$result) return null;
+
+        // Obtener respuestas asociadas
+        $queryRespuestas = "SELECT texto, numero, es_correcta FROM respuesta WHERE pregunta_id = ?";
+        $stmtRespuestas = $this->database->prepare($queryRespuestas);
+        $stmtRespuestas->bind_param("i", $id);
+        $stmtRespuestas->execute();
+        $respuestas = $stmtRespuestas->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmtRespuestas->close();
+
+        // Añadir respuestas al resultado
+        $result['respuestas'] = $respuestas;
+
+        return $result;
+    }
+
+    public function borrarPreguntasRespondidasSiCompletoLaTabla($usuario_id) {
+        // Total de preguntas
+        $queryTotal = "SELECT COUNT(*) as total FROM pregunta";
+        $stmt = $this->database->prepare($queryTotal);
+        $stmt->execute();
+        $total = $stmt->get_result()->fetch_assoc()['total'];
+        $stmt->close();
+
+
+        // Preguntas respondidas por el usuario
+        $queryUser = "SELECT COUNT(*) as respondidas FROM usuario_pregunta WHERE usuario_id = ?";
+        $stmt = $this->database->prepare($queryUser);
+        $stmt->bind_param("i", $usuario_id);
+        $stmt->execute();
+        $respondidas = $stmt->get_result()->fetch_assoc()['respondidas'];
+        $stmt->close();
+
+        // Si respondió todas, las borramos de la tabla
+        if ($total == $respondidas) {
+            $queryDelete = "DELETE FROM usuario_pregunta WHERE usuario_id = ?";
+            $stmt = $this->database->prepare($queryDelete);
+            $stmt->bind_param("i", $usuario_id);
+            $stmt->execute();
+            $stmt->close();
+
+            return true;
+        }
+
+        return false;
+    }
+
+
 
 }

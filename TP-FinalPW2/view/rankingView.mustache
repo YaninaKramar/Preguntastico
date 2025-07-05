@@ -76,6 +76,10 @@
             font-weight: bold;
         }
 
+        .volver-btn:hover {
+            background-color: #005b8e;
+        }
+
         .medal {
             width: 25px;
             margin-right: 10px;
@@ -99,42 +103,28 @@
 </head>
 <body>
 
-<div class="top-bar">
-    <button class="btn-darkblue btn-rounded">Mi Perfil</button>
-    <button class="btn-darkblue btn-rounded">Cerrar Sesión</button>
-</div>
-
 <h1>RANKING</h1>
 
 <div class="ranking-box">
-    <div class="ranking-item ranking-top">
-        <span class="ranking-position">1</span>
-        <span class="top-name">{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-top">
-        <span class="ranking-position">2</span>
-        <span class="top-name">{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-top">
-        <span class="ranking-position">3</span>
-        <span class="top-name">{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-other">
-        <span class="ranking-position">4</span>
-        <span>{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-other">
-        <span class="ranking-position">5</span>
-        <span>{{usuario}} - {{puntos}} pts</span>
-    </div>
-    <div class="ranking-item ranking-other">
-        <span class="ranking-position">6</span>
-        <span>{{usuario}} - {{puntos}} pts</span>
-    </div>
+
+    {{#topPlayers}}
+        <div class="ranking-item ranking-top">
+            <span class="ranking-position">{{posicion}}</span>
+            <a class="top-name" href="/perfil/show/id={{id}}">{{usuario}}</a> - {{puntos}} pts
+        </div>
+    {{/topPlayers}}
+
+    {{#otherPlayers}}
+        <div class="ranking-item ranking-other">
+            <span class="ranking-position">{{posicion}}</span>
+            <span>{{usuario}} - {{puntos}} pts</span>
+        </div>
+    {{/otherPlayers}}
+
 </div>
 
 <div class="text-center mt-4">
-    <a href="/Preguntastico/TP-FinalPW2/lobby/show" class="btn volver-btn btn-rounded">Volver</a>
+    <a href="/lobby/show" class="volver-btn btn-rounded">Volver</a>
 </div>
 
 </body>

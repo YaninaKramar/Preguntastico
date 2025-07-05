@@ -3,6 +3,7 @@ require_once("core/Database.php");
 require_once("core/FilePresenter.php");
 require_once("core/MustachePresenter.php");
 require_once("core/Router.php");
+require_once("core/EmailSender.php");
 
 require_once("controller/HomeController.php");
 require_once("controller/LoginController.php");
@@ -13,6 +14,18 @@ require_once("controller/LobbyController.php");
 require_once("model/LoginModel.php");
 require_once("model/RegistroModel.php");
 require_once("model/PartidaModel.php");
+
+require_once("controller/PerfilController.php");
+require_once("model/PerfilModel.php");
+
+require_once("model/RankingModel.php");
+require_once("controller/RankingController.php");
+
+require_once("controller/AdminController.php");
+require_once("model/AdminModel.php");
+
+require_once ("controller/EditorController.php");
+require_once("model/EditorModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 include_once('vendor/autoload.php');
@@ -44,23 +57,33 @@ class Configuration
 
     public function getLobbyController() {
         if (!isset($_SESSION['usuario'])) {
-            header('Location: /Preguntastico/TP-FinalPW2/login/show');
+            header('Location: /login/show');
             exit;
         }
-        return new LobbyController($this->getViewer());
+        return new LobbyController(new PerfilModel($this->getDatabase()), $this->getViewer());
     }
     public function getPartidaController()
     {
         return new PartidaController(new PartidaModel ($this->getDataBase()), $this->getViewer());
     }
-
+    public function getEditorController(){
+        return new EditorController(new EditorModel ($this->getDatabase()), $this->getViewer());
+    }
 
     public function getLoginController(){
         return new LoginController(new LoginModel ($this->getDataBase()), $this->getViewer());
     }
-
+    public function getAdminController() {
+        return new AdminController(new AdminModel($this->getDatabase()), $this->getViewer());
+    }
     public function getRegistroController(){
-        return new RegistroController(new RegistroModel ($this->getDataBase()), $this->getViewer());
+        return new RegistroController(new RegistroModel ($this->getDataBase()), $this->getViewer(), new EmailSender());
+    }
+    public function getPerfilController() {
+        return new PerfilController(new PerfilModel($this->getDatabase()), $this->getViewer());
+    }
+    public function getRankingController() {
+        return new RankingController(new RankingModel($this->getDatabase()), $this->getViewer());
     }
     public function getRouter()
     {
