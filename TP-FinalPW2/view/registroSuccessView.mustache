@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+    body{
+        background: linear-gradient(to bottom, #a8e6ce,#ffffff);
+        min-height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex; /* Para centrar vertical y horizontalmente */
+        justify-content: center; /* Para centrar horizontalmente */
+        align-items: center; /* Para centrar verticalmente */
+    }
+    .form-container{ /* Usamos el mismo estilo base para el contenedor */
+        background-color: #f4f4f4;
+        border-radius: 10px;
+        padding: 40px; /* Aumentado el padding para que se vea bien el contenido */
+        max-width: 400px;
+        text-align: center; /* Centrar texto dentro del contenedor */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+        color: #ff6f20;
+    }
+    .btn-login {
+        background-color: #003b5c;
+        color: white;
+    }
+
+    .btn-rounded {
+        border-radius: 20px;
+        padding: 8px 20px;
+    }
+    .btn-darkblue {
+        background-color: #00334e;
+        color: white;
+    }
+    .highlight-box { /* Estilo para el mensaje de éxito */
+        border: 1px solid #a8e6ce; /* Borde del color del degradado */
+        border-radius: 10px; /* Un poco menos redondeado para el mensaje */
+        padding: 20px;
+        background-color: #e6fff3; /* Fondo más claro y agradable */
+        margin-bottom: 20px;
+    }
+    .highlight-title { /* Título del mensaje de éxito */
+        color: #003b5c; /* Color más oscuro para el título del mensaje */
+        font-weight: bold;
+        font-size: 24px; /* Un poco más grande */
+        margin-bottom: 10px;
+    }
+    .success-message {
+        color: #333;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+</style>
+<body>
+
+<div class="form-container">
+    <h1 class="w3-xxxlarge w3-center">Preguntástico</h1>
+
+    <div class="highlight-box">
+        <p class="success-message">
+            Para activar tu cuenta, por favor,
+            revisa tu casilla de correo electrónico y sigue las instrucciones para validarla.
+        </p>
+    </div>
+
+    <a href="/login/show" class="w3-button w3-block w3-margin-top btn-login">Volver al Inicio de Sesión</a>
+</div>
+
+</body>
+</html>

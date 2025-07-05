@@ -10,6 +10,19 @@
     <option name="highlightLevel" value="WARNING" />
     <option name="transferred" value="true" />
   </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/composer" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/mustache/bin" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/mustache/src" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/mustache/test" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/phpqrcode/bindings" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/phpqrcode/cache" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/phpqrcode/tools" />
+      <path value="$PROJECT_DIR$/TP-FinalPW2/vendor/mustache/vendor" />
+    </include_path>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.0">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>

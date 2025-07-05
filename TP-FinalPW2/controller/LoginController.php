@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 class LoginController
 {
@@ -29,11 +28,16 @@ class LoginController
     {
        $usuarioIngresando= $this->validarUsuarioExistente();
        if (isset($usuarioIngresando)){
+           if (password_verify($_POST["password"], $usuarioIngresando["contrasena"])) {
 
-           if($_POST["password"]==$usuarioIngresando["contrasena"]){
+               if (strtolower($usuarioIngresando['status']) !== 'activo') {
+                   $this->redirectTo("registro/success");;
+               }
 
                $_SESSION['usuario_id'] = $usuarioIngresando['id'];
                $_SESSION['usuario']=$usuarioIngresando['nombre_completo'];
+               $_SESSION['usuario_rol']=$usuarioIngresando['id_rol'];
+
                $this->redirectTo("login/success");
            }
            else{
@@ -46,7 +50,11 @@ class LoginController
        }
     }
 
-
+    public function logout(){
+        session_unset();
+        session_destroy();
+        $this->redirectTo("login/show");
+    }
 
     public function show()
     {
@@ -60,12 +68,18 @@ class LoginController
     public function success()
     {
         $usuario = $_SESSION['usuario'] ?? 'Invitado';
-        $this->view->render("lobby", ['usuario' => $usuario]);
+        $rol=$_SESSION['usuario_rol'] ?? null;
+        if($rol==1){
+            header("Location: /admin");
+            exit();
+        }else{
+            $this->view->render("lobby", ['usuario' => $usuario]);
+        }
     }
 
     private function redirectTo($str)
     {
-        header("Location: " . BASE_URL . ltrim($str, '/'));
+        header("Location: /" . $str);
         exit();
     }
 

@@ -15,6 +15,7 @@ require_once("model/RegistroModel.php");
 require_once("model/PartidaModel.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
+include_once('vendor/autoload.php');
 
 class Configuration
 {
