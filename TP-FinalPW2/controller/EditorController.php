@@ -12,7 +12,7 @@ class EditorController{
 
     private function checkAccess()
     {
-        if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'editor') {
+        if (!isset($_SESSION['usuario']) || $_SESSION['usuario_rol'] != 2) {
             header('Location: /login/show');
             exit;
         }
@@ -21,7 +21,8 @@ class EditorController{
     {
         $this->checkAccess();
         $preguntas = $this->model->getPreguntas();
-        echo $this->view->render('editor_listado', [
+
+        $this->view->render('editor', [
             'preguntas' => $preguntas,
         ]);
     }
@@ -104,11 +105,14 @@ class EditorController{
         header('Location: /');
     }
 
-    public function eliminar(int $id)
+    public function eliminar()
     {
+        $id = $_GET['id'];
+
         $this->checkAccess();
         $this->model->eliminarPregunta($id);
-        header('Location: /');
+        header('Location: /editor/listado');
+        exit();
     }
 }
 ?>

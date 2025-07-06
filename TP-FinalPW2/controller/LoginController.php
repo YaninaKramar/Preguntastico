@@ -91,7 +91,7 @@ class LoginController
                 break;
             case 2:
                 // Editor
-                $this->view->render("editor", ['usuario' => $usuario]);
+                header("Location: /editor/listado");
                 break;
             case 3:
             default:

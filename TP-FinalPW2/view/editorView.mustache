@@ -106,58 +106,44 @@
     </style>
 </head>
 <body class="p-4">
-
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <a href="" class="btn-darkblue btn-rounded">Mi Perfil</a>
     <h1 class="text-center flex-grow-1 fw-bold">Listado de preguntas</h1>
-    <a class="btn-darkblue btn-rounded" href="">Cerrar Sesión</a>
+    <a class="btn-darkblue btn-rounded" href="/logout">Cerrar Sesión</a>
 </div>
 
 <div class="row">
     <!-- ---------- barra lateral ---------- -->
     <div class="col-md-2 sidebar d-flex flex-column gap-3 mb-4">
-        <a href="" class="btn btn-orange btn-rounded">Ver Preguntas<br>reportadas</a>
-        <a href="" class="btn-darkblue btn-rounded">Volver al lobby</a>
+        <a href="/editor/reportadas" class="btn btn-orange btn-rounded">Ver Preguntas<br>reportadas</a>
+        <a href="/editor/sugeridas" class="btn btn-orange btn-rounded">Ver Preguntas<br>sugeridas</a>
     </div>
 
     <!-- ---------- listado de preguntas ---------- -->
     <div class="col-md-10 list-container">
-        <div class="question-row mb-4">
-            <!-- pregunta -->
-            <div class="question-box flex-shrink-0">{{pregunta}}</div>
+        {{#preguntas}}
+            <div class="question-row mb-4">
+                <!-- pregunta -->
+                <div class="question-box flex-shrink-0">{{texto}}</div>
 
-            <!-- opciones -->
-            <div class="options">
-                <span class="option">{{opcion}}</span>
-                <span class="option">{{opcion}}</span>
-                <span class="option">{{opcion}}</span>
-                <span class="option">{{opcion}}</span>
-            </div>
+                <!-- opciones -->
+                <div class="options">
+                    {{#opciones}}
+                        <span class="option">{{texto}}</span>
+                    {{/opciones}}
+                </div>
 
-            <div class="actions">
-                <a href="" class="btn btn-edit btn-rounded">Editar</a>
-                <a href="" class="btn btn-delete btn-rounded">Eliminar</a>
+                <!-- acciones -->
+                <div class="actions">
+                    <a href="/editor/editar" class="btn btn-edit btn-rounded">Editar</a>
+                    <a href="/editor/eliminar/id={{id}}" class="btn btn-delete btn-rounded">Eliminar</a>
+                </div>
             </div>
-        </div>
-        <div class="question-row mb-4">
-            <!-- pregunta -->
-            <div class="question-box flex-shrink-0">{{pregunta}}</div>
-
-            <!-- opciones -->
-            <div class="options">
-                <span class="option">{{opcion}}</span>
-                <span class="option">{{opcion}}</span>
-                <span class="option">{{opcion}}</span>
-                <span class="option">{{opcion}}</span>
-            </div>
-
-            <div class="actions">
-                <a href="" class="btn btn-edit btn-rounded">Editar</a>
-                <a href="" class="btn btn-delete btn-rounded">Eliminar</a>
-            </div>
-        </div>
+        {{/preguntas}}
+        {{^preguntas}}
+            <p>No hay preguntas disponibles.</p>
+        {{/preguntas}}
     </div>
 </div>
-
 </body>
+
 </html>

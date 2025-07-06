@@ -14,7 +14,7 @@ class EditorModel
         foreach ($preguntasRaw as $p) {
             // traemos las opciones de esa pregunta
             $opcionesRaw = $this->db->query(
-                "SELECT texto, es_correcta FROM respuesta WHERE pregunta_id = {$p['id']} ORDER BY id"
+                "SELECT texto, es_correcta FROM respuesta WHERE pregunta_id = {$p['id']} ORDER BY pregunta_id"
             );
             $opciones = array_map(function ($row) {
                 return ['texto'    => $row['texto'], 'correcta' => (bool)$row['es_correcta'],];
@@ -50,10 +50,17 @@ class EditorModel
 
     public function eliminarPregunta(int $id)
     {
-        $this->db->query("UPDATE pregunta SET estado = 'eliminada' WHERE id = $id");
+        $query = "UPDATE pregunta SET estado = 'eliminada' WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->db->error);
+        }
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
     }
 
-    public function getPreguntas()
+    public function getPreguntas(): array
     {
         $raw = $this->db->query("SELECT id, texto, estado FROM pregunta WHERE estado <> 'eliminada' ORDER BY fecha_creacion DESC");
         return $this->mapPreguntasConOpciones($raw);
