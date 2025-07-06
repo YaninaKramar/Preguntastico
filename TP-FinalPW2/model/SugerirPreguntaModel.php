@@ -10,42 +10,42 @@ class SugerirPreguntaModel
 
     public function getCategorias(): array
     {
-        $stmt = $this->db->query("SELECT id, nombre FROM categoria ORDER BY nombre");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->query("SELECT id, nombre FROM categoria ORDER BY nombre");
     }
+
     public function crearPregunta(string $textoPregunta, int $categoriaId, ?int $creadorId, array $respuestas): int
     {
+        $conn = $this->db->getConnection();  // obtener la conexión mysqli
+
+        $conn->begin_transaction();
+
         try {
-            $this->db->beginTransaction();
+            $sqlPregunta = "INSERT INTO pregunta (texto, estado, categoria_id, creador_id) VALUES (?, 'sugerida', ?, ?)";
+            $stmt = $conn->prepare($sqlPregunta);
+            $stmt->bind_param("sii", $textoPregunta, $categoriaId, $creadorId);
+            $stmt->execute();
+            $preguntaId = $stmt->insert_id;
 
-            $sqlPregunta = "INSERT INTO pregunta (texto, estado, categoria_id, creador_id) VALUES (:texto, 'sugerida', :cat, :creador)";
-            $stmt = $this->db->prepare($sqlPregunta);
-            $stmt->execute([
-                ':texto'   => $textoPregunta,
-                ':cat'     => $categoriaId,
-                ':creador' => $creadorId
-            ]);
-            $preguntaId = (int)$this->db->lastInsertId();
+            $sqlRespuesta = "INSERT INTO respuesta (pregunta_id, numero, texto, es_correcta) VALUES (?, ?, ?, ?)";
+            $stmtResp = $conn->prepare($sqlRespuesta);
 
-            $sqlRespuesta = "INSERT INTO respuesta (pregunta_id, numero, texto, es_correcta) VALUES (:pid, :num, :texto, :correcta)";
-            $stmtResp    = $this->db->prepare($sqlRespuesta);
-            $numero      = 1;
+            $numero = 1;
             foreach ($respuestas as $resp) {
                 [$texto, $esCorrecta] = $resp;
-                $stmtResp->execute([
-                    ':pid'      => $preguntaId,
-                    ':num'      => $numero++,
-                    ':texto'    => $texto,
-                    ':correcta' => $esCorrecta ? 1 : 0,
-                ]);
+                $esCorrectaInt = $esCorrecta ? 1 : 0;
+                $stmtResp->bind_param("iisi", $preguntaId, $numero, $texto, $esCorrectaInt);
+                $stmtResp->execute();
+                $numero++;
             }
 
-            $this->db->commit();
+            $conn->commit();
+
             return $preguntaId;
         } catch (Exception $e) {
-            $this->db->rollBack();
+            $conn->rollback();
             throw $e;
         }
     }
+
 }
 

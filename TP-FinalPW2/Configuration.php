@@ -27,6 +27,9 @@ require_once("model/AdminModel.php");
 require_once ("controller/EditorController.php");
 require_once("model/EditorModel.php");
 
+require_once ("controller/SugerirPreguntaController.php");
+require_once("model/SugerirPreguntaModel.php");
+
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -84,6 +87,11 @@ class Configuration
     public function getRankingController() {
         return new RankingController(new RankingModel($this->getDatabase()), $this->getViewer());
     }
+
+    public function getSugerirPreguntaController() {
+        return new SugerirPreguntaController(new SugerirPreguntaModel($this->getDatabase()), $this->getViewer());
+    }
+
     public function getRouter()
     {
         return new Router("getHomeController", "show", $this);

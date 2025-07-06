@@ -35,25 +35,17 @@
             max-width:600px;
             width:100%;
         }
-        .lobby-btn{
-            position:fixed;
-            left:20px;
-            top:50%;
-            transform:translateY(-50%);
-        }
     </style>
 </head>
 <body class="p-4">
 <div class="d-flex justify-content-between align-items-start mb-4">
-    <a href="" class="btn-darkblue btn-rounded">Mi Perfil</a>
+    <a href="/lobby/show" class="btn-darkblue btn-rounded">Volver al lobby</a>
     <h1 class="mx-auto fw-bold text-center">Sugerir Pregunta</h1>
-    <a href="" class="btn-darkblue btn-rounded">Cerrar Sesión</a>
+    <a href="/login/logout" class="btn-darkblue btn-rounded">Cerrar Sesión</a>
 </div>
 
-<a href="" class="btn-darkblue btn-rounded lobby-btn">Volver al lobby</a>
-
 <div class="d-flex justify-content-center">
-    <form action="" method="post" class="question-card">
+    <form action="/sugerirPregunta/crear" method="post" class="question-card">
         <div class="row g-3">
             <div class="col-md-6">
                 <label class="form-label fw-bold">Categoría</label>
@@ -66,21 +58,21 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-bold">Opciones incorrectas</label>
-                <input type="text" name="incorrecta1" class="form-control mb-2" placeholder="Escriba la opcion">
-                <input type="text" name="incorrecta2" class="form-control mb-2" placeholder="Escriba la opcion">
-                <input type="text" name="incorrecta3" class="form-control" placeholder="Escriba la opcion">
+                <input type="text" name="incorrecta1" class="form-control mb-2" placeholder="Escriba la opcion" required>
+                <input type="text" name="incorrecta2" class="form-control mb-2" placeholder="Escriba la opcion" required>
+                <input type="text" name="incorrecta3" class="form-control" placeholder="Escriba la opcion" required>
             </div>
 
             <div class="col-md-6">
                 <label class="form-label fw-bold">Pregunta</label>
-                <textarea name="pregunta" rows="4" class="form-control" placeholder="Escriba su pregunta"></textarea>
+                <textarea name="pregunta" rows="4" class="form-control" placeholder="Escriba su pregunta" required></textarea>
             </div>
 
             <div class="col-md-6 d-flex flex-column justify-content-end"></div>
 
             <div class="col-md-6">
                 <label class="form-label fw-bold">Opcion correcta</label>
-                <input type="text" name="correcta" class="form-control" placeholder="Escriba la opcion">
+                <input type="text" name="correcta" class="form-control" placeholder="Escriba la opcion" required>
             </div>
             <div class="col-md-6 d-flex align-items-end justify-content-end">
                 <button type="submit" class="btn btn-orange btn-rounded px-4">Sugerir</button>

@@ -14,7 +14,7 @@ class SugerirPreguntaController
     public function show()
     {
         $categorias = $this->model->getCategorias();
-        $this->view->render("crear_pregunta", [
+        $this->view->render("sugerirPregunta", [
             'categorias' => $categorias,
         ]);
     }
@@ -55,12 +55,12 @@ class SugerirPreguntaController
             $_SESSION['error_form'] = 'Ocurrio un error al guardar la pregunta.';
         }
 
-        $this->redirectTo('');
+        $this->redirectTo('lobby/show');
     }
 
     private function redirectTo(string $ruta)
     {
-        header('Location: /');
+        header("Location: /$ruta");
         exit();
     }
 }

@@ -27,15 +27,18 @@ class PartidaModel
 
         if($nivelUsuario){
             $query = "SELECT p.id, p.texto, c.nombre, c.color
-              FROM pregunta p
-              JOIN categoria c ON p.categoria_id = c.id
-              WHERE p.id NOT IN (
-                  SELECT pregunta_id FROM partida_pregunta WHERE partida_id = ?
-              )". ($quedanPreguntasNuevas ? " AND p.id NOT IN (
-                      SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
-                  )" : "") . "
-                AND p.dificultad = ?
-              ORDER BY RAND() LIMIT 1";
+                      FROM pregunta p
+                      JOIN categoria c ON p.categoria_id = c.id
+                      WHERE p.id NOT IN (
+                          SELECT pregunta_id FROM partida_pregunta WHERE partida_id = ?
+                      )
+                      ". ($quedanPreguntasNuevas ? " AND p.id NOT IN (
+                              SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
+                          )" : "") . "
+                      AND p.dificultad = ?
+                      AND p.estado = 'activa'
+                      ORDER BY RAND() LIMIT 1";
+
 
             if ($quedanPreguntasNuevas) {
                 $stmt = $this->database->prepare($query);
@@ -54,6 +57,7 @@ class PartidaModel
                   )" . ($quedanPreguntasNuevas ? " AND p.id NOT IN (
                 SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
                   )" : "") . "
+                  AND p.estado = 'activa'
                   ORDER BY RAND() LIMIT 1";
 
             if ($quedanPreguntasNuevas) {
@@ -323,11 +327,11 @@ class PartidaModel
     }
 
     public function obtenerPreguntaPorId($id){
-        // Obtener la pregunta y su categoría
+        // Obtener la pregunta y su categoría, solo si está activa
         $query = "SELECT p.id, p.texto, c.nombre AS nombre, c.color AS color
-              FROM pregunta p
-              JOIN categoria c ON p.categoria_id = c.id
-              WHERE p.id = ?";
+          FROM pregunta p
+          JOIN categoria c ON p.categoria_id = c.id
+          WHERE p.id = ? AND p.estado = 'activa'";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
