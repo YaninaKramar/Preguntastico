@@ -356,7 +356,7 @@ class PartidaModel
 
     public function borrarPreguntasRespondidasSiCompletoLaTabla($usuario_id) {
         // Total de preguntas
-        $queryTotal = "SELECT COUNT(*) as total FROM pregunta";
+        $queryTotal = "SELECT COUNT(*) as total FROM pregunta WHERE estado = 'activa'";
         $stmt = $this->database->prepare($queryTotal);
         $stmt->execute();
         $total = $stmt->get_result()->fetch_assoc()['total'];
