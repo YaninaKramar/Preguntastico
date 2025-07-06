@@ -122,19 +122,19 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label class="form-label d-block">Pais</label>
-                        <div class="d-flex gap-3 " name="pais">
-                            <div class="select">
+                        <label class="form-label d-block">País</label>
+                        <div class="d-flex gap-3">
+                            <div class="form-check">
                                 <input class="form-check-input" type="radio" name="pais" id="argentina" value="argentina">
-                                <label class="form-check-label" name="argentina">Argentina</label>
+                                <label class="form-check-label" for="argentina">Argentina</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="pais" id="chile" value="chile">
-                                <label class="form-check-label" name="chile">Chile</label>
+                                <label class="form-check-label" for="chile">Chile</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="pais" id="uruguay" value="uruguay">
-                                <label class="form-check-label" name="uruguay">Uruguay</label>
+                                <label class="form-check-label" for="uruguay">Uruguay</label>
                             </div>
                         </div>
                     </div>
@@ -201,6 +201,20 @@
         document.getElementById('lng').value = lng;
     });
 </script>
+
+<script>
+    const form = document.querySelector("form");
+    form.addEventListener("submit", function (e) {
+        const lat = document.getElementById('lat').value;
+        const lng = document.getElementById('lng').value;
+
+        if (!lat || !lng) {
+            e.preventDefault(); // Evita que se envíe el formulario
+            alert("Por favor, marcá tu ubicación en el mapa antes de registrarte.");
+        }
+    });
+</script>
+
 
 </body>
 </html>

@@ -17,7 +17,6 @@ class RegistroController
         $nombre= $_POST["nombre"];
         $apellido= $_POST["apellido"];
         $pais=$_POST["pais"];
-        $provincia=$_POST["provincia"];
         $nacimiento= $_POST["fecha"];
         $sexo= $_POST["sexo"];
         $usuarioIngresado= $this->validarUsuario();
@@ -26,7 +25,6 @@ class RegistroController
         $idRol= 3;
         $latitud = $_POST["latitud"];
         $longitud = $_POST["longitud"];
-        $pais = $_POST["pais"];
 
         // Procesar imagen
         if ($_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
@@ -45,7 +43,7 @@ class RegistroController
 
         if (isset($usuarioIngresado)&&isset($emailIngresado)&&isset($contrasenaIngresada)){
             $token = bin2hex(random_bytes(16));
-           $this->model->agregarUsuarioNuevo($nombre,$apellido, $nacimiento,$sexo,$fotoDestino,$usuarioIngresado,$emailIngresado,$contrasenaIngresada, $token, $idRol, $latitud, $longitud);
+           $this->model->agregarUsuarioNuevo($nombre,$apellido, $nacimiento,$sexo,$fotoDestino,$usuarioIngresado,$emailIngresado,$contrasenaIngresada, $token, $idRol, $latitud, $longitud, $pais);
 
            $idUsuario = $this->model->obtenerIdUsuario($usuarioIngresado);
            // Enviar email
