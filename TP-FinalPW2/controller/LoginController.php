@@ -87,16 +87,16 @@ class LoginController
         switch ($rol) {
             case 1:
                 // Admin
-                $this->view->render("admin", ['usuario' => $usuario]);
+                header("Location: /admin/show");
                 break;
             case 2:
                 // Editor
-                header("Location: /editor/listado");
+                header("Location: /editor/show");
                 break;
             case 3:
             default:
                 // Usuario común
-                $this->view->render("lobby", ['usuario' => $usuario]);
+            header("Location: /lobby/show");
                 break;
         }
     }
