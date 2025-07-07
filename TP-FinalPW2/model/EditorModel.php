@@ -68,18 +68,32 @@ class EditorModel
 
     public function getPreguntasSugeridas()
     {
-        $raw = $this->db->query("SELECT id, texto, estado FROM pregunta WHERE estado = 'pendiente' ORDER BY fecha_creacion DESC");
+        $raw = $this->db->query("SELECT id, texto, estado FROM pregunta WHERE estado = 'sugerida' ORDER BY fecha_creacion DESC");
         return $this->mapPreguntasConOpciones($raw);
     }
 
     public function aprobarSugerida(int $id)
     {
-        $this->db->query("UPDATE pregunta SET estado = 'aprobada' WHERE id = $id AND estado = 'pendiente'");
+        $query = "UPDATE pregunta SET estado = 'activa' WHERE id = ? AND estado = 'sugerida'";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->db->error);
+        }
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function rechazarSugerida(int $id)
     {
-        $this->db->query("UPDATE pregunta SET estado = 'rechazada' WHERE id = $id AND estado = 'pendiente'");
+        $query = "UPDATE pregunta SET estado = 'rechazada' WHERE id = ? AND estado = 'sugerida'";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->db->error);
+        }
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function getPreguntasReportadas()

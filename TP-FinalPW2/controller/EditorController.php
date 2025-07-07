@@ -30,21 +30,27 @@ class EditorController{
     {
         $this->checkAccess();
         $preguntas = $this->model->getPreguntasSugeridas();
-        echo $this->view->render('editor_sugeridas', ['preguntasReportadas' => $preguntas,]);
+        echo $this->view->render('editorPreguntasSugeridas', ['preguntasSugeridas' => $preguntas,]);
     }
 
-    public function aprobarSugerida(int $id)
+    public function aprobarSugerida()
     {
+        $id = $_GET['id'];
+
         $this->checkAccess();
         $this->model->aprobarSugerida($id);
-        header('Location: /');
+        header('Location: /editor/sugeridas');
+        exit;
     }
 
-    public function rechazarSugerida(int $id)
+    public function rechazarSugerida()
     {
+        $id = $_GET['id'];
+
         $this->checkAccess();
         $this->model->rechazarSugerida($id);
-        header('Location: /');
+        header('Location: /editor/sugeridas');
+        exit;
     }
     public function reportadas()
     {
