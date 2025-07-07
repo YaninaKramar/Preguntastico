@@ -62,7 +62,7 @@ class EditorModel
 
     public function getPreguntas(): array
     {
-        $raw = $this->db->query("SELECT id, texto, estado FROM pregunta WHERE estado <> 'eliminada' ORDER BY fecha_creacion DESC");
+        $raw = $this->db->query("SELECT id, texto, estado FROM pregunta WHERE estado = 'activa' ORDER BY fecha_creacion DESC");
         return $this->mapPreguntasConOpciones($raw);
     }
 

@@ -128,7 +128,12 @@
                 <!-- opciones -->
                 <div class="options">
                     {{#opciones}}
-                        <span class="option">{{texto}}</span>
+                        {{#correcta}}
+                            <span class="option bg-success text-white">{{texto}}</span>
+                        {{/correcta}}
+                        {{^correcta}}
+                            <span class="option bg-danger text-white">{{texto}}</span>
+                        {{/correcta}}
                     {{/opciones}}
                 </div>
 

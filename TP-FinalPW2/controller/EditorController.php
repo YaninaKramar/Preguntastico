@@ -56,7 +56,7 @@ class EditorController{
     {
         $this->checkAccess();
         $preguntas = $this->model->getPreguntasReportadas();
-        echo $this->view->render('editor_reportadas', [
+        echo $this->view->render('editorPreguntasReportadas', [
             'preguntasReportadas' => $preguntas,
         ]);
     }
