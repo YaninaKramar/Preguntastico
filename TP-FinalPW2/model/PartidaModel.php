@@ -27,15 +27,18 @@ class PartidaModel
 
         if($nivelUsuario){
             $query = "SELECT p.id, p.texto, c.nombre, c.color
-              FROM pregunta p
-              JOIN categoria c ON p.categoria_id = c.id
-              WHERE p.id NOT IN (
-                  SELECT pregunta_id FROM partida_pregunta WHERE partida_id = ?
-              )". ($quedanPreguntasNuevas ? " AND p.id NOT IN (
-                      SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
-                  )" : "") . "
-                AND p.dificultad = ?
-              ORDER BY RAND() LIMIT 1";
+                      FROM pregunta p
+                      JOIN categoria c ON p.categoria_id = c.id
+                      WHERE p.id NOT IN (
+                          SELECT pregunta_id FROM partida_pregunta WHERE partida_id = ?
+                      )
+                      ". ($quedanPreguntasNuevas ? " AND p.id NOT IN (
+                              SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
+                          )" : "") . "
+                      AND p.dificultad = ?
+                      AND p.estado = 'activa'
+                      ORDER BY RAND() LIMIT 1";
+
 
             if ($quedanPreguntasNuevas) {
                 $stmt = $this->database->prepare($query);
@@ -54,6 +57,7 @@ class PartidaModel
                   )" . ($quedanPreguntasNuevas ? " AND p.id NOT IN (
                 SELECT pregunta_id FROM usuario_pregunta WHERE usuario_id = ?
                   )" : "") . "
+                  AND p.estado = 'activa'
                   ORDER BY RAND() LIMIT 1";
 
             if ($quedanPreguntasNuevas) {
@@ -323,11 +327,11 @@ class PartidaModel
     }
 
     public function obtenerPreguntaPorId($id){
-        // Obtener la pregunta y su categoría
+        // Obtener la pregunta y su categoría, solo si está activa
         $query = "SELECT p.id, p.texto, c.nombre AS nombre, c.color AS color
-              FROM pregunta p
-              JOIN categoria c ON p.categoria_id = c.id
-              WHERE p.id = ?";
+          FROM pregunta p
+          JOIN categoria c ON p.categoria_id = c.id
+          WHERE p.id = ? AND p.estado = 'activa'";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -352,7 +356,7 @@ class PartidaModel
 
     public function borrarPreguntasRespondidasSiCompletoLaTabla($usuario_id) {
         // Total de preguntas
-        $queryTotal = "SELECT COUNT(*) as total FROM pregunta";
+        $queryTotal = "SELECT COUNT(*) as total FROM pregunta WHERE estado = 'activa'";
         $stmt = $this->database->prepare($queryTotal);
         $stmt->execute();
         $total = $stmt->get_result()->fetch_assoc()['total'];
@@ -379,6 +383,39 @@ class PartidaModel
         }
 
         return false;
+    }
+
+    public function reportarPregunta($idPregunta){
+
+        $usuarioId = $_SESSION['usuario_id'];
+
+        $query = "INSERT INTO reporte (estado, usuario_id, pregunta_id) VALUES ('pendiente', ?, ?)";
+        $stmt = $this->database->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->database->error);
+        }
+        $stmt->bind_param("ii", $usuarioId, $idPregunta);
+        $stmt->execute();
+        $stmt->close();
+
+        // Contar reportes pendientes para esa pregunta
+        $sqlCount = "SELECT COUNT(*) as total FROM reporte WHERE pregunta_id = ? AND estado = 'pendiente'";
+        $stmt = $this->database->prepare($sqlCount);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $totalReportes = $row['total'];
+        $stmt->close();
+
+        // Si hay 3 o más reportes pendientes, actualizar estado de la pregunta
+        if ($totalReportes >= 3) {
+            $sqlUpdate = "UPDATE pregunta SET estado = 'reportada' WHERE id = ?";
+            $stmt = $this->database->prepare($sqlUpdate);
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $stmt->close();
+        }
     }
 
 

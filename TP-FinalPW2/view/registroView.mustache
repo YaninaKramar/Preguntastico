@@ -76,45 +76,48 @@
             <form action="/registro/procesar" method="POST" enctype="multipart/form-data">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label name="nombre" class="form-label">Nombre</label>
+                        <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="nombre" name="nombre">
                     </div>
                     <div class="col-md-6">
-                        <label name="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="email" name="email">
+                        <div id="email-error" class="text-danger mt-1"></div>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label name="apellido" class="form-label">Apellido</label>
+                        <label for="apellido" class="form-label">Apellido</label>
                         <input type="text" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="apellido" name="apellido">
                     </div>
                     <div class="col-md-6">
-                        <label name="contrasena" class="form-label">Contraseña</label>
+                        <label for="contrasena" class="form-label">Contraseña</label>
                         <input type="password" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="contrasena" name="contrasena">
+                        <div id="password-error" class="text-danger mt-1"></div>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label name="usuario" class="form-label">Usuario</label>
+                        <label for="usuario" class="form-label">Usuario</label>
                         <input type="text" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="usuario" name="usuario">
                     </div>
                     <div class="col-md-6">
-                        <label name="repContrasena" class="form-label">Repetir contraseña</label>
+                        <label for="repContrasena" class="form-label">Repetir contraseña</label>
                         <input type="password" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="repContrasena" name="repContrasena">
+                        <div id="rep-contrasena-error" class="mt-1 text-danger"></div>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label name="fecha" class="form-label">Fecha de nacimiento</label>
+                        <label for="fecha" class="form-label">Fecha de nacimiento</label>
                         <input type="date" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" id="fecha" name="fecha">
                     </div>
                     <div class="col-md-6">
 
-                        <label name="foto" class="form-label">Foto de perfil</label>
+                        <label for="foto" class="form-label">Foto de perfil</label>
                         <input class="form-control rounded-pill bg-secondary bg-opacity-25 border-0" type="file" id="foto" name="foto">
 
                     </div>
@@ -122,36 +125,35 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label class="form-label d-block">Pais</label>
-                        <div class="d-flex gap-3 " name="pais">
-                            <div class="select">
-                                <input class="form-check-input" type="radio" name="pais" id="argentina" value="argentina">
-                                <label class="form-check-label" name="argentina">Argentina</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="pais" id="chile" value="chile">
-                                <label class="form-check-label" name="chile">Chile</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="pais" id="uruguay" value="uruguay">
-                                <label class="form-check-label" name="uruguay">Uruguay</label>
-                            </div>
-                        </div>
+                        <label class="form-label d-block">País</label>
+                        <select name="pais" id="pais" class="form-control rounded-pill bg-secondary bg-opacity-25 border-0">
+                            <option value="argentina">Argentina</option>
+                            <option value="brasil">Brasil</option>
+                            <option value="chile">Chile</option>
+                            <option value="colombia">Colombia</option>
+                            <option value="ecuador">Ecuador</option>
+                            <option value="estadosunidos">Estados Unidos</option>
+                            <option value="mexico">México</option>
+                            <option value="paraguay">Paraguay</option>
+                            <option value="peru">Perú</option>
+                            <option value="uruguay">Uruguay</option>
+                            <option value="venezuela">Venezuela</option>
+                        </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label d-block">Sexo</label>
+                        <label for="sexo" class="form-label d-block">Sexo</label>
                         <div class="d-flex gap-3 " name="sexo">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="sexo" id="sexoHombre" value="hombre">
-                                <label class="form-check-label" name="sexoHombre">Hombre</label>
+                                <input class="form-check-input" type="radio" name="sexo" id="sexoHombre" value="Masculino">
+                                <label class="form-check-label" for="sexoHombre">Hombre</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="sexo" id="sexoMujer" value="mujer">
-                                <label class="form-check-label" name="sexoMujer">Mujer</label>
+                                <input class="form-check-input" type="radio" name="sexo" id="sexoMujer" value="Femenino">
+                                <label class="form-check-label" for="sexoMujer">Mujer</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="sexo" id="sexoNo" value="no">
-                                <label class="form-check-label" name="sexoNo">Prefiero no decirlo</label>
+                                <input class="form-check-input" type="radio" name="sexo" id="sexoNo" value="Otro">
+                                <label class="form-check-label" for="sexoNo">Prefiero no decirlo</label>
                             </div>
                         </div>
                     </div>
@@ -159,7 +161,7 @@
 
                 <div class="form-check mb-4">
                     <input class="form-check-input" type="checkbox" id="terminos" name="terminos" required>
-                    <label class="form-check-label" name="terminos">Acepto los terminos y condiciones</label>
+                    <label class="form-check-label" for="terminos">Acepto los terminos y condiciones</label>
                 </div>
 
                 <div id="map" style="height: 300px;"></div>
@@ -169,7 +171,7 @@
                 <input type="hidden" id="lng" name="longitud">
 
 
-                <div class="d-flex justify-content-end gap-2">
+                <div class="d-flex justify-content-end gap-2 mt-3">
                     <a href="/index" class="btn btn-secondary rounded-pill px-4">Volver</a>
                     <button type="submit" class="btn btn-primary rounded-pill px-4">Registrarse</button>
                 </div>
@@ -201,6 +203,87 @@
         document.getElementById('lng').value = lng;
     });
 </script>
+
+<script>
+    const form = document.querySelector("form");
+    form.addEventListener("submit", function (e) {
+        const lat = document.getElementById('lat').value;
+        const lng = document.getElementById('lng').value;
+
+        if (!lat || !lng) {
+            e.preventDefault(); // Evita que se envíe el formulario
+            alert("Por favor, marcá tu ubicación en el mapa antes de registrarte.");
+        }
+    });
+</script>
+
+<script>
+    document.getElementById('email').addEventListener('input', function () {
+        const email = this.value;
+        const errorDiv = document.getElementById('email-error');
+
+        if (email.trim() === "") {
+            errorDiv.textContent = "";
+            return;
+        }
+
+        fetch('/registro/verificarEmailAjax', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'email=' + encodeURIComponent(email)
+        })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.enUso) {
+                        errorDiv.textContent = "Este email ya está registrado.";
+                        document.getElementById('email').classList.add('is-invalid');
+                    } else {
+                        errorDiv.textContent = "";
+                        document.getElementById('email').classList.remove('is-invalid');
+                    }
+                })
+    });
+
+    document.getElementById('contrasena').addEventListener('input', function () {
+        const password = this.value;
+
+        fetch('/registro/validarPasswordAjax', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'password=' + encodeURIComponent(password)
+        })
+                .then(res => res.json())
+                .then(data => {
+                    const feedback = document.getElementById('password-error');
+                    if (data.valida) {
+                        feedback.innerHTML = '<span class="text-success">Contraseña válida</span>';
+                    } else {
+                        feedback.innerHTML = data.errores.map(err => `• ${err}`).join('<br>');
+                    }
+                })
+    });
+
+    const password = document.getElementById('contrasena');
+    const repPassword = document.getElementById('repContrasena');
+    const feedback = document.getElementById('rep-contrasena-error');
+
+    function validarCoincidencia() {
+        if (repPassword.value === '') {
+            feedback.textContent = '';
+            return;
+        }
+
+        if (password.value === repPassword.value) {
+            feedback.innerHTML = '<span class="text-success">Las contraseñas coinciden</span>';
+        } else {
+            feedback.innerHTML = '<span class="text-danger">Las contraseñas no coinciden</span>';
+        }
+    }
+
+    password.addEventListener('input', validarCoincidencia);
+    repPassword.addEventListener('input', validarCoincidencia);
+</script>
+
 
 </body>
 </html>

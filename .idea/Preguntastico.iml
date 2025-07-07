@@ -2,11 +2,18 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/phpmailer/phpmailer" />
       <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/phpqrcode/bindings" />
       <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/phpqrcode/cache" />
       <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/phpqrcode/tools" />
       <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/mustache/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/dompdf/dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/dompdf/php-font-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/dompdf/php-svg-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/jpgraph-4.4.2/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/jpgraph-4.4.2/src" />
+      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/masterminds/html5" />
+      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/phpmailer/phpmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/TP-FinalPW2/vendor/sabberworm/php-css-parser" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

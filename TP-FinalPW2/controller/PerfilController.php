@@ -14,7 +14,8 @@ class PerfilController {
             exit;
         }
 
-        $id = $_SESSION['usuario_id'];
+        $id = $_GET['id'] ?? $_SESSION['usuario_id'];
+
         $this->mostrarPerfil($id);
     }
 
@@ -29,7 +30,7 @@ class PerfilController {
             "usuario" => $usuario,
             "partidas" => $partidas,
             "puntaje_total" => $puntajeTotal,
-            "qr_url" => "/perfil/generarQr?id=$id",
+            "qr_url" => "/perfil/generarQr/id=$id",
         ]);
     }
 
@@ -41,7 +42,7 @@ class PerfilController {
         if ($idUsuario == 0) {
             die("Falta el ID de usuario");
         }
-        $urlPerfil = "http://localhost/perfil/show?id=$idUsuario";
+        $urlPerfil = "http://localhost/perfil/show/id=$idUsuario";
 
         if (ob_get_contents()) ob_end_clean();
         header("Content-Type: image/png");

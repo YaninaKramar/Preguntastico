@@ -18,10 +18,6 @@ class PartidaController
         $this->view->render("partida");
     }
 
-    public function finDePartida()
-    {
-        $this->view->render("finPartida");
-    }
 
     public function iniciarPartida()
     {
@@ -46,87 +42,70 @@ class PartidaController
         $respuesta_usuario = $_POST['respuesta'] ?? null;
 
         if (!$partida_id || !$pregunta_id || !$respuesta_usuario) {
-            // Datos faltantes: ir a login
             $this->redirectTo("login/show");
         }
 
         if (!isset($_SESSION['juego_estado'])) {
-            // No hay pregunta en sesión, no se puede responder
             $this->redirectTo("partida/mostrarPregunta?partida_id=$partida_id");
         }
 
         $estado = $_SESSION['juego_estado'];
 
-        // Validar que pregunta y partida coinciden con sesión
         if ($estado['pregunta_id'] != $pregunta_id || $estado['partida_id'] != $partida_id) {
             $this->redirectTo("partida/mostrarPregunta?partida_id=$partida_id");
         }
 
-        // Validar que no haya respondido antes
         if ($estado['respondida']) {
             $this->redirectTo("partida/mostrarPregunta?partida_id=$partida_id");
         }
 
-        // Validar tiempo
         $tiempoTranscurrido = time() - $estado['pregunta_entregada_en'];
         if ($tiempoTranscurrido > 10) {
-            // Tiempo agotado
             $puntaje = $this->model->calcularPuntajeFinal($partida_id);
+
+            unset($_SESSION['juego_estado']);
 
             $data = [
                 'puntaje' => $puntaje,
                 'gano' => false,
-                'mensaje' => 'Se agotó el tiempo para responder'
+                'mensaje' => 'Se agotó el tiempo para responder',
+                'es_correcta' => false,
+                'respuesta_correcta' => $this->model->obtenerRespuestaCorrecta($pregunta_id)['texto'],
+                'partida_id' => $partida_id,
+                'pregunta_id' => $pregunta_id
             ];
 
-            // Limpiar estado para evitar volver a responder
-            unset($_SESSION['juego_estado']);
-
-            $this->view->render("finPartida", $data);
-            exit;
+            $this->view->render("postPregunta", $data);
+            return;
         }
 
-        // Marcar pregunta como respondida en sesión
         $_SESSION['juego_estado']['respondida'] = true;
 
-        $esCorrecta = $this->model->guardarRespuesta($partida_id, $pregunta_id, $respuesta_usuario,$usuario_id);
+        $esCorrecta = $this->model->guardarRespuesta($partida_id, $pregunta_id, $respuesta_usuario, $usuario_id);
 
+        // Verificamos si el usuario ganó
         $gano = $this->model->borrarPreguntasRespondidasSiCompletoLaTabla($usuario_id);
 
-        if($gano){
-            // Finalizar partida y mostrar resumen
-            $puntaje = $this->model->calcularPuntajeFinal($partida_id);
+        // Calcular puntaje y respuesta correcta
+        $puntaje = $this->model->calcularPuntajeFinal($partida_id);
+        $respuestaCorrecta = $this->model->obtenerRespuestaCorrecta($pregunta_id)['texto'];
 
-            $_SESSION['ultimo_puntaje']= $puntaje;
-            $data = [
-                'puntaje' => $puntaje,
-                'gano' => true
-            ];
-
-            $this->view->render("finPartida", $data);
-        }
-        // Limpiar estado para la próxima pregunta
+        // Limpiar estado para evitar doble respuesta
         unset($_SESSION['juego_estado']);
 
-        if ($esCorrecta) {
-            // Redirigir a la siguiente pregunta
-            $this->redirectTo("partida/mostrarPregunta?partida_id=$partida_id");
-            exit;
-        } else {
-            // Finalizar partida y mostrar resumen
-            $puntaje = $this->model->calcularPuntajeFinal($partida_id);
-            $respuestaCorrecta = $this->model->obtenerRespuestaCorrecta($pregunta_id);
+        // Armar datos para vista postPregunta
+        $data = [
+            'partida_id' => $partida_id,
+            'pregunta_id' => $pregunta_id,
+            'es_correcta' => $esCorrecta,
+            'respuesta_correcta' => $esCorrecta ? null : $respuestaCorrecta,
+            'puntaje' => $puntaje,
+            'gano' => $gano
+        ];
 
-            $_SESSION['ultimo_puntaje']= $puntaje;
-            $data = [
-                'puntaje' => $puntaje,
-                'respuesta_correcta' => $respuestaCorrecta['texto'],
-                'gano' => false
-            ];
-
-            $this->view->render("finPartida", $data);
-        }
+        $this->view->render("postPregunta", $data);
     }
+
 
     public function mostrarPregunta() {
 
@@ -167,7 +146,7 @@ class PartidaController
                     'puntaje' => $puntaje,
                     'gano' => true
                 ];
-                $this->view->render("finPartida", $data);
+                $this->view->render("postPregunta", $data);
                 exit();
             }
 
@@ -201,6 +180,30 @@ class PartidaController
 
         $this->view->render("partida", $data);
     }
+
+    public function reportarPregunta()
+    {
+        // Solo aceptar POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+            exit;
+        }
+
+        $idPregunta = $_POST['pregunta_id'] ?? null;
+        $usuario_id = $_SESSION['usuario_id'] ?? null;
+
+        if (!$idPregunta || !$usuario_id) {
+            echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
+            exit;
+        }
+
+        $this->model->reportarPregunta($idPregunta);
+
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
 
 
     private function redirectTo($str)

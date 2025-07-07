@@ -26,29 +26,43 @@ class LoginController
     }
     public function validarDatos()
     {
-       $usuarioIngresando= $this->validarUsuarioExistente();
-       if (isset($usuarioIngresando)){
-           if (password_verify($_POST["password"], $usuarioIngresando["contrasena"])) {
+        $usuarioIngresando = $this->validarUsuarioExistente();
 
-               if (strtolower($usuarioIngresando['status']) !== 'activo') {
-                   $this->redirectTo("registro/success");;
-               }
+        if ($usuarioIngresando) {
+            $rol_id = $usuarioIngresando['id_rol'];
+            $contrasenaIngresada = $_POST["password"];
+            $contrasenaGuardada = $usuarioIngresando["contrasena"];
 
-               $_SESSION['usuario_id'] = $usuarioIngresando['id'];
-               $_SESSION['usuario']=$usuarioIngresando['nombre_completo'];
-               $_SESSION['usuario_rol']=$usuarioIngresando['id_rol'];
+            $esValida = false;
 
-               $this->redirectTo("login/success");
-           }
-           else{
-               $_SESSION['error_contrasena']="La contraseña es incorrecta.";
-               $this->redirectTo("login/show");
-           }
-       }else{
-           $_SESSION['error_usuario']="El usuario no existe.";
-           $this->redirectTo("login/show");
-       }
+            if ($rol_id == 3) {
+                // Usuario común: contraseña hasheada
+                $esValida = password_verify($contrasenaIngresada, $contrasenaGuardada);
+            } else {
+                // Admin/editor: contraseña en texto plano
+                $esValida = $contrasenaIngresada === $contrasenaGuardada;
+            }
+
+            if ($esValida) {
+                if (strtolower($usuarioIngresando['status']) !== 'activo') {
+                    $this->redirectTo("registro/success");
+                }
+
+                $_SESSION['usuario_id'] = $usuarioIngresando['id'];
+                $_SESSION['usuario'] = $usuarioIngresando['nombre_completo'];
+                $_SESSION['usuario_rol'] = $usuarioIngresando['id_rol'];
+
+                $this->redirectTo("login/success");
+            } else {
+                $_SESSION['error_contrasena'] = "La contraseña es incorrecta.";
+                $this->redirectTo("login/show");
+            }
+        } else {
+            $_SESSION['error_usuario'] = "El usuario no existe.";
+            $this->redirectTo("login/show");
+        }
     }
+
 
     public function logout(){
         session_unset();
@@ -68,14 +82,25 @@ class LoginController
     public function success()
     {
         $usuario = $_SESSION['usuario'] ?? 'Invitado';
-        $rol=$_SESSION['usuario_rol'];
-        if($rol==1){
-            header("Location: /admin");
-            exit();
-        }else{
-            $this->view->render("lobby", ['usuario' => $usuario]);
+        $rol = $_SESSION['usuario_rol'] ?? 3;
+
+        switch ($rol) {
+            case 1:
+                // Admin
+                header("Location: /admin/show");
+                break;
+            case 2:
+                // Editor
+                header("Location: /editor/show");
+                break;
+            case 3:
+            default:
+                // Usuario común
+            header("Location: /lobby/show");
+                break;
         }
     }
+
 
     private function redirectTo($str)
     {

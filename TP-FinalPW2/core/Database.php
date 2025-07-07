@@ -17,6 +17,11 @@ class Database
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getConnection()
+    {
+        return $this->conn;
+    }
+
     public function execute($sql)
     {
         $this->conn->query($sql);
