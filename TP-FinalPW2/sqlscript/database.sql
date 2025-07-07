@@ -66,7 +66,7 @@ CREATE TABLE `partida` (
 --
 
 INSERT INTO `partida` (`id`, `fecha`, `puntaje_final`, `usuario_id`, `fecha_creacion`) VALUES
-(1, '2025-07-01', 60, 6, '2025-07-06 20:58:13'),
+(1, '2025-07-07', 60, 6, '2025-07-07 20:58:13'),
 (2, '2025-06-18', 85, 4, '2025-07-06 20:58:13'),
 (3, '2025-07-01', 30, 8, '2025-07-06 20:58:13'),
 (4, '2025-06-30', 45, 5, '2025-07-06 20:58:13'),
@@ -77,7 +77,7 @@ INSERT INTO `partida` (`id`, `fecha`, `puntaje_final`, `usuario_id`, `fecha_crea
 (9, '2025-06-19', 40, 9, '2025-07-06 20:58:13'),
 (10, '2025-06-24', 100, 5, '2025-07-06 20:58:13'),
 (11, '2025-06-28', 60, 4, '2025-07-06 20:58:13'),
-(12, '2025-06-18', 85, 7, '2025-07-06 20:58:13'),
+(12, '2025-07-07', 85, 7, '2025-07-07 20:58:13'),
 (13, '2025-06-08', 30, 3, '2025-07-06 20:58:13'),
 (14, '2025-06-19', 45, 4, '2025-07-06 20:58:13'),
 (15, '2025-06-21', 70, 9, '2025-07-06 20:58:13'),
@@ -159,11 +159,11 @@ INSERT INTO `pregunta` (`id`, `texto`, `estado`, `correctas`, `intentos`, `dific
 (13, '¿Cuántos jugadores tiene un equipo de fútbol?', 'activa', 1, 1, '', 4, 1, '2025-07-06 20:58:13'),
 (14, '¿En qué deporte se utiliza un puck?', 'activa', 1, 1, '', 4, 1, '2025-07-06 20:58:13'),
 (15, '¿Qué país ha ganado más Copas Mundiales de fútbol?', 'activa', 1, 1, '', 4, 1, '2025-07-06 20:58:13'),
-(16, '¿Cómo se llama el deporte que combina natación, ciclismo y carrera?', 'activa', 1, 1, '', 4, 1, '2025-07-06 20:58:13'),
-(17, '¿Cuál es el nombre del mago protagonista de la saga de J.K. Rowling?', 'activa', 1, 2, '', 5, 1, '2025-07-06 20:58:13'),
-(18, '¿Qué serie presenta a un grupo de científicos liderado por Sheldon Cooper?', 'activa', 1, 2, '', 5, 1, '2025-07-06 20:58:13'),
-(19, '¿Quién pintó La noche estrellada?', 'activa', 1, 1, '', 6, 1, '2025-07-06 20:58:13'),
-(20, '¿A qué movimiento artístico pertenecía Salvador Dalí?', 'activa', 1, 1, '', 6, 1, '2025-07-06 20:58:13');
+(16, '¿Cómo se llama el deporte que combina natación, ciclismo y carrera?', 'activa', 1, 1, '', 4, 8, '2025-07-06 20:58:13'),
+(17, '¿Cuál es el nombre del mago protagonista de la saga de J.K. Rowling?', 'activa', 1, 2, '', 5, 3, '2025-07-06 20:58:13'),
+(18, '¿Qué serie presenta a un grupo de científicos liderado por Sheldon Cooper?', 'activa', 1, 2, '', 5, 9, '2025-07-06 20:58:13'),
+(19, '¿Quién pintó La noche estrellada?', 'activa', 1, 1, '', 6, 5, '2025-07-06 20:58:13'),
+(20, '¿A qué movimiento artístico pertenecía Salvador Dalí?', 'activa', 1, 1, '', 6, 7, '2025-07-06 20:58:13');
 
 -- --------------------------------------------------------
 
@@ -331,9 +331,9 @@ INSERT INTO `usuario` (`id`, `nombre_completo`, `fecha_nac`, `sexo`, `email`, `c
 (2, 'Editor', '1990-01-01', 'Otro', 'editor@preguntastico.com', 'editor', 'editor', 'default.jpg', '', 'activo', '', 2, -34.67022400, -58.56363400, 'Argentina', '2020-09-03 00:00:00'),
 (3, 'Usuario', '1990-01-01', 'Otro', 'usuario@preguntastico.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'usuario', 'default.jpg', '', 'activo', '', 3, -34.67022400, -58.56363400, 'Uruguay', '2020-09-03 00:00:00'),
 (4, 'Juan Pérez', '1981-01-03', 'Femenino', 'user4@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user4', 'default.jpg', 'facil', 'activo', '', 3, -40.80259300, -57.59370900, 'Uruguay', '2024-09-03 00:00:00'),
-(5, 'Ana García', '1946-02-13', 'Femenino', 'user5@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user5', 'default.jpg', 'facil', 'activo', '', 3, -27.32179700, -63.85808200, 'México', '2025-06-07 00:00:00'),
+(5, 'Ana García', '1946-02-13', 'Femenino', 'user5@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user5', 'default.jpg', 'facil', 'activo', '', 3, -27.32179700, -63.85808200, 'México', '2025-07-07 00:00:00'),
 (6, 'Carlos Díaz', '1960-01-24', 'Masculino', 'user6@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user6', 'default.jpg', 'facil', 'activo', '', 3, -31.93420800, -68.31987000, 'Chile', '2025-06-21 00:00:00'),
-(7, 'María López', '2007-03-28', 'Otro', 'user7@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user7', 'default.jpg', 'media', 'activo', '', 3, -35.10431300, -56.00846000, 'Argentina', '2024-08-05 00:00:00'),
+(7, 'María López', '2007-03-28', 'Otro', 'user7@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user7', 'default.jpg', 'media', 'activo', '', 3, -35.10431300, -56.00846000, 'Argentina', '2024-07-07 00:00:00'),
 (8, 'Pedro Fernández', '1998-09-20', 'Masculino', 'user8@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user8', 'default.jpg', 'facil', 'activo', '', 3, -30.04126300, -54.49828100, 'Uruguay', '2024-10-29 00:00:00'),
 (9, 'Lucía Gómez', '2010-11-02', 'Otro', 'user9@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user9', 'default.jpg', 'facil', 'activo', '', 3, -52.90127600, -57.99914600, 'Chile', '2025-06-13 00:00:00'),
 (10, 'Jorge Rodríguez', '2003-02-15', 'Masculino', 'user10@mail.com', '$2y$10$TSQFKjjfwLTxm4psvizumOZbmpWw132xa2K/caNJXd5X7T5H.qc8W', 'user10', 'default.jpg', 'facil', 'activo', '', 3, -21.11870800, -65.33775300, 'México', '2024-07-05 00:00:00'),

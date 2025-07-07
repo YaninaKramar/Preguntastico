@@ -46,7 +46,8 @@ class AdminController {
             'usuarios_por_sexo' => $usuarios_por_sexo,
             'usuarios_por_edad' => $usuarios_por_edad,
             'porcentaje_correctas' => $porcentaje_correctas,
-            'filtro' => $filtro
+            'filtro' => $filtro,
+            "filtro_{$filtro}" => true
         ]);
 
     }
