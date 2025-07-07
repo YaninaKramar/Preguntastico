@@ -39,7 +39,7 @@ if($controllerName == "editor" && $rol != 2){
 $router->go($controllerName, $methodName);
 
 function redirigirNoAutorizado() {
-    header("Location: /login/show");
+    header("Location: /login/logout");
     exit();
 }
 
