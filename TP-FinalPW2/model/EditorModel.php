@@ -109,7 +109,7 @@ class EditorModel
         JOIN 
             reporte r ON r.pregunta_id = p.id AND r.estado = 'pendiente' 
         WHERE 
-            p.estado = 'activa' 
+            p.estado = 'reportada' 
         GROUP BY 
             p.id, p.texto, p.estado 
         HAVING 
@@ -134,11 +134,20 @@ class EditorModel
         $stmt->bind_param("i", $preguntaId);
         $stmt->execute();
         $stmt->close();
+
+        $query = "UPDATE pregunta SET estado = 'activa' WHERE id = ? AND estado = 'reportada'";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->db->error);
+        }
+        $stmt->bind_param("i", $preguntaId);
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function darBajaReportada(int $preguntaId)
     {
-        $query = "UPDATE pregunta SET estado = 'eliminada' WHERE id = ?";
+        $query = "UPDATE pregunta SET estado = 'eliminada' WHERE id = ? AND estado = 'reportada'";
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
             die("Error al preparar la consulta: " . $this->db->error);

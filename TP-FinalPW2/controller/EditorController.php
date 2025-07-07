@@ -67,7 +67,8 @@ class EditorController{
 
         $this->checkAccess();
         $this->model->aprobarReporte($id);
-        header('Location: /');
+        header('Location: /editor/reportadas');
+        exit;
     }
 
     public function darBajaReporte()
@@ -76,7 +77,8 @@ class EditorController{
 
         $this->checkAccess();
         $this->model->darBajaReportada($id);
-        header('Location: /');
+        header('Location: /editor/reportadas');
+        exit;
     }
     public function altaForm()
     {

@@ -397,6 +397,25 @@ class PartidaModel
         $stmt->bind_param("ii", $usuarioId, $idPregunta);
         $stmt->execute();
         $stmt->close();
+
+        // Contar reportes pendientes para esa pregunta
+        $sqlCount = "SELECT COUNT(*) as total FROM reporte WHERE pregunta_id = ? AND estado = 'pendiente'";
+        $stmt = $this->database->prepare($sqlCount);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $totalReportes = $row['total'];
+        $stmt->close();
+
+        // Si hay 3 o más reportes pendientes, actualizar estado de la pregunta
+        if ($totalReportes >= 3) {
+            $sqlUpdate = "UPDATE pregunta SET estado = 'reportada' WHERE id = ?";
+            $stmt = $this->database->prepare($sqlUpdate);
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $stmt->close();
+        }
     }
 
 
