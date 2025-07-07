@@ -8,22 +8,31 @@ $controllerName = $_GET["controller"] ?? "login";
 $methodName = $_GET["method"] ?? "show";
 
 $logueado = isset($_SESSION['usuario_id']);
+$rol = $_SESSION['usuario_rol'] ?? null;
 
 // Permisos por controlador
 // LoginController, RegistroController = publico
 // PartidaController, PerfilController, LobbyController, AdminController = logueado y para cualquier rol
 
 // Controladores que requieren estar logueado
-$controladoresLogueado = ['partida', 'perfil', 'lobby', 'admin'];
+$controladoresLogueado = ['partida', 'perfil', 'lobby', 'admin', 'editor'];
 
 if (in_array($controllerName, $controladoresLogueado) && !$logueado) {
-    redirigirNoAutorizado("login/show");
+    redirigirNoAutorizado();
+}
+
+if($controllerName == "admin" && $rol != 1){
+    redirigirNoAutorizado();
+}
+
+if($controllerName == "editor" && $rol != 2){
+    redirigirNoAutorizado();
 }
 
 $router->go($controllerName, $methodName);
 
-function redirigirNoAutorizado($str) {
-    header("Location: /" . $str);
+function redirigirNoAutorizado() {
+    header("Location: /login/show");
     exit();
 }
 
