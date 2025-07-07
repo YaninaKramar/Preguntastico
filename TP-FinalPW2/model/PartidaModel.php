@@ -111,23 +111,19 @@ class PartidaModel
         $usuario_id = $this->obtenerUsuarioDePartida($partida_id);
 
         if (!$usuario_id) {
-            return null; // No se encontro el usuario
+            return null;
         }
 
         $nivelUsuario = $this->obtenerNivelDelUsuario($usuario_id);
 
         $pregunta = $this->obtenerPreguntaDelNivelDelUsuario($partida_id, $nivelUsuario, $usuario_id);
 
-        // Si no hay preguntas del nivel del usuario:
         if (!$pregunta) {
             $pregunta = $this->obtenerPreguntaDelNivelDelUsuario($partida_id, null,$usuario_id);
         }
 
-        // Si esa pregunta ya se estuvo en una partida anterior no repetir:
-
-
         if (!$pregunta) {
-            return null; // No hay más preguntas disponibles
+            return null;
         }
 
 

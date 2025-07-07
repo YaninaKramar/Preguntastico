@@ -10,7 +10,6 @@
     <h2>Crear Nueva Pregunta</h2>
     <form action="/editor/guardarPreguntaNueva" method="POST">
 
-        <!--        Categoria de la pregunta-->
         <div class="mb-3">
             <label for="categoria" class="form-label">Categoría</label>
             <select class="form-select" id="categoria" name="categoria_id" required>
@@ -24,13 +23,11 @@
             </select>
         </div>
 
-        <!-- Texto de la pregunta -->
         <div class="mb-3">
             <label for="texto" class="form-label">Texto de la pregunta</label>
             <input type="text" name="texto" id="texto" class="form-control" required placeholder="Escriba la pregunta">
         </div>
 
-        <!-- Respuestas -->
         <div class="mb-3">
 
             <div class="row">
@@ -50,7 +47,6 @@
 
         </div>
 
-        <!-- Botón -->
         <button type="submit" class="btn btn-primary">Guardar pregunta</button>
     </form>
 </div>

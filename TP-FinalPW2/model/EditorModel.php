@@ -12,7 +12,6 @@ class EditorModel
     {
         $preguntas = [];
         foreach ($preguntasRaw as $p) {
-            // traemos las opciones de esa pregunta
             $opcionesRaw = $this->db->query(
                 "SELECT texto, es_correcta FROM respuesta WHERE pregunta_id = {$p['id']} ORDER BY pregunta_id"
             );
@@ -35,10 +34,9 @@ class EditorModel
         }
         $stmt->bind_param("si", $texto, $categoria_id);
         $stmt->execute();
-        $pregunta_id = $stmt->insert_id;  // Obtener el ID recién insertado
+        $pregunta_id = $stmt->insert_id;
         $stmt->close();
 
-        // Insertar las respuestas
         $queryResp = "INSERT INTO respuesta (pregunta_id, texto, es_correcta, numero) VALUES (?, ?, ?, ?)";
         $stmtResp = $this->db->prepare($queryResp);
         if (!$stmtResp) {
@@ -146,7 +144,6 @@ class EditorModel
 
     public function aprobarReporte(int $preguntaId)
     {
-        // Se considera que la pregunta es válida y cerramos reportes
 
         $query = "UPDATE reporte SET estado = 'cerrado' WHERE pregunta_id = ? AND estado = 'pendiente'";
         $stmt = $this->db->prepare($query);
