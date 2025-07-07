@@ -17,7 +17,7 @@ class EditorController{
             exit;
         }
     }
-    public function listado()
+    public function show()
     {
         $this->checkAccess();
         $preguntas = $this->model->getPreguntas();
