@@ -98,23 +98,62 @@ class EditorModel
 
     public function getPreguntasReportadas()
     {
-        $raw = $this->db->query("SELECT p.id, p.texto, p.estado, COUNT(r.id) AS cantidad_reportes FROM pregunta p JOIN reporte r ON r.pregunta_id = p.id AND r.estado = 'pendiente' WHERE p.estado = 'aprobada' GROUP BY p.id, p.texto, p.estado ORDER BY cantidad_reportes DESC");
+        $raw = $this->db->query("
+        SELECT 
+            p.id, 
+            p.texto, 
+            p.estado, 
+            COUNT(r.id) AS cantidad_reportes 
+        FROM 
+            pregunta p 
+        JOIN 
+            reporte r ON r.pregunta_id = p.id AND r.estado = 'pendiente' 
+        WHERE 
+            p.estado = 'activa' 
+        GROUP BY 
+            p.id, p.texto, p.estado 
+        HAVING 
+            COUNT(r.id) >= 3
+        ORDER BY 
+            cantidad_reportes DESC
+    ");
+
         return $this->mapPreguntasConOpciones($raw);
     }
+
 
     public function aprobarReporte(int $preguntaId)
     {
         // Se considera que la pregunta es válida y cerramos reportes
-        $this->db->beginTransaction();
-        $this->db->query("UPDATE reporte SET estado = 'cerrado' WHERE pregunta_id = $preguntaId AND estado = 'pendiente'");
-        $this->db->commit();
+
+        $query = "UPDATE reporte SET estado = 'cerrado' WHERE pregunta_id = ? AND estado = 'pendiente'";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->db->error);
+        }
+        $stmt->bind_param("i", $preguntaId);
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function darBajaReportada(int $preguntaId)
     {
-        $this->db->beginTransaction();
-        $this->db->query("UPDATE pregunta SET estado = 'dada_baja' WHERE id = $preguntaId");
-        $this->db->query("UPDATE reporte SET estado = 'cerrado' WHERE pregunta_id = $preguntaId AND estado = 'pendiente'");
-        $this->db->commit();
+        $query = "UPDATE pregunta SET estado = 'eliminada' WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->db->error);
+        }
+        $stmt->bind_param("i", $preguntaId);
+        $stmt->execute();
+        $stmt->close();
+
+        $query = "UPDATE reporte SET estado = 'cerrado' WHERE pregunta_id = ? AND estado = 'pendiente'";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->db->error);
+        }
+        $stmt->bind_param("i", $preguntaId);
+        $stmt->execute();
+        $stmt->close();
     }
 }

@@ -61,15 +61,19 @@ class EditorController{
         ]);
     }
 
-    public function aprobarReporte(int $id)
+    public function aprobarReporte()
     {
+        $id = $_GET['id'];
+
         $this->checkAccess();
         $this->model->aprobarReporte($id);
         header('Location: /');
     }
 
-    public function darBajaReporte(int $id)
+    public function darBajaReporte()
     {
+        $id = $_GET['id'];
+
         $this->checkAccess();
         $this->model->darBajaReportada($id);
         header('Location: /');

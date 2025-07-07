@@ -385,6 +385,20 @@ class PartidaModel
         return false;
     }
 
+    public function reportarPregunta($idPregunta){
+
+        $usuarioId = $_SESSION['usuario_id'];
+
+        $query = "INSERT INTO reporte (estado, usuario_id, pregunta_id) VALUES ('pendiente', ?, ?)";
+        $stmt = $this->database->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->database->error);
+        }
+        $stmt->bind_param("ii", $usuarioId, $idPregunta);
+        $stmt->execute();
+        $stmt->close();
+    }
+
 
 
 }

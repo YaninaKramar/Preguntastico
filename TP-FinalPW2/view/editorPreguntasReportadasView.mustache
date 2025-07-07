@@ -102,7 +102,7 @@
 <div class="container">
     <h1 class="text-center fw-bold mb-5">Preguntas reportadas</h1>
 
-    {{#preguntasSugeridas}}
+    {{#preguntasReportadas}}
         <div class="question-row mb-4">
             <div class="question-box">{{texto}}</div>
 
@@ -119,15 +119,15 @@
 
 
             <div class="actions">
-                <a href="/editor/aprobarSugerida/id={{id}}" class="btn btn-success btn-sm me-2">Aprobar</a>
-                <a href="/editor/rechazarSugerida/id={{id}}" class="btn btn-danger btn-sm">Rechazar</a>
+                <a href="/editor/aprobarReporte/id={{id}}" class="btn btn-success btn-sm me-2">Aprobar</a>
+                <a href="/editor/darBajaReporte/id={{id}}" class="btn btn-danger btn-sm">Dar de baja</a>
             </div>
         </div>
-    {{/preguntasSugeridas}}
+    {{/preguntasReportadas}}
 
-    {{^preguntasSugeridas}}
+    {{^preguntasReportadas}}
         <p class="text-center fs-5 mt-5">No hay preguntas reportadas por ahora.</p>
-    {{/preguntasSugeridas}}
+    {{/preguntasReportadas}}
 
 </div>
 
