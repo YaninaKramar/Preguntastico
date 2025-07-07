@@ -26,19 +26,17 @@ class RegistroController
         $latitud = $_POST["latitud"];
         $longitud = $_POST["longitud"];
 
-        // Procesar imagen
         if ($_FILES["foto"]["error"] === UPLOAD_ERR_OK) {
             $fotoPerfil= basename($_FILES["foto"]["name"]);
             $fotoDestino = "uploads/" . $fotoPerfil;
 
-            // Verifica que el directorio exista
             if (!is_dir("uploads")) {
                 mkdir("uploads", 0777, true);
             }
 
             move_uploaded_file($_FILES["foto"]["tmp_name"], $fotoDestino);
         } else {
-            $fotoDestino = "uploads/default.jpg"; // En caso de error o imagen opcional
+            $fotoDestino = "uploads/default.jpg"; 
         }
 
         if (isset($usuarioIngresado)&&isset($emailIngresado)&&isset($contrasenaIngresada)){
@@ -146,10 +144,10 @@ class RegistroController
             exit();
         }
 
-        if (!preg_match('/[A-Z]/', $contrasenaIngresada) || // Al menos una mayuscula
-            !preg_match('/[a-z]/', $contrasenaIngresada) || // Al menos una minuscula
-            !preg_match('/[0-9]/', $contrasenaIngresada) || // Al menos un numero
-            strlen($contrasenaIngresada) < 5) { // Mas de 5 caracteres
+        if (!preg_match('/[A-Z]/', $contrasenaIngresada) ||
+            !preg_match('/[a-z]/', $contrasenaIngresada) ||
+            !preg_match('/[0-9]/', $contrasenaIngresada) ||
+            strlen($contrasenaIngresada) < 5) {
             $this->redirectTo("registro/show");
             exit();
         }
@@ -166,12 +164,10 @@ class RegistroController
     public function success()
     {
         $this->view->render("registroSuccess");
-        // Revisa tu correo www.preguntastico.com/registro/verificar/idVerificador=<random guardado en la base>&idUsuario=123
+
     }
 
     public function verificar(){
-        // Si coincide el random, cambio el status a active/true
-        // redirect al home o mensaje de exito
 
         $idVerificador = $_GET["idVerificador"];
         $idUsuario = $_GET["idUsuario"];
