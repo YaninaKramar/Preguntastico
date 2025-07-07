@@ -25,27 +25,49 @@ class EditorModel
         return $preguntas;
     }
 
-    public function crearPregunta(string $texto, array $opciones)
+    public function crearPregunta(string $texto, int $categoria_id, array $opciones)
     {
-        $this->db->beginTransaction();
-        $this->db->query("INSERT INTO pregunta (texto, estado, fecha_creacion) VALUES ('$texto', 'aprobada', NOW())");
-        $preguntaId = $this->db->lastInsertId();
-
-        foreach ($opciones as $op) {$txt = $op['texto']; $correct = $op['correcta'] ? 1 : 0; $this->db->query("INSERT INTO respuesta (pregunta_id, texto, es_correcta) VALUES ($preguntaId, '$txt', $correct)");
+        // Insertar la pregunta y obtener su ID
+        $query = "INSERT INTO pregunta (texto, categoria_id, estado, fecha_creacion) VALUES (?, ?, 'activa', NOW())";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar consulta pregunta: " . $this->db->error);
         }
-        $this->db->commit();
-        return $preguntaId;
+        $stmt->bind_param("si", $texto, $categoria_id);
+        $stmt->execute();
+        $pregunta_id = $stmt->insert_id;  // Obtener el ID recién insertado
+        $stmt->close();
+
+        // Insertar las respuestas
+        $queryResp = "INSERT INTO respuesta (pregunta_id, texto, es_correcta, numero) VALUES (?, ?, ?, ?)";
+        $stmtResp = $this->db->prepare($queryResp);
+        if (!$stmtResp) {
+            die("Error al preparar consulta respuestas: " . $this->db->error);
+        }
+
+        foreach ($opciones as $index => $op) {
+            $textoResp = $op['texto'];
+            $esCorrecta = (int)$op['correcta'];
+            $numeroRespuesta = $index + 1;
+
+            $stmtResp->bind_param("isii", $pregunta_id, $textoResp, $esCorrecta, $numeroRespuesta);
+            $stmtResp->execute();
+        }
+
+        $stmtResp->close();
     }
 
-    public function actualizarPregunta(int $id, string $texto, array $opciones)
+
+    public function actualizarPregunta(int $id, string $texto)
     {
-        $this->db->beginTransaction();
-        $this->db->query("UPDATE pregunta SET texto = '$texto' WHERE id = $id");
-        // Simplificación: borrar y volver a insertar opciones
-        $this->db->query("DELETE FROM respuesta WHERE pregunta_id = $id");
-        foreach ($opciones as $op) {$txt = $op['texto'];$correct = $op['correcta'] ? 1 : 0;$this->db->query("INSERT INTO respuesta (pregunta_id, texto, es_correcta) VALUES ($id, '$txt', $correct)");
+        $query = "UPDATE pregunta SET texto = ? WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $this->db->error);
         }
-        $this->db->commit();
+        $stmt->bind_param("si", $texto, $id);
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function eliminarPregunta(int $id)

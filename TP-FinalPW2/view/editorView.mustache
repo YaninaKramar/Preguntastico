@@ -139,7 +139,7 @@
 
                 <!-- acciones -->
                 <div class="actions">
-                    <a href="/editor/editar" class="btn btn-edit btn-rounded">Editar</a>
+                    <a href="/editor/editarPregunta/id={{id}}" class="btn btn-edit btn-rounded">Editar</a>
                     <a href="/editor/eliminar/id={{id}}" class="btn btn-delete btn-rounded">Eliminar</a>
                 </div>
             </div>
@@ -148,6 +148,11 @@
             <p>No hay preguntas disponibles.</p>
         {{/preguntas}}
     </div>
+
+    <div class="text-end mb-3">
+        <a href="/editor/altaPregunta" class="btn btn-success">➕ Nueva Pregunta</a>
+    </div>
+
 </div>
 </body>
 

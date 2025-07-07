@@ -13,7 +13,7 @@ class SugerirPreguntaModel
         return $this->db->query("SELECT id, nombre FROM categoria ORDER BY nombre");
     }
 
-    public function crearPregunta(string $textoPregunta, int $categoriaId, ?int $creadorId, array $respuestas): int
+    public function crearPregunta(string $textoPregunta, int $categoriaId, int $creadorId, array $respuestas): int
     {
         $conn = $this->db->getConnection();  // obtener la conexión mysqli
 

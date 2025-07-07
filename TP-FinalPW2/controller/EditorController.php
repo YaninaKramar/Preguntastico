@@ -80,29 +80,53 @@ class EditorController{
         header('Location: /editor/reportadas');
         exit;
     }
-    public function altaForm()
+    public function altaPregunta()
     {
         $this->checkAccess();
-        echo $this->view->render('editor_alta');
+        echo $this->view->render('editorDarDeAltaPregunta', ['numeros' => [0, 1, 2, 3]]);
     }
 
-    public function altaSubmit()
+    public function guardarPreguntaNueva()
     {
         $this->checkAccess();
-        $textoPregunta = $_POST['texto'] ?? '';
-        $opciones      = $_POST['opciones'] ?? [];
-        $this->model->crearPregunta($textoPregunta, $opciones);
-        header('Location: /');
+
+        $texto = $_POST['texto'] ?? '';
+        $categoria_id = $_POST['categoria_id'] ?? '';
+        $incorrecta1 = $_POST['incorrecta1'] ?? '';
+        $incorrecta2 = $_POST['incorrecta2'] ?? '';
+        $incorrecta3 = $_POST['incorrecta3'] ?? '';
+        $correcta = $_POST['correcta'] ?? '';
+
+        // Validar datos mínimos
+        if (!$texto || !$categoria_id || !$incorrecta1 || !$incorrecta2 || !$incorrecta3 || !$correcta) {
+            die("Faltan datos");
+        }
+
+        $opciones = [
+            ['texto' => $incorrecta1, 'correcta' => 0],
+            ['texto' => $incorrecta2, 'correcta' => 0],
+            ['texto' => $incorrecta3, 'correcta' => 0],
+            ['texto' => $correcta, 'correcta' => 1],
+        ];
+
+        // Llamar al modelo para crear la pregunta
+        $this->model->crearPregunta($texto, (int)$categoria_id, $opciones);
+
+        header("Location: /editor/listado");
+        exit();
     }
 
-    public function editarForm(int $id)
+
+    public function editarPregunta()
     {
+        $id = $_GET['id'];
+
         $this->checkAccess();
         $preguntas = $this->model->getPreguntas();
         $pregunta  = array_values(array_filter($preguntas, function ($p) use ($id) {
             return $p['id'] == $id;
         }))[0] ?? null;
-        echo $this->view->render('editor_editar', [
+        echo $this->view->render('editorModificarPregunta', [
             'pregunta' => $pregunta,
         ]);
     }
@@ -110,12 +134,13 @@ class EditorController{
     public function editarSubmit()
     {
         $this->checkAccess();
-        $id           = (int)($_POST['id'] ?? 0);
-        $texto        = $_POST['texto'] ?? '';
-        $opciones     = $_POST['opciones'] ?? [];
-        $this->model->actualizarPregunta($id, $texto, $opciones);
-        header('Location: /');
+        $id = (int)($_POST['id'] ?? 0);
+        $texto = $_POST['texto'] ?? '';
+        $this->model->actualizarPregunta($id, $texto);
+        header('Location: /editor/listado');
+        exit();
     }
+
 
     public function eliminar()
     {
