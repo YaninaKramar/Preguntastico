@@ -112,7 +112,7 @@ class EditorController{
         // Llamar al modelo para crear la pregunta
         $this->model->crearPregunta($texto, (int)$categoria_id, $opciones);
 
-        header("Location: /editor/listado");
+        header("Location: /editor/show");
         exit();
     }
 
@@ -137,7 +137,7 @@ class EditorController{
         $id = (int)($_POST['id'] ?? 0);
         $texto = $_POST['texto'] ?? '';
         $this->model->actualizarPregunta($id, $texto);
-        header('Location: /editor/listado');
+        header('Location: /editor/show');
         exit();
     }
 
@@ -148,7 +148,7 @@ class EditorController{
 
         $this->checkAccess();
         $this->model->eliminarPregunta($id);
-        header('Location: /editor/listado');
+        header('Location: /editor/show');
         exit();
     }
 }
