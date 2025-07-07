@@ -72,6 +72,53 @@ class RegistroController
 
     }
 
+    public function verificarEmailAjax()
+    {
+        header('Content-Type: application/json');
+        $email = $_POST['email'] ?? '';
+        $usuarios = $this->model->getUsuarios();
+
+        $enUso = false;
+        foreach ($usuarios as $usuario) {
+            if (strtolower($usuario['email']) === strtolower($email)) {
+                $enUso = true;
+                break;
+            }
+        }
+
+        echo json_encode(['enUso' => $enUso]);
+        exit();
+    }
+
+    public function validarPasswordAjax()
+    {
+        $contrasena = $_POST['password'] ?? '';
+
+        $errores = [];
+
+        if (!preg_match('/[A-Z]/', $contrasena)) {
+            $errores[] = "Debe contener al menos una letra mayúscula.";
+        }
+        if (!preg_match('/[a-z]/', $contrasena)) {
+            $errores[] = "Debe contener al menos una letra minúscula.";
+        }
+        if (!preg_match('/[0-9]/', $contrasena)) {
+            $errores[] = "Debe contener al menos un número.";
+        }
+        if (strlen($contrasena) < 5) {
+            $errores[] = "Debe tener al menos 5 caracteres.";
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            'valida' => empty($errores),
+            'errores' => $errores
+        ]);
+        exit();
+    }
+
+
+
 
     public function validarUsuario()
     {
@@ -99,10 +146,10 @@ class RegistroController
             exit();
         }
 
-        if (!preg_match('/[A-Z]/', $contrasenaIngresada) ||
-            !preg_match('/[a-z]/', $contrasenaIngresada) ||
-            !preg_match('/[0-9]/', $contrasenaIngresada) ||
-            strlen($contrasenaIngresada) < 5) {
+        if (!preg_match('/[A-Z]/', $contrasenaIngresada) || // Al menos una mayuscula
+            !preg_match('/[a-z]/', $contrasenaIngresada) || // Al menos una minuscula
+            !preg_match('/[0-9]/', $contrasenaIngresada) || // Al menos un numero
+            strlen($contrasenaIngresada) < 5) { // Mas de 5 caracteres
             $this->redirectTo("registro/show");
             exit();
         }
