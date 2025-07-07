@@ -18,7 +18,7 @@
     <h1 class="text-center text-primary mt-2 mb-4">Preguntastico</h1>
     <h3 class="text-center text-secundary mt-2 mb-4">Estadísticas del Juego</h3>
     <div class="mb-4 text-center">
-        <form id="filtro" action="/admin" method="POST">
+        <form id="filtro" action="/admin/show" method="POST">
             <label for="filtro" class="form-label fw-bold">Filtrar por:</label>
             <select id="filtro" class="form-select w-auto d-inline-block" name="filtro" onchange="document.getElementById('filtro').submit()">
                 <option selected disabled hidden>Seleccionar..</option>
@@ -29,6 +29,8 @@
             </select>
         </form>
     </div>
+
+    <div id="resumen-estadisticas">
     <div class="row text-center mb-4">
         <div class="col-md-4">
             <div class="card shadow-sm">
@@ -73,6 +75,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <div class="row g-4 mt-2">
@@ -268,14 +271,31 @@
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF();
 
+        let y = 10;
+
+        // Resumen estadistico
+        const resumen = document.getElementById('resumen-estadisticas');
+
+        if (resumen) {
+            const imgResumen = await html2canvas(resumen).then(canvas => canvas.toDataURL('image/png'));
+            const imgWidth = 180;
+            const imgHeight = (resumen.offsetHeight * imgWidth) / resumen.offsetWidth;
+
+            pdf.setFontSize(14);
+            pdf.text("Estadísticas Generales", 105, y, { align: 'center' });
+            y += 5;
+
+            pdf.addImage(imgResumen, 'PNG', 15, y, imgWidth, imgHeight);
+            y += imgHeight + 10;
+        }
+
+        // Graficos
         const graficos = [
             { id: 'porcentajeCorrectasPorUsuario', titulo: 'Porcentaje de Respuestas Correctas' },
             { id: 'usuariosPorPais', titulo: 'Usuarios por País' },
             { id: 'usuariosPorSexo', titulo: 'Usuarios por Sexo' },
             { id: 'usuariosPorEdad', titulo: 'Usuarios por Edad' },
         ];
-
-        let y = 10;
 
         for (let i = 0; i < graficos.length; i++) {
             const grafico = graficos[i];
@@ -303,6 +323,7 @@
 
         pdf.save('estadisticas_preguntastico.pdf');
     }
+
 </script>
 
 
