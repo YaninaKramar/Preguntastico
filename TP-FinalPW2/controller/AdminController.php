@@ -21,6 +21,7 @@ class AdminController {
         }
 
 
+
         $filtro = $_POST['filtro']?? 'dia';
 
 
